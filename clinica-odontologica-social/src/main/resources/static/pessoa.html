@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD Pessoas</title>
+</head>
+<body>
+
+<h2>Cadastrar Pessoa</h2>
+
+CPF: <input id="cpf" placeholder="CPF"><br>
+Nome: <input id="nome" placeholder="Nome"><br>
+CEP: <input id="cep" placeholder="CEP"><br>
+Bairro: <input id="bairro" placeholder="Bairro"><br>
+Número: <input id="numero" placeholder="Número"><br>
+Data Nascimento: <input id="data" placeholder="YYYY-MM-DD"><br>
+
+<button id="btnCadastrar" onclick="cadastrar()">Cadastrar</button>
+<hr>
+
+<h2>Listar pessoas</h2>
+<p>As pessoas só aparecem aqui depois que você clicar no botão abaixo.</p>
+<button onclick="listar()">Listar pessoas</button>
+<ul id="lista"></ul>
+<hr>
+
+<h2>Buscar por CPF</h2>
+<input id="buscarporcpf" placeholder="Digite o CPF">
+<button onclick="buscarPorCpf()">Buscar</button>
+<pre id="resultadoBusca"></pre>
+<hr>
+
+<h2>Atualizar pessoa</h2>
+<p>Informe o CPF:</p>
+<input id="cpfAtualizar" placeholder="CPF"><br>
+<p>Altere os dados:</p>
+Nome: <input id="nomeAtualizar" placeholder="Nome"><br>
+CEP: <input id="cepAtualizar" placeholder="CEP"><br>
+Bairro: <input id="bairroAtualizar" placeholder="Bairro"><br>
+Número: <input id="numeroAtualizar" placeholder="Número"><br>
+Data Nascimento: <input id="dataAtualizar" placeholder="YYYY-MM-DD"><br>
+<button onclick="atualizarPessoa()">Atualizar</button>
+<hr>
+
+<h2>Deletar pessoa</h2>
+CPF: <input id="cpfDeletar" placeholder="CPF da pessoa a remover">
+<button onclick="deletarPorCpf()">Deletar</button>
+
+<script src="script.js"></script>
+</body>
+</html>
