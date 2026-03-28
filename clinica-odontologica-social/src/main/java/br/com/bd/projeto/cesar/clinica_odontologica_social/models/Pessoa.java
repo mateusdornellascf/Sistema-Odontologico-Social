@@ -3,7 +3,7 @@ package br.com.bd.projeto.cesar.clinica_odontologica_social.models;
 import java.sql.Date;
 
 public class Pessoa {
-    private String CPF;
+    private String cpf;
     private String nome;
     private String rua;
     private String cep;
@@ -11,12 +11,12 @@ public class Pessoa {
     private String numero;
     private Date data_nascimento;
     
-    public String getCPF() {
-        return CPF;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getNome() {
