@@ -1,5 +1,6 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,8 +38,12 @@ public class PessoaController {
     }
 
     @GetMapping("/{cpf}")
-    public Pessoa buscarPorCpf(@PathVariable String cpf) {
-        return service.buscarPorCpf(cpf);
+    public ResponseEntity<Pessoa> buscarPorCpf(@PathVariable String cpf) {
+        Pessoa p = service.buscarPorCpf(cpf);
+        if (p == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(p);
     }
 
     @PutMapping("/{cpf}")

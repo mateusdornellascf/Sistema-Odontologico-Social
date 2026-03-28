@@ -11,7 +11,7 @@ import br.com.bd.projeto.cesar.clinica_odontologica_social.repository.PessoaRepo
 public class PessoaService {
 
     private final PessoaRepository repository;
-    
+
     public PessoaService(PessoaRepository repository) {
         this.repository = repository;
     }
@@ -23,18 +23,17 @@ public class PessoaService {
     public List<Pessoa> listar() {
         return repository.listar();
     }
+
     public Pessoa buscarPorCpf(String cpf) {
-    return repository.buscarPorCpf(cpf);
-}
+        return repository.buscarPorCpf(cpf);
+    }
 
     public void deletar(String cpf) {
         repository.deletar(cpf);
     }
 
-    
     public void atualizar(String cpf, Pessoa pessoa) {
         repository.atualizar(cpf, pessoa);
     }
 
 }
-

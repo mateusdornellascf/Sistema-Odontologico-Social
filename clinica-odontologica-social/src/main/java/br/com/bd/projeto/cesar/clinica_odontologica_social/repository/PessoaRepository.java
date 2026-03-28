@@ -49,33 +49,34 @@ public class PessoaRepository {
             return p;
         });
     }
+
     public Pessoa buscarPorCpf(String cpf) {
-    String sql = "SELECT * FROM Pessoa WHERE cpf = ?";
+        String sql = "SELECT * FROM Pessoa WHERE cpf = ?";
 
-    List<Pessoa> lista = jdbcTemplate.query(sql, new Object[]{cpf}, (r, i) -> {
-        Pessoa p = new Pessoa();
+        List<Pessoa> lista = jdbcTemplate.query(sql, new Object[] { cpf }, (r, i) -> {
+            Pessoa p = new Pessoa();
 
-        p.setNome(r.getString("nome"));
-        p.setCpf(r.getString("cpf"));
-        p.setCep(r.getString("cep"));
-        p.setBairro(r.getString("bairro"));
-        p.setNumero(r.getString("numero"));
+            p.setNome(r.getString("nome"));
+            p.setCpf(r.getString("cpf"));
+            p.setCep(r.getString("cep"));
+            p.setBairro(r.getString("bairro"));
+            p.setNumero(r.getString("numero"));
 
-        java.sql.Date dataSql = r.getDate("data_nascimento");
-        if (dataSql != null) {
-            p.setDataNascimento(new Date(dataSql.getTime()));
+            java.sql.Date dataSql = r.getDate("data_nascimento");
+            if (dataSql != null) {
+                p.setDataNascimento(new Date(dataSql.getTime()));
+            }
+
+            return p;
+        });
+
+        if (lista.isEmpty()) {
+            return null; // ou lançar uma exceção customizada
         }
 
-        return p;
-    });
+        return lista.get(0);
 
-    if (lista.isEmpty()) {
-        return null; // ou lançar uma exceção customizada
     }
-
-    return lista.get(0);
-
-}
 
     public void deletar(String Cpf) {
         String sql = "DELETE FROM Pessoa WHERE cpf = ?";
@@ -83,16 +84,15 @@ public class PessoaRepository {
     }
 
     public void atualizar(String Cpf, Pessoa p) {
-    String sql = "UPDATE Pessoa SET nome = ?, cpf = ?, cep = ?, bairro = ?, numero = ?, data_nascimento = ? WHERE cpf = ?";
+        String sql = "UPDATE Pessoa SET nome = ?, cpf = ?, cep = ?, bairro = ?, numero = ?, data_nascimento = ? WHERE cpf = ?";
 
-    jdbcTemplate.update(sql,
-        p.getNome(),
-        p.getCpf(),
-        p.getCep(),
-        p.getBairro(),
-        p.getNumero(),
-        new java.sql.Date(p.getDataNascimento().getTime()),
-        Cpf
-    );
-}
+        jdbcTemplate.update(sql,
+                p.getNome(),
+                p.getCpf(),
+                p.getCep(),
+                p.getBairro(),
+                p.getNumero(),
+                new java.sql.Date(p.getDataNascimento().getTime()),
+                Cpf);
+    }
 }
