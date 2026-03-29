@@ -8,6 +8,9 @@ public class ClinicaOdontologicaSocialApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ClinicaOdontologicaSocialApplication.class, args);
+		System.out.println("-------------------------------");
+		System.out.println("APLICACAO INICIADA COM SUCESSO!");
+		System.out.println("-------------------------------");
 	}
 
 }

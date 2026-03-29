@@ -18,16 +18,17 @@ public class PessoaRepository {
     }
 
     public void inserir(Pessoa p) {
-        String sql = "INSERT INTO Pessoa (nome, cpf, cep, bairro, numero, data_nascimento) VALUES (?, ?, ?, ?, ?, ?)";
+    String sql = "INSERT INTO pessoa (cpf, nome, cep, bairro, numero, data_nascimento) VALUES (?, ?, ?, ?, ?, ?)";
 
-        jdbcTemplate.update(sql,
-                p.getNome(),
-                p.getCpf(),
-                p.getCep(),
-                p.getBairro(),
-                p.getNumero(),
-                new java.sql.Date(p.getDataNascimento().getTime()));
-    }
+    jdbcTemplate.update(sql,
+        p.getCpf(),
+        p.getNome(),
+        p.getCep(),
+        p.getBairro(),
+        p.getNumero(),
+        new java.sql.Date(p.getDataNascimento().getTime())
+    );
+}
 
     public List<Pessoa> listar() {
         String sql = "SELECT * FROM Pessoa";
@@ -53,7 +54,7 @@ public class PessoaRepository {
     public Pessoa buscarPorCpf(String cpf) {
         String sql = "SELECT * FROM Pessoa WHERE cpf = ?";
 
-        List<Pessoa> lista = jdbcTemplate.query(sql, new Object[] { cpf }, (r, i) -> {
+        List<Pessoa> lista = jdbcTemplate.query(sql, (r, i) -> {
             Pessoa p = new Pessoa();
 
             p.setNome(r.getString("nome"));
@@ -68,14 +69,13 @@ public class PessoaRepository {
             }
 
             return p;
-        });
+        }, cpf);
 
         if (lista.isEmpty()) {
-            return null; // ou lançar uma exceção customizada
+            return null;
         }
 
         return lista.get(0);
-
     }
 
     public void deletar(String Cpf) {
@@ -94,5 +94,11 @@ public class PessoaRepository {
                 p.getNumero(),
                 new java.sql.Date(p.getDataNascimento().getTime()),
                 Cpf);
+    }
+
+    public boolean existe(String cpf) {
+        String sql = "SELECT COUNT(*) FROM pessoa WHERE cpf = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
+        return count != null && count > 0;
     }
 }

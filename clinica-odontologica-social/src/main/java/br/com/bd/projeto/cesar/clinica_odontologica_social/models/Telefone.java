@@ -1,22 +1,22 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.models;
 
 public class Telefone {
-    private String CPF;
+    private String Cpf;
     private String telefone;
 
     public Telefone() {}
 
-    public Telefone(String CPF, String telefone) {
-        this.CPF = CPF;
+    public Telefone(String Cpf, String telefone) {
+        this.Cpf = Cpf;
         this.telefone = telefone;
     }
 
-    public String getCPF() {
-        return CPF;
+    public String getCpf() {
+        return Cpf;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public void setCpf(String Cpf) {
+        this.Cpf = Cpf;
     }
 
     public String getTelefone() {
