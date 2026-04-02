@@ -29,7 +29,6 @@ public class PacienteService {
     }
     pacienteRepository.inserir(p);
 }
-
     
     public List<Paciente> listar() {
         return pacienteRepository.listar();
@@ -48,7 +47,6 @@ public class PacienteService {
 
     
     public void deletar(String cpf) {
-        pacienteRepository.deletar(cpf); 
-        pessoaRepository.deletar(cpf); 
+        pacienteRepository.deletar(cpf);
     }
 }
