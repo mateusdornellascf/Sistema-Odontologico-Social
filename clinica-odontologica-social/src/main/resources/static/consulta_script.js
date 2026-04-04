@@ -15,19 +15,20 @@ function formatarConsulta(c) {
 function preencherLista(ulId, consultas) {
     const lista = document.getElementById(ulId);
     lista.innerHTML = "";
+
     if (!consultas || consultas.length === 0) {
         const li = document.createElement("li");
         li.textContent = "Nenhuma consulta.";
         lista.appendChild(li);
         return;
     }
+
     consultas.forEach((c) => {
         const li = document.createElement("li");
         li.textContent = formatarConsulta(c);
         lista.appendChild(li);
     });
 }
-
 function criarConsulta() {
     const body = {
         idPaciente: document.getElementById("cpfPacienteCriar").value.trim(),
@@ -42,9 +43,8 @@ function criarConsulta() {
         body: JSON.stringify(body),
     })
         .then((res) => textoResposta(res).then((msg) => ({ ok: res.ok, msg })))
-        .then(({ ok, msg }) => {
+        .then(({ msg }) => {
             alert(msg);
-            if (ok) listarConsultas();
         })
         .catch((err) => console.error(err));
 }
@@ -61,6 +61,7 @@ function listarConsultas() {
 
 function remarcarConsulta() {
     const id = document.getElementById("idRemarcar").value.trim();
+
     if (!id) {
         alert("Informe o ID da consulta.");
         return;
@@ -77,15 +78,14 @@ function remarcarConsulta() {
         body: JSON.stringify(body),
     })
         .then((res) => textoResposta(res).then((msg) => ({ ok: res.ok, msg })))
-        .then(({ ok, msg }) => {
+        .then(({ msg }) => {
             alert(msg);
-            if (ok) listarConsultas();
         })
         .catch((err) => console.error(err));
 }
-
 function deletarConsulta() {
     const id = document.getElementById("idDeletar").value.trim();
+
     if (!id) {
         alert("Informe o ID da consulta.");
         return;
@@ -93,15 +93,15 @@ function deletarConsulta() {
 
     fetch(`${API}/${encodeURIComponent(id)}`, { method: "DELETE" })
         .then((res) => textoResposta(res).then((msg) => ({ ok: res.ok, msg })))
-        .then(({ ok, msg }) => {
+        .then(({ msg }) => {
             alert(msg);
-            if (ok) listarConsultas();
         })
         .catch((err) => console.error(err));
 }
 
 function listarConsultasDentista() {
     const cpf = document.getElementById("cpfDentistaListar").value.trim();
+
     if (!cpf) {
         alert("Informe o CPF do dentista.");
         return;
@@ -121,6 +121,7 @@ function listarConsultasDentista() {
 
 function listarConsultasPaciente() {
     const cpf = document.getElementById("cpfPacienteListar").value.trim();
+
     if (!cpf) {
         alert("Informe o CPF do paciente.");
         return;

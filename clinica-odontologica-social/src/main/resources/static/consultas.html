@@ -9,12 +9,12 @@
 <h1>Gerenciar Consultas</h1>
 <p><a href="index.html">Voltar ao início</a></p>
 
-<h2>Criar consulta</h2>
+<h2>Marcar consulta</h2>
 CPF paciente: <input id="cpfPacienteCriar" placeholder="CPF do paciente"><br>
 CPF dentista: <input id="cpfDentistaCriar" placeholder="CPF do dentista"><br>
-Data: <input id="dataConsultaCriar" placeholder="YYYY-MM-DD"><br>
-Hora: <input id="horaConsultaCriar" placeholder="HH:mm ou HH:mm:ss"><br>
-<button onclick="criarConsulta()">Criar</button>
+Data: <input id="dataConsultaCriar" placeholder="AAAA-MM-DD"><br>
+Hora: <input id="horaConsultaCriar" placeholder="hora:minuto"><br>
+<button onclick="criarConsulta()">Marcar</button>
 <hr>
 
 <h2>Listar todas as consultas</h2>
@@ -24,8 +24,8 @@ Hora: <input id="horaConsultaCriar" placeholder="HH:mm ou HH:mm:ss"><br>
 
 <h2>Remarcar consulta</h2>
 ID da consulta: <input id="idRemarcar" type="number" min="1" placeholder="idConsulta"><br>
-Nova data: <input id="novaDataRemarcar" placeholder="YYYY-MM-DD"><br>
-Nova hora: <input id="novaHoraRemarcar" placeholder="HH:mm ou HH:mm:ss"><br>
+Nova data: <input id="novaDataRemarcar" placeholder="AAAA-MM-DD"><br>
+Nova hora: <input id="novaHoraRemarcar" placeholder="hora:minuto"><br>
 <button onclick="remarcarConsulta()">Remarcar</button>
 <hr>
 
