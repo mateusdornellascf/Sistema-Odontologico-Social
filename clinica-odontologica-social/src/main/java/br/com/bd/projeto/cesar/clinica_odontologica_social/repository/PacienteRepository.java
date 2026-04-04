@@ -35,6 +35,7 @@ public class PacienteRepository {
 
             p.setCpf(r.getString("cpf"));
             p.setNome(r.getString("nome"));
+            p.setRua(r.getString("rua"));
             p.setCep(r.getString("cep"));
             p.setBairro(r.getString("bairro"));
             p.setNumero(r.getString("numero"));
@@ -61,6 +62,7 @@ public class PacienteRepository {
 
             p.setCpf(r.getString("cpf"));
             p.setNome(r.getString("nome"));
+            p.setRua(r.getString("rua"));
             p.setCep(r.getString("cep"));
             p.setBairro(r.getString("bairro"));
             p.setNumero(r.getString("numero"));

@@ -21,6 +21,7 @@ function cadastrarPaciente() {
     const paciente = {
         cpf: document.getElementById("cpf").value,
         nome: document.getElementById("nome").value,
+        rua: document.getElementById("rua").value,
         cep: document.getElementById("cep").value,
         bairro: document.getElementById("bairro").value,
         numero: document.getElementById("numero").value,
@@ -49,24 +50,43 @@ function listarPacientes() {
             const lista = document.getElementById("listaPacientes");
             lista.innerHTML = "";
 
+            if (!pacientes || pacientes.length === 0) {
+                const li = document.createElement("li");
+                li.textContent = "Nenhum paciente cadastrado.";
+                lista.appendChild(li);
+                return;
+            }
+
             pacientes.forEach(p => {
                 const li = document.createElement("li");
                 const tels = p.telefones && p.telefones.length
                     ? p.telefones.join(", ")
                     : "sem telefone";
-                li.textContent = `${p.cpf} - ${p.nome} | Tel: ${tels}`;
+                const ruaTxt = p.rua ? ` | Rua: ${p.rua}` : "";
+                li.textContent = `${p.cpf} - ${p.nome}${ruaTxt} | Tel: ${tels}`;
                 lista.appendChild(li);
             });
         })
         .catch(err => console.error(err));
 }
 
-function deletarPacientePorCpf(cpf) {
+function deletarPacientePorCpf() {
+    const cpf = document.getElementById("cpfDeletar").value.trim();
+    if (!cpf) {
+        alert("Informe o CPF do paciente a remover.");
+        return;
+    }
+
     fetch(`${API}/${encodeURIComponent(cpf)}`, { method: "DELETE" })
         .then(res => res.text())
         .then(msg => {
             alert(msg);
             listarPacientes();
+            const busca = document.getElementById("buscarporcpf").value.trim();
+            if (busca === cpf) {
+                document.getElementById("resultadoBuscaPaciente").textContent =
+                    "Nenhum paciente encontrado com esse CPF.";
+            }
         })
         .catch(err => console.error(err));
 }
@@ -84,6 +104,10 @@ function buscarPacientePorCpf() {
         .then(res => {
             if (res.status === 404) {
                 out.textContent = "Nenhum paciente encontrado com esse CPF.";
+                return null;
+            }
+            if (!res.ok) {
+                out.textContent = "Erro ao buscar.";
                 return null;
             }
             return res.json();
@@ -113,6 +137,7 @@ function carregarParaAtualizarPaciente(cpf) {
             document.getElementById("cpfAtualizar").value = p.cpf;
             document.getElementById("nomeAtualizar").value = p.nome || "";
             document.getElementById("cepAtualizar").value = p.cep || "";
+            document.getElementById("ruaAtualizar").value = p.rua || "";
             document.getElementById("bairroAtualizar").value = p.bairro || "";
             document.getElementById("numeroAtualizar").value = p.numero || "";
             document.getElementById("dataNascimentoAtualizar").value = p.dataNascimento || "";
@@ -132,6 +157,7 @@ function atualizarPaciente() {
     const paciente = {
         cpf: cpfBanco,
         nome: document.getElementById("nomeAtualizar").value,
+        rua: document.getElementById("ruaAtualizar").value,
         cep: document.getElementById("cepAtualizar").value,
         bairro: document.getElementById("bairroAtualizar").value,
         numero: document.getElementById("numeroAtualizar").value,

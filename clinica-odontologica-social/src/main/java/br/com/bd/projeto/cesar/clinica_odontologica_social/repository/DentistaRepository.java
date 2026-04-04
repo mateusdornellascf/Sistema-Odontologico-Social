@@ -40,6 +40,7 @@ public class DentistaRepository {
 
             d.setCpf(r.getString("cpf"));
             d.setNome(r.getString("nome"));
+            d.setRua(r.getString("rua"));
             d.setCep(r.getString("cep"));
             d.setBairro(r.getString("bairro"));
             d.setNumero(r.getString("numero"));
@@ -73,6 +74,7 @@ public class DentistaRepository {
 
             d.setCpf(r.getString("cpf"));
             d.setNome(r.getString("nome"));
+            d.setRua(r.getString("rua"));
             d.setCep(r.getString("cep"));
             d.setBairro(r.getString("bairro"));
             d.setNumero(r.getString("numero"));

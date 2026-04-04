@@ -21,11 +21,12 @@ public class PessoaRepository {
 
     @Transactional
     public void inserir(Pessoa p) {
-        String sqlPessoa = "INSERT INTO pessoa (cpf, nome, cep, bairro, numero, data_nascimento) VALUES (?, ?, ?, ?, ?, ?)";
+        String sqlPessoa = "INSERT INTO pessoa (cpf, nome, rua, cep, bairro, numero, data_nascimento) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(sqlPessoa,
                 p.getCpf(),
                 p.getNome(),
+                p.getRua(),
                 p.getCep(),
                 p.getBairro(),
                 p.getNumero(),
@@ -52,6 +53,7 @@ public class PessoaRepository {
 
             p.setNome(r.getString("nome"));
             p.setCpf(r.getString("cpf"));
+            p.setRua(r.getString("rua"));
             p.setCep(r.getString("cep"));
             p.setBairro(r.getString("bairro"));
             p.setNumero(r.getString("numero"));
@@ -81,6 +83,7 @@ public class PessoaRepository {
 
             p.setNome(r.getString("nome"));
             p.setCpf(r.getString("cpf"));
+            p.setRua(r.getString("rua"));
             p.setCep(r.getString("cep"));
             p.setBairro(r.getString("bairro"));
             p.setNumero(r.getString("numero"));
@@ -123,11 +126,12 @@ public class PessoaRepository {
     @Transactional
     public void atualizar(String cpfAntigo, Pessoa p) {
 
-        String sqlPessoa = "UPDATE pessoa SET nome = ?, cpf = ?, cep = ?, bairro = ?, numero = ?, data_nascimento = ? WHERE cpf = ?";
+        String sqlPessoa = "UPDATE pessoa SET nome = ?, cpf = ?, rua = ?, cep = ?, bairro = ?, numero = ?, data_nascimento = ? WHERE cpf = ?";
 
         jdbcTemplate.update(sqlPessoa,
                 p.getNome(),
                 p.getCpf(),
+                p.getRua(),
                 p.getCep(),
                 p.getBairro(),
                 p.getNumero(),

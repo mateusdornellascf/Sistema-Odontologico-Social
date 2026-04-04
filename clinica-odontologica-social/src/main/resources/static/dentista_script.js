@@ -23,6 +23,7 @@ function cadastrarDentista() {
   const dentista = {
     cpf: document.getElementById("cpf").value,
     nome: document.getElementById("nome").value,
+    rua: document.getElementById("rua").value,
     cep: document.getElementById("cep").value,
     bairro: document.getElementById("bairro").value,
     numero: document.getElementById("numero").value,
@@ -54,13 +55,21 @@ function listarDentistas() {
       const lista = document.getElementById("listaDentistas");
       lista.innerHTML = "";
 
+      if (!dentistas || dentistas.length === 0) {
+        const li = document.createElement("li");
+        li.textContent = "Nenhum dentista cadastrado.";
+        lista.appendChild(li);
+        return;
+      }
+
       dentistas.forEach((d) => {
         const li = document.createElement("li");
         const tels =
           d.telefones && d.telefones.length
             ? d.telefones.join(", ")
             : "sem telefone";
-        li.textContent = `${d.cpf} - ${d.nome} (${d.especialidade || "—"}) | Tel: ${tels}`;
+        const ruaTxt = d.rua ? ` | Rua: ${d.rua}` : "";
+        li.textContent = `${d.cpf} - ${d.nome} (${d.especialidade || "—"})${ruaTxt} | Tel: ${tels}`;
         lista.appendChild(li);
       });
     })
@@ -79,6 +88,11 @@ function deletarDentistaPorCpf() {
     .then((msg) => {
       alert(msg);
       listarDentistas();
+      const busca = document.getElementById("buscarporcpf").value.trim();
+      if (busca === cpf) {
+        document.getElementById("resultadoBuscaDentista").textContent =
+          "Nenhum dentista encontrado com esse CPF.";
+      }
     })
     .catch((err) => console.error(err));
 }
@@ -96,6 +110,10 @@ function buscarDentistaPorCpf() {
     .then((res) => {
       if (res.status === 404) {
         out.textContent = "Nenhum dentista encontrado com esse CPF.";
+        return null;
+      }
+      if (!res.ok) {
+        out.textContent = "Erro ao buscar.";
         return null;
       }
       return res.json();
@@ -139,6 +157,7 @@ function carregarParaAtualizarDentista(cpf) {
       document.getElementById("cpfAtualizar").value = d.cpf;
       document.getElementById("nomeAtualizar").value = d.nome || "";
       document.getElementById("cepAtualizar").value = d.cep || "";
+      document.getElementById("ruaAtualizar").value = d.rua || "";
       document.getElementById("bairroAtualizar").value = d.bairro || "";
       document.getElementById("numeroAtualizar").value = d.numero || "";
       document.getElementById("dataNascimentoAtualizar").value =
@@ -170,6 +189,7 @@ function atualizarDentista() {
   const dentista = {
     cpf: cpfBanco,
     nome: document.getElementById("nomeAtualizar").value,
+    rua: document.getElementById("ruaAtualizar").value,
     cep: document.getElementById("cepAtualizar").value,
     bairro: document.getElementById("bairroAtualizar").value,
     numero: document.getElementById("numeroAtualizar").value,
