@@ -1,6 +1,7 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.models;
 
 import java.sql.Date;
+import java.util.List;
 
 public class Pessoa {
     private String cpf;
@@ -10,7 +11,9 @@ public class Pessoa {
     private String bairro;
     private String numero;
     private Date data_nascimento;
-    
+
+    private List<String> telefones;
+
     public String getCpf() {
         return cpf;
     }
@@ -65,5 +68,12 @@ public class Pessoa {
 
     public void setDataNascimento(Date data_nascimento) {
         this.data_nascimento = data_nascimento;
+    }
+    public List<String> getTelefones() {
+        return telefones;
+    }
+
+    public void setTelefones(List<String> telefones) {
+        this.telefones = telefones;
     }
 }

@@ -54,6 +54,8 @@ public class DentistaRepository {
             d.setEmail(r.getString("email"));
             d.setCoordenador(r.getString("coordenador"));
 
+            d.setTelefones(buscarTelefones(d.getCpf()));
+
             return d;
         });
     }
@@ -84,6 +86,8 @@ public class DentistaRepository {
             d.setEspecialidade(r.getString("especialidade"));
             d.setEmail(r.getString("email"));
             d.setCoordenador(r.getString("coordenador"));
+
+            d.setTelefones(buscarTelefones(d.getCpf()));
 
             return d;
         }, cpf);
@@ -122,4 +126,14 @@ public class DentistaRepository {
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
         return count != null && count > 0;
     }
+
+    private List<String> buscarTelefones(String cpf) {
+    String sql = "SELECT telefone FROM telefone WHERE cpf = ?";
+
+    return jdbcTemplate.query(
+        sql,
+        (rs, rowNum) -> rs.getString("telefone"),
+        cpf
+    );
+}
 }

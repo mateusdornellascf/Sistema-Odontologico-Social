@@ -16,79 +16,96 @@ public class PacienteRepository {
     }
 
     public void inserir(Paciente p) {
-    String sql = "INSERT INTO paciente (cpf, numPlanoSaude) VALUES (?, ?)";
+        String sql = "INSERT INTO paciente (cpf, numPlanoSaude) VALUES (?, ?)";
 
-    jdbcTemplate.update(sql,
-        p.getCpf(),
-        p.getNumPlanoSaude()
-    );
+        jdbcTemplate.update(sql,
+                p.getCpf(),
+                p.getNumPlanoSaude());
     }
 
     public List<Paciente> listar() {
-    String sql = """
-        SELECT p.*, pa.numPlanoSaude
-        FROM pessoa p
-        JOIN paciente pa ON p.cpf = pa.cpf
-    """;
+        String sql = """
+                    SELECT p.*, pa.numPlanoSaude
+                    FROM pessoa p
+                    JOIN paciente pa ON p.cpf = pa.cpf
+                """;
 
-    return jdbcTemplate.query(sql, (r, i) -> {
-        Paciente p = new Paciente();
+        return jdbcTemplate.query(sql, (r, i) -> {
+            Paciente p = new Paciente();
 
-        p.setCpf(r.getString("cpf"));
-        p.setNome(r.getString("nome"));
-        p.setCep(r.getString("cep"));
-        p.setBairro(r.getString("bairro"));
-        p.setNumero(r.getString("numero"));
-        p.setDataNascimento(r.getDate("data_nascimento"));
+            p.setCpf(r.getString("cpf"));
+            p.setNome(r.getString("nome"));
+            p.setCep(r.getString("cep"));
+            p.setBairro(r.getString("bairro"));
+            p.setNumero(r.getString("numero"));
+            p.setDataNascimento(r.getDate("data_nascimento"));
 
-        p.setNumPlanoSaude(r.getString("numPlanoSaude"));
+            p.setNumPlanoSaude(r.getString("numPlanoSaude"));
 
-        return p;
-    });
-}
+            p.setTelefones(buscarTelefones(p.getCpf()));
+
+            return p;
+        });
+    }
 
     public Paciente buscarPorCpf(String cpf) {
-    String sql = """
-        SELECT p.*, pa.numPlanoSaude
-        FROM pessoa p
-        JOIN paciente pa ON p.cpf = pa.cpf
-        WHERE p.cpf = ?
-    """;
+        String sql = """
+                    SELECT p.*, pa.numPlanoSaude
+                    FROM pessoa p
+                    JOIN paciente pa ON p.cpf = pa.cpf
+                    WHERE p.cpf = ?
+                """;
 
-    List<Paciente> lista = jdbcTemplate.query(sql, (r, i) -> {
-        Paciente p = new Paciente();
+        List<Paciente> lista = jdbcTemplate.query(sql, (r, i) -> {
+            Paciente p = new Paciente();
 
-        p.setCpf(r.getString("cpf"));
-        p.setNome(r.getString("nome"));
-        p.setCep(r.getString("cep"));
-        p.setBairro(r.getString("bairro"));
-        p.setNumero(r.getString("numero"));
-        p.setDataNascimento(r.getDate("data_nascimento"));
-        p.setNumPlanoSaude(r.getString("numPlanoSaude"));
+            p.setCpf(r.getString("cpf"));
+            p.setNome(r.getString("nome"));
+            p.setCep(r.getString("cep"));
+            p.setBairro(r.getString("bairro"));
+            p.setNumero(r.getString("numero"));
+            p.setDataNascimento(r.getDate("data_nascimento"));
+            p.setNumPlanoSaude(r.getString("numPlanoSaude"));
 
-        return p;
-    }, cpf);
+            p.setTelefones(buscarTelefones(p.getCpf()));
 
-    return lista.isEmpty() ? null : lista.get(0);
-}
+            return p;
+        }, cpf);
+
+        return lista.isEmpty() ? null : lista.get(0);
+    }
 
     public void deletar(String cpf) {
-    String sql = "DELETE FROM paciente WHERE cpf = ?";
-    jdbcTemplate.update(sql, cpf);
+        String sql = "DELETE FROM paciente WHERE cpf = ?";
+        jdbcTemplate.update(sql, cpf);
     }
 
     public void atualizar(String cpf, Paciente p) {
-    String sql = "UPDATE paciente SET numPlanoSaude = ? WHERE cpf = ?";
+        String sql = "UPDATE paciente SET numPlanoSaude = ? WHERE cpf = ?";
 
-    jdbcTemplate.update(sql,
-        p.getNumPlanoSaude(),
-        cpf
-    );
+        jdbcTemplate.update(sql,
+                p.getNumPlanoSaude(),
+                cpf);
     }
-    public boolean existe(String cpf) {
-    String sql = "SELECT COUNT(*) FROM paciente WHERE cpf = ?";
-    Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
-    return count != null && count > 0;
-}
 
+    public boolean existe(String cpf) {
+        String sql = "SELECT COUNT(*) FROM paciente WHERE cpf = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
+        return count != null && count > 0;
+    }
+
+    private List<String> buscarTelefones(String cpf) {
+        String sql = "SELECT telefone FROM telefone WHERE cpf = ?";
+
+        return jdbcTemplate.query(
+                sql,
+                (rs, rowNum) -> rs.getString("telefone"),
+                cpf);
+    }
+
+    public boolean temConsulta(String cpf) {
+        String sql = "SELECT COUNT(*) FROM consulta WHERE cpfPaciente = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
+        return count != null && count > 0;
+    }
 }
