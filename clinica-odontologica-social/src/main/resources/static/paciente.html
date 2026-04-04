@@ -1,51 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>CRUD Pacientes</title>
-</head>
-<body>
+  </head>
+  <body>
+    <h2>Cadastrar Paciente</h2>
+    cpf: <input id="cpf" placeholder="CPF" /><br />
+    Nome: <input id="nome" placeholder="Nome" /><br />
+    CEP: <input id="cep" placeholder="CEP" /><br />
+    Bairro: <input id="bairro" placeholder="Bairro" /><br />
+    Número: <input id="numero" placeholder="Número" /><br />
+    Data Nascimento:
+    <input id="dataNascimento" placeholder="YYYY-MM-DD" /><br />
+    Número Plano Saúde:
+    <input id="numPlanoSaude" placeholder="Número Plano Saúde" /><br />
+    Telefone (Opcional):<br />
+    <textarea
+      id="telefonesCadastro"
+      rows="3"
+      cols="40"
+      placeholder="11999999999 , 99111111111"
+    ></textarea
+    ><br />
 
-<h2>Cadastrar Paciente</h2>
-cpf: <input id="cpf" placeholder="CPF"><br>
-Nome: <input id="nome" placeholder="Nome"><br>
-CEP: <input id="cep" placeholder="CEP"><br>
-Bairro: <input id="bairro" placeholder="Bairro"><br>
-Número: <input id="numero" placeholder="Número"><br>
-Data Nascimento: <input id="dataNascimento" placeholder="YYYY-MM-DD"><br>
-Número Plano Saúde: <input id="numPlanoSaude" placeholder="Número Plano Saúde"><br>
+    <button onclick="cadastrarPaciente()">Cadastrar</button>
+    <hr />
 
-<button onclick="cadastrarPaciente()">Cadastrar</button>
-<hr>
+    <h2>Lista de Pacientes</h2>
+    <button onclick="listarPacientes()">Listar pacientes</button>
+    <ul id="listaPacientes"></ul>
+    <hr />
 
-<h2>Lista de Pacientes</h2>
-<button onclick="listarPacientes()">Listar pacientes</button>
-<ul id="listaPacientes"></ul>
-<hr>
+    <h2>Buscar por CPF</h2>
+    CPF: <input id="buscarporcpf" placeholder="Digite o CPF" /><br />
+    <button onclick="buscarPacientePorCpf()">Buscar</button>
+    <pre id="resultadoBuscaPaciente"></pre>
+    <hr />
 
-<h2>Buscar por CPF</h2>
-CPF: <input id="buscarporcpf" placeholder="Digite o CPF"><br>
-<button onclick="buscarPacientePorCpf()">Buscar</button>
-<pre id="resultadoBuscaPaciente"></pre>
-<hr>
+    <h2>Atualizar paciente</h2>
+    CPF (no banco):
+    <input id="cpfAtualizar" placeholder="CPF do paciente" /><br />
+    Nome: <input id="nomeAtualizar" placeholder="Nome" /><br />
+    CEP: <input id="cepAtualizar" placeholder="CEP" /><br />
+    Bairro: <input id="bairroAtualizar" placeholder="Bairro" /><br />
+    Número: <input id="numeroAtualizar" placeholder="Número" /><br />
+    Data Nascimento:
+    <input id="dataNascimentoAtualizar" placeholder="YYYY-MM-DD" /><br />
+    Número Plano Saúde:
+    <input id="numPlanoSaudeAtualizar" placeholder="Número Plano Saúde" /><br />
+    Telefone (Opcional):<br />
+    <textarea
+      id="telefonesAtualizar"
+      rows="3"
+      cols="40"
+      placeholder="11999999999 , 99111111111"
+    ></textarea
+    ><br />
 
-<h2>Atualizar paciente</h2>
-CPF (no banco): <input id="cpfAtualizar" placeholder="CPF do paciente"><br>
-Nome: <input id="nomeAtualizar" placeholder="Nome"><br>
-CEP: <input id="cepAtualizar" placeholder="CEP"><br>
-Bairro: <input id="bairroAtualizar" placeholder="Bairro"><br>
-Número: <input id="numeroAtualizar" placeholder="Número"><br>
-Data Nascimento: <input id="dataNascimentoAtualizar" placeholder="YYYY-MM-DD"><br>
-Número Plano Saúde: <input id="numPlanoSaudeAtualizar" placeholder="Número Plano Saúde"><br>
+    <button onclick="atualizarPaciente()">Atualizar</button>
+    <hr />
 
-<button onclick="atualizarPaciente()">Atualizar</button>
-<hr>
+    <h2>Deletar paciente</h2>
+    CPF: <input id="cpfDeletar" placeholder="CPF do paciente" /><br />
+    <button onclick="deletarPacientePorCpf()">Deletar</button>
 
-<h2>Deletar paciente</h2>
-CPF: <input id="cpfDeletar" placeholder="CPF do paciente"><br>
-<button onclick="deletarPacientePorCpf()">Deletar</button>
-
-<script src="paciente_script.js?v=1"></script>
-</body>
+    <script src="paciente_script.js?v=2"></script>
+  </body>
 </html>
-

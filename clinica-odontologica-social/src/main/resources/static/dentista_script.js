@@ -1,14 +1,37 @@
 const API = "http://localhost:8080/dentista";
 
+function parseTelefones(text) {
+  if (!text || typeof text !== "string") return [];
+  return text
+    .split(/[\n,;]+/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function telefonesDoCampo(id) {
+  return parseTelefones(document.getElementById(id).value);
+}
+
+function telefonesParaTextarea(list) {
+  if (!list || !list.length) return "";
+  return list.join("\n");
+}
+
 function cadastrarDentista() {
   const coordenadorInput = document.getElementById("coordenador").value;
 
   const dentista = {
     cpf: document.getElementById("cpf").value,
+    nome: document.getElementById("nome").value,
+    cep: document.getElementById("cep").value,
+    bairro: document.getElementById("bairro").value,
+    numero: document.getElementById("numero").value,
+    dataNascimento: document.getElementById("dataNascimento").value,
     cro: document.getElementById("cro").value,
     especialidade: document.getElementById("especialidade").value,
     email: document.getElementById("email").value,
     coordenador: coordenadorInput === "" ? null : coordenadorInput,
+    telefones: telefonesDoCampo("telefonesCadastro"),
   };
 
   fetch(API, {
@@ -19,6 +42,7 @@ function cadastrarDentista() {
     .then((res) => res.text())
     .then((msg) => {
       alert(msg);
+      document.getElementById("telefonesCadastro").value = "";
     })
     .catch((err) => console.error(err));
 }
@@ -32,7 +56,11 @@ function listarDentistas() {
 
       dentistas.forEach((d) => {
         const li = document.createElement("li");
-        li.textContent = `${d.cpf} - ${d.nome} (${d.especialidade || "—"})`;
+        const tels =
+          d.telefones && d.telefones.length
+            ? d.telefones.join(", ")
+            : "sem telefone";
+        li.textContent = `${d.cpf} - ${d.nome} (${d.especialidade || "—"}) | Tel: ${tels}`;
         lista.appendChild(li);
       });
     })
@@ -121,6 +149,8 @@ function carregarParaAtualizarDentista(cpf) {
       document.getElementById("emailAtualizar").value = d.email || "";
       document.getElementById("coordenadorAtualizar").value =
         d.coordenador || "";
+      document.getElementById("telefonesAtualizar").value =
+        telefonesParaTextarea(d.telefones);
     })
     .catch((err) => console.error(err));
 }
@@ -148,6 +178,7 @@ function atualizarDentista() {
     especialidade: document.getElementById("especialidadeAtualizar").value,
     email: document.getElementById("emailAtualizar").value,
     coordenador: coordenadorInput === "" ? null : coordenadorInput,
+    telefones: telefonesDoCampo("telefonesAtualizar"),
   };
 
   fetch(`${API}/${encodeURIComponent(cpfBanco)}`, {

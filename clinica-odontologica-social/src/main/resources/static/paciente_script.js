@@ -1,5 +1,22 @@
 const API = "http://localhost:8080/paciente";
 
+function parseTelefones(text) {
+    if (!text || typeof text !== "string") return [];
+    return text
+        .split(/[\n,;]+/)
+        .map((s) => s.trim())
+        .filter(Boolean);
+}
+
+function telefonesDoCampo(id) {
+    return parseTelefones(document.getElementById(id).value);
+}
+
+function telefonesParaTextarea(list) {
+    if (!list || !list.length) return "";
+    return list.join("\n");
+}
+
 function cadastrarPaciente() {
     const paciente = {
         cpf: document.getElementById("cpf").value,
@@ -8,7 +25,8 @@ function cadastrarPaciente() {
         bairro: document.getElementById("bairro").value,
         numero: document.getElementById("numero").value,
         dataNascimento: document.getElementById("dataNascimento").value,
-        numPlanoSaude: document.getElementById("numPlanoSaude").value
+        numPlanoSaude: document.getElementById("numPlanoSaude").value,
+        telefones: telefonesDoCampo("telefonesCadastro")
     };
 
     fetch(API, {
@@ -19,6 +37,7 @@ function cadastrarPaciente() {
         .then(res => res.text())
         .then(msg => {
             alert(msg);
+            document.getElementById("telefonesCadastro").value = "";
         })
         .catch(err => console.error(err));
 }
@@ -32,7 +51,10 @@ function listarPacientes() {
 
             pacientes.forEach(p => {
                 const li = document.createElement("li");
-                li.textContent = `${p.cpf} - ${p.nome}`;
+                const tels = p.telefones && p.telefones.length
+                    ? p.telefones.join(", ")
+                    : "sem telefone";
+                li.textContent = `${p.cpf} - ${p.nome} | Tel: ${tels}`;
                 lista.appendChild(li);
             });
         })
@@ -95,6 +117,7 @@ function carregarParaAtualizarPaciente(cpf) {
             document.getElementById("numeroAtualizar").value = p.numero || "";
             document.getElementById("dataNascimentoAtualizar").value = p.dataNascimento || "";
             document.getElementById("numPlanoSaudeAtualizar").value = p.numPlanoSaude || "";
+            document.getElementById("telefonesAtualizar").value = telefonesParaTextarea(p.telefones);
         })
         .catch(err => console.error(err));
 }
@@ -106,9 +129,6 @@ function atualizarPaciente() {
         alert("Informe o CPF da pessoa no banco.");
         return;
     }
-
-    // Mantemos o CPF informado no banco como CPF do JSON também,
-    // para evitar inconsistências no UPDATE do seu PessoaRepository.
     const paciente = {
         cpf: cpfBanco,
         nome: document.getElementById("nomeAtualizar").value,
@@ -116,7 +136,8 @@ function atualizarPaciente() {
         bairro: document.getElementById("bairroAtualizar").value,
         numero: document.getElementById("numeroAtualizar").value,
         dataNascimento: document.getElementById("dataNascimentoAtualizar").value,
-        numPlanoSaude: document.getElementById("numPlanoSaudeAtualizar").value
+        numPlanoSaude: document.getElementById("numPlanoSaudeAtualizar").value,
+        telefones: telefonesDoCampo("telefonesAtualizar")
     };
 
     fetch(`${API}/${encodeURIComponent(cpfBanco)}`, {
