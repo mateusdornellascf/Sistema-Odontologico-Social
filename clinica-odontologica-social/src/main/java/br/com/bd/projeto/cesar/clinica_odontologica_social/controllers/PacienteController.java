@@ -3,7 +3,9 @@ package br.com.bd.projeto.cesar.clinica_odontologica_social.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.models.FormularioSaude;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Paciente;
+import br.com.bd.projeto.cesar.clinica_odontologica_social.services.FormularioSaudeService;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.services.PacienteService;
 
 import java.util.List;
@@ -21,17 +23,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class PacienteController {
 
     private final PacienteService service;
+    private final FormularioSaudeService formularioSaudeService;
 
-    public PacienteController(PacienteService service) {
+    public PacienteController(PacienteService service, FormularioSaudeService formularioSaudeService) {
         this.service = service;
+        this.formularioSaudeService = formularioSaudeService;
     }
+
     @PostMapping
     public String inserirPaciente(@RequestBody Paciente paciente) {
         service.inserirPaciente(paciente);
         return "Paciente inserida!";
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public List<Paciente> listarPacientes() {
         return service.listar();
     }
@@ -55,5 +60,19 @@ public class PacienteController {
     public String deletarPaciente(@PathVariable String cpf) {
         service.deletar(cpf);
         return "Paciente deletada";
+    }
+
+    @PostMapping("/{cpf}/formulario-saude")
+    public ResponseEntity<String> preencherFormularioSaude(
+            @PathVariable String cpf,
+            @RequestBody FormularioSaude formulario) {
+
+        formularioSaudeService.salvarOuAtualizar(
+                cpf,
+                formulario.getAlergias(),
+                formulario.getDoencas(),
+                formulario.getMedicamentos());
+
+        return ResponseEntity.ok("Formulário salvo/atualizado com sucesso!");
     }
 }

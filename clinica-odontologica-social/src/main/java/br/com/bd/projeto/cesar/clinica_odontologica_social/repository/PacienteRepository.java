@@ -2,6 +2,7 @@ package br.com.bd.projeto.cesar.clinica_odontologica_social.repository;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -9,11 +10,8 @@ import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Paciente;
 
 @Repository
 public class PacienteRepository {
-    private final JdbcTemplate jdbcTemplate;
-
-    public PacienteRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     public void inserir(Paciente p) {
         String sql = "INSERT INTO paciente (cpf, numPlanoSaude) VALUES (?, ?)";
@@ -95,7 +93,6 @@ public class PacienteRepository {
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
         return count != null && count > 0;
     }
-
     private List<String> buscarTelefones(String cpf) {
         String sql = "SELECT telefone FROM telefone WHERE cpf = ?";
 
@@ -110,4 +107,15 @@ public class PacienteRepository {
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
         return count != null && count > 0;
     }
+
+    public void preencherFormularioSaude(String cpf, String alergias, String doencas, String medicamentos) {
+        String sql = "INSERT INTO formulariosaude (cpfPaciente, alergia, medicamento, doencas) VALUES (?, ?, ?, ?)";
+
+        jdbcTemplate.update(sql,
+                cpf,
+                alergias,
+                medicamentos,
+                doencas);
+    }
+
 }
