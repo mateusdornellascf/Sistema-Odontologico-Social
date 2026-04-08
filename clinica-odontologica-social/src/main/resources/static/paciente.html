@@ -39,6 +39,17 @@
     <pre id="resultadoBuscaPaciente"></pre>
     <hr />
 
+    <h2>Formulario de saude</h2>
+    CPF paciente: <input id="cpfFormularioPaciente" placeholder="CPF do paciente" /><br />
+    Alergia: <input id="alergiaFormularioPaciente" placeholder="Alergia(s)" /><br />
+    Doencas: <input id="doencasFormularioPaciente" placeholder="Doenca(s)" /><br />
+    Medicamento: <input id="medicamentoFormularioPaciente" placeholder="Medicamento(s)" /><br />
+    <button onclick="preencherOuAtualizarFormularioSaude()">Preencher / Atualizar formulario</button>
+    <button onclick="carregarFormularioSaudePaciente()">Carregar formulario atual</button>
+    <button onclick="window.location.href='formularioSaude.html'">Gerenciar formularios</button>
+    <pre id="resultadoFormularioPaciente"></pre>
+    <hr />
+
     <h2>Atualizar paciente</h2>
     CPF (no banco):
     <input id="cpfAtualizar" placeholder="CPF do paciente" /><br />
@@ -67,6 +78,6 @@
     CPF: <input id="cpfDeletar" placeholder="CPF do paciente" /><br />
     <button onclick="deletarPacientePorCpf()">Deletar</button>
 
-    <script src="paciente_script.js?v=4"></script>
+    <script src="paciente_script.js?v=6"></script>
   </body>
 </html>

@@ -1,4 +1,5 @@
 const API = "http://localhost:8080/paciente";
+const API_FORMULARIO = "http://localhost:8080/formulario-saude";
 
 function parseTelefones(text) {
     if (!text || typeof text !== "string") return [];
@@ -44,8 +45,13 @@ function cadastrarPaciente() {
 }
 
 function listarPacientes() {
-    fetch(API)
-        .then(res => res.json())
+    fetch(`${API}/listar`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Falha ao listar pacientes (HTTP " + res.status + ").");
+            }
+            return res.json();
+        })
         .then(pacientes => {
             const lista = document.getElementById("listaPacientes");
             lista.innerHTML = "";
@@ -67,7 +73,14 @@ function listarPacientes() {
                 lista.appendChild(li);
             });
         })
-        .catch(err => console.error(err));
+        .catch(err => {
+            console.error(err);
+            const lista = document.getElementById("listaPacientes");
+            lista.innerHTML = "";
+            const li = document.createElement("li");
+            li.textContent = "Erro ao listar pacientes. Verifique se a API está no ar.";
+            lista.appendChild(li);
+        });
 }
 
 function deletarPacientePorCpf() {
@@ -119,6 +132,75 @@ function buscarPacientePorCpf() {
         .catch(err => {
             console.error(err);
             out.textContent = "Erro ao buscar.";
+        });
+}
+
+function formularioPayloadPaciente() {
+    return {
+        alergias: document.getElementById("alergiaFormularioPaciente").value,
+        doencas: document.getElementById("doencasFormularioPaciente").value,
+        medicamentos: document.getElementById("medicamentoFormularioPaciente").value
+    };
+}
+
+function preencherOuAtualizarFormularioSaude() {
+    const cpf = document.getElementById("cpfFormularioPaciente").value.trim();
+    const out = document.getElementById("resultadoFormularioPaciente");
+
+    if (!cpf) {
+        out.textContent = "Informe o CPF do paciente.";
+        return;
+    }
+
+    fetch(`${API}/${encodeURIComponent(cpf)}/formulario-saude`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formularioPayloadPaciente())
+    })
+        .then(res => res.text())
+        .then(msg => {
+            out.textContent = msg;
+            alert(msg);
+        })
+        .catch(err => {
+            console.error(err);
+            out.textContent = "Erro ao salvar formulario.";
+        });
+}
+
+function carregarFormularioSaudePaciente() {
+    const cpf = document.getElementById("cpfFormularioPaciente").value.trim();
+    const out = document.getElementById("resultadoFormularioPaciente");
+
+    if (!cpf) {
+        out.textContent = "Informe o CPF do paciente.";
+        return;
+    }
+
+    fetch(`${API_FORMULARIO}/buscar/${encodeURIComponent(cpf)}`)
+        .then(res => {
+            if (!res.ok) {
+                out.textContent = "Erro ao buscar formulario.";
+                return null;
+            }
+            return res.json();
+        })
+        .then(formularios => {
+            if (!formularios) return;
+            if (!formularios.length) {
+                out.textContent = "Paciente sem formulario cadastrado.";
+                return;
+            }
+
+            const formulario = formularios[formularios.length - 1];
+            document.getElementById("alergiaFormularioPaciente").value = formulario.alergias || "";
+            document.getElementById("doencasFormularioPaciente").value = formulario.doencas || "";
+            document.getElementById("medicamentoFormularioPaciente").value = formulario.medicamentos || "";
+            out.textContent = JSON.stringify(formulario, null, 2);
+        })
+        .catch(err => {
+            console.error(err);
+            out.textContent = "Erro ao buscar formulario.";
         });
 }
 

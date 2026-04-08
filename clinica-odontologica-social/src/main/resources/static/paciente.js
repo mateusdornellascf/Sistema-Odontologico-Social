@@ -24,11 +24,21 @@ function cadastrarPaciente() {
 }
 
 function listarPacientes() {
-    fetch(API)
-        .then(res => res.json())
+    fetch(`${API}/listar`)
+        .then(res => {
+            if (!res.ok) throw new Error("HTTP " + res.status);
+            return res.json();
+        })
         .then(pacientes => {
             const lista = document.getElementById("listaPacientes");
             lista.innerHTML = "";
+
+            if (!pacientes || pacientes.length === 0) {
+                const li = document.createElement("li");
+                li.textContent = "Nenhum paciente cadastrado.";
+                lista.appendChild(li);
+                return;
+            }
 
             pacientes.forEach(p => {
                 const li = document.createElement("li");
