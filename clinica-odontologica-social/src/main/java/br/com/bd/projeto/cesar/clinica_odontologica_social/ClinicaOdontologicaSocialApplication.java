@@ -11,6 +11,9 @@ public class ClinicaOdontologicaSocialApplication {
 		System.out.println("-------------------------------");
 		System.out.println("APLICACAO INICIADA COM SUCESSO!");
 		System.out.println("-------------------------------");
+		System.out.println("    http://localhost:8080/");
+		System.out.println("-------------------------------");
+		
 	}
 
 }
