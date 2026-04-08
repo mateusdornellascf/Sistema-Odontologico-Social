@@ -1,59 +1,61 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.models;
 
 public class FormularioSaude {
-    private int idFormulario;
-    private String identificacaoPaciente;
-    private String alergias;
-    private String doenças;
-    private String medicamentos;
+    private Integer idFormulario;
+    private String cpfPaciente;
+    private String alergia;
+    private String doencas;
+    private String medicamento;
 
-    public FormularioSaude() {}
-
-    public FormularioSaude(int idFormulario, String identificacaoPaciente, String alergias, String doenças, String medicamentos) {
-        this.idFormulario = idFormulario;
-        this.identificacaoPaciente = identificacaoPaciente;
-        this.alergias = alergias;
-        this.doenças = doenças;
-        this.medicamentos = medicamentos;
+    public FormularioSaude() {
     }
 
-    public int getIdFormulario() {
+    public FormularioSaude(Integer idFormulario, String cpfPaciente, String alergia, String doencas,
+            String medicamento) {
+        this.idFormulario = idFormulario;
+        this.cpfPaciente = cpfPaciente;
+        this.alergia = alergia;
+        this.doencas = doencas;
+        this.medicamento = medicamento;
+    }
+
+    public Integer getIdFormulario() {
         return idFormulario;
     }
 
-    public void setIdFormulario(int idFormulario) {
+    public void setIdFormulario(Integer idFormulario) {
         this.idFormulario = idFormulario;
     }
 
-    public String getIdentificacaoPaciente() {
-        return identificacaoPaciente;
+    public String getCpfPaciente() {
+        return cpfPaciente;
     }
 
-    public void setIdentificacaoPaciente(String identificacaoPaciente) {
-        this.identificacaoPaciente = identificacaoPaciente;
+    public void setCpfPaciente(String cpfPaciente) {
+        this.cpfPaciente = cpfPaciente;
     }
 
     public String getAlergias() {
-        return alergias;
+        return alergia;
     }
 
-    public void setAlergias(String alergias) {
-        this.alergias = alergias;
+    public void setAlergias(String alergia) {
+        this.alergia = alergia;
     }
 
     public String getDoencas() {
-        return doenças;
+        return doencas;
     }
 
-    public void setDoencas(String doenças) {
-        this.doenças = doenças;
+    public void setDoencas(String doencas) {
+        this.doencas = doencas;
     }
 
     public String getMedicamentos() {
-        return medicamentos;
+        return medicamento;
     }
 
-    public void setMedicamentos(String medicamentos) {
-        this.medicamentos = medicamentos;
+    public void setMedicamentos(String medicamento) {
+        this.medicamento = medicamento;
     }
 }
