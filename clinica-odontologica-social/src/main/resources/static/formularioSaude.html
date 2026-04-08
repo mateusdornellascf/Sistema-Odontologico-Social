@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gerenciar Formulario de Saude</title>
+  </head>
+  <body>
+    <h1>Gerenciar Formulario de Saude</h1>
+
+    <h2>Preencher formulario:</h2>
+    CPF do paciente:
+    <input id="cpfFormulario" placeholder="Digite o CPF" /><br />
+    Alergia: <input id="alergiaFormulario" placeholder="Alergia(s)" /><br />
+    Doencas: <input id="doencasFormulario" placeholder="Doenca(s)" /><br />
+    Medicamento:
+    <input id="medicamentoFormulario" placeholder="Medicamento(s)" /><br />
+    <button onclick="salvarOuAtualizarFormulario()">Salvar / Atualizar</button>
+
+    <h2>Buscar formulario</h2>
+    CPF: <input id="cpfBuscarFormulario" placeholder="Digite o CPF" /><br />
+    <button onclick="buscarFormularioPorCpf()">Buscar</button>
+    <pre id="resultadoBuscaFormulario"></pre>
+
+    <h2>Listar formulario</h2>
+    <button onclick="listarFormularios()">Listar formularios</button>
+    <ul id="listaFormularios"></ul>
+
+    <script src="formularioSaude.js?v=2"></script>
+  </body>
+</html>
