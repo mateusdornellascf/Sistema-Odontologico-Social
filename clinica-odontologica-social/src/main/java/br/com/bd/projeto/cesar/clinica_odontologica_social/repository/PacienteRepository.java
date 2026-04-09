@@ -2,7 +2,6 @@ package br.com.bd.projeto.cesar.clinica_odontologica_social.repository;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -10,8 +9,12 @@ import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Paciente;
 
 @Repository
 public class PacienteRepository {
-    @Autowired
+    
     private JdbcTemplate jdbcTemplate;
+
+    public PacienteRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public void inserir(Paciente p) {
         String sql = "INSERT INTO paciente (cpf, numPlanoSaude) VALUES (?, ?)";
