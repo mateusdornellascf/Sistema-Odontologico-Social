@@ -158,4 +158,10 @@ public class ConsultaRepository {
             return c;
         }, cpfPaciente);
     }
+
+    public boolean existeConsulta(Long idConsulta) {
+        String sql = "SELECT COUNT(*) FROM consulta WHERE idConsulta = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, idConsulta);
+        return count != null && count > 0;
+    }
 }
