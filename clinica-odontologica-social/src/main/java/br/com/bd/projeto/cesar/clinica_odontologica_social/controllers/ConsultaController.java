@@ -18,7 +18,7 @@ import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Consulta;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.services.ConsultaService;
 
 @RestController
-@RequestMapping("/consulta")
+@RequestMapping("/consultas")
 public class ConsultaController {
     private final ConsultaService service;
 

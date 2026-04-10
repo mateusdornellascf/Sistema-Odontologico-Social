@@ -1,6 +1,6 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.models;
 
-public class Rotina {
+public class Rotina extends Procedimento{
     private Long idProcedimento;
     private String dataProcedimentoRotina;
     private String status;

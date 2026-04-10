@@ -32,7 +32,7 @@ public class DentistaController {
         return "Dentista inserido!";
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public List<Dentista> listarDentistas() {
         return service.listar();
     }

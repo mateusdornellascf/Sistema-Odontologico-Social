@@ -1,6 +1,6 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.models;
 
-public class Estetico {
+public class Estetico extends Procedimento{
     private Long idProcedimento;
     private Integer quantidadeSessoes;
     private String dataSessoes;

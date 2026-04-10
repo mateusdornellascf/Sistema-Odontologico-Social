@@ -3,7 +3,6 @@ package br.com.bd.projeto.cesar.clinica_odontologica_social.models;
 public class Procedimento {
     private Long idProcedimento;
     private Long idConsulta;
-    private Double valor;
     private String nomeProcedimento;
     private String descricao;
     
@@ -18,12 +17,6 @@ public class Procedimento {
     }
     public void setIdConsulta(Long idConsulta) {
         this.idConsulta = idConsulta;
-    }
-    public Double getValor() {
-        return valor;
-    }
-    public void setValor(Double valor) {
-        this.valor = valor;
     }
     public String getNomeProcedimento() {
         return nomeProcedimento;
