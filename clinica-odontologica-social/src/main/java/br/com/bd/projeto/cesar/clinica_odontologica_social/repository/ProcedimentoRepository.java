@@ -24,9 +24,7 @@ public class ProcedimentoRepository {
                 p.getNomeProcedimento(),
                 p.getDescricao());
 
-        String sqlId = "SELECT LAST_INSERT_ID()";
-
-        return jdbcTemplate.queryForObject(sqlId, Long.class);
+        return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
     }
 
     public void criarCirurgico(Long idProcedimento,
@@ -34,7 +32,11 @@ public class ProcedimentoRepository {
             String cpfCirurgiao,
             Double valor) {
 
-        String sql = "INSERT INTO cirurgico (idProcedimento, dataCirurgia, cpfCirurgiaoDentista, valor) VALUES (?, ?, ?, ?)";
+        String sql = """
+                    INSERT INTO cirurgico
+                    (idProcedimento, dataCirurgia, cpfCirurgiaoDentista, valor)
+                    VALUES (?, ?, ?, ?)
+                """;
 
         jdbcTemplate.update(sql,
                 idProcedimento,
@@ -48,7 +50,11 @@ public class ProcedimentoRepository {
             String dataSessoes,
             Double valor) {
 
-        String sql = "INSERT INTO estetico (idProcedimento, quantidadeSessoes, dataSessoes, valor) VALUES (?, ?, ?, ?)";
+        String sql = """
+                    INSERT INTO estetico
+                    (idProcedimento, quantidadeSessoes, dataSessoes, valor)
+                    VALUES (?, ?, ?, ?)
+                """;
 
         jdbcTemplate.update(sql,
                 idProcedimento,
@@ -62,7 +68,11 @@ public class ProcedimentoRepository {
             String status,
             Double valor) {
 
-        String sql = "INSERT INTO rotina (idProcedimento, dataProcedimentoRotina, statusProcedimento, valor) VALUES (?, ?, ?, ?)";
+        String sql = """
+                    INSERT INTO rotina
+                    (idProcedimento, dataProcedimentoRotina, statusProcedimento, valor)
+                    VALUES (?, ?, ?, ?)
+                """;
 
         jdbcTemplate.update(sql,
                 idProcedimento,
@@ -91,19 +101,20 @@ public class ProcedimentoRepository {
                 p.getNomeProcedimento(),
                 p.getDescricao(),
                 p.getIdProcedimento());
+                System.out.println("Linhas afetadas: " + linhasAfetadas);
         return linhasAfetadas > 0;
     }
 
-    public boolean deletar(Long idConsulta, Long idProcedimento) {
+    public boolean deletar(Long idProcedimento) {
 
-        String sql = "DELETE FROM procedimento WHERE idProcedimento = ? AND idConsulta = ?";
+        String sql = "DELETE FROM procedimento WHERE idProcedimento = ?";
 
-        int linhas = jdbcTemplate.update(sql, idProcedimento, idConsulta);
+        int linhas = jdbcTemplate.update(sql, idProcedimento);
 
         return linhas > 0;
     }
 
-    public List<Procedimento> buscarPorConsulta(Long idConsulta) {
+    public List<Procedimento> buscarPorIdConsulta(Long idConsulta) {
         String sql = "SELECT * FROM procedimento WHERE idConsulta = ?";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
@@ -116,8 +127,9 @@ public class ProcedimentoRepository {
         }, idConsulta);
     }
 
-    public Procedimento buscarPorId(Long idProcedimento, Long idConsulta) {
-        String sql = "SELECT * FROM procedimento WHERE idProcedimento = ? AND idConsulta = ?";
+    public Procedimento buscarPorIdProcedimento(Long idProcedimento) {
+
+        String sql = "SELECT * FROM procedimento WHERE idProcedimento = ?";
 
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             Procedimento p = new Procedimento();
@@ -126,7 +138,7 @@ public class ProcedimentoRepository {
             p.setNomeProcedimento(rs.getString("nomeProcedimento"));
             p.setDescricao(rs.getString("descricao"));
             return p;
-        }, idProcedimento, idConsulta);
+        }, idProcedimento);
     }
 
 }

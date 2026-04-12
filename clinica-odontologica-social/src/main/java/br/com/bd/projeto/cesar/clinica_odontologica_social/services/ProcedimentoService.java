@@ -22,6 +22,7 @@ public class ProcedimentoService {
         this.procedimentoRepository = procedimentoRepository;
         this.consultaRepository = consultaRepository;
     }
+    
 
     @Transactional
     public Long criarCirurgico(Long idConsulta, CirurgicoDTO dto) {
@@ -87,19 +88,25 @@ public class ProcedimentoService {
         return idProcedimento;
     }
 
-    public List<Procedimento> buscarPorConsulta(Long idConsulta) {
-        return procedimentoRepository.buscarPorConsulta(idConsulta);
+    public List<Procedimento> listar() {
+        return procedimentoRepository.listar();
     }
 
-    public Procedimento buscarPorId(Long idProcedimento, Long idConsulta) {
-        return procedimentoRepository.buscarPorId(idProcedimento, idConsulta);
+    public List<Procedimento> buscarPorIdConsulta(Long idConsulta) {
+        return procedimentoRepository.buscarPorIdConsulta(idConsulta);
+    }
+
+    public Procedimento buscarPorIdProcedimento(Long idProcedimento) {
+        return procedimentoRepository.buscarPorIdProcedimento(idProcedimento);
     }
 
     public boolean atualizar(Procedimento procedimento) {
+        System.out.println("Atualizando procedimento: " + procedimento.getIdProcedimento());
         return procedimentoRepository.atualizar(procedimento);
+        
     }
 
-    public boolean deletar(Long idConsulta, Long idProcedimento) {
-        return procedimentoRepository.deletar(idConsulta, idProcedimento);
+    public boolean deletar(Long idProcedimento) {
+        return procedimentoRepository.deletar(idProcedimento);
     }
 }

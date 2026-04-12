@@ -20,7 +20,7 @@ import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Procedimento;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.services.ProcedimentoService;
 
 @RestController
-@RequestMapping("/consultas/{idConsulta}/procedimentos")
+@RequestMapping("/procedimentos")
 public class ProcedimentoController {
 
     private final ProcedimentoService service;
@@ -30,11 +30,9 @@ public class ProcedimentoController {
     }
 
     @PostMapping("/cirurgico")
-    public Map<String, Object> criarCirurgico(
-            @PathVariable Long idConsulta,
-            @RequestBody CirurgicoDTO dto) {
+    public Map<String, Object> criarCirurgico(@RequestBody CirurgicoDTO request) {
 
-        Long id = service.criarCirurgico(idConsulta, dto);
+        Long id = service.criarCirurgico(request.getIdConsulta(), request);
 
         Map<String, Object> resposta = new HashMap<>();
         resposta.put("mensagem", "Procedimento cirúrgico criado com sucesso!");
@@ -44,11 +42,9 @@ public class ProcedimentoController {
     }
 
     @PostMapping("/estetico")
-    public Map<String, Object> criarEstetico(
-            @PathVariable Long idConsulta,
-            @RequestBody EsteticoDTO dto) {
+    public Map<String, Object> criarEstetico(@RequestBody EsteticoDTO request) {
 
-        Long id = service.criarEstetico(idConsulta, dto);
+        Long id = service.criarEstetico(request.getIdConsulta(), request);
 
         Map<String, Object> resposta = new HashMap<>();
         resposta.put("mensagem", "Procedimento estético criado com sucesso!");
@@ -58,11 +54,9 @@ public class ProcedimentoController {
     }
 
     @PostMapping("/rotina")
-    public Map<String, Object> criarRotina(
-            @PathVariable Long idConsulta,
-            @RequestBody RotinaDTO dto) {
+    public Map<String, Object> criarRotina(@RequestBody RotinaDTO request) {
 
-        Long id = service.criarRotina(idConsulta, dto);
+        Long id = service.criarRotina(request.getIdConsulta(), request);
 
         Map<String, Object> resposta = new HashMap<>();
         resposta.put("mensagem", "Procedimento de rotina criado com sucesso!");
@@ -71,42 +65,36 @@ public class ProcedimentoController {
         return resposta;
     }
 
-    @GetMapping
-    public List<Procedimento> listar(@PathVariable Long idConsulta) {
-        return service.buscarPorConsulta(idConsulta);
+    @GetMapping()
+    public List<Procedimento> listar() {
+        return service.listar();
     }
 
     @GetMapping("/{idProcedimento}")
-    public Procedimento buscarPorId(
-            @PathVariable Long idConsulta,
-            @PathVariable Long idProcedimento) {
+    public Procedimento buscarPorIdProcedimento(@PathVariable Long idProcedimento) {
+        return service.buscarPorIdProcedimento(idProcedimento);
+    }
 
-        return service.buscarPorId(idProcedimento, idConsulta);
+    @GetMapping("/consulta/{idConsulta}")
+    public List<Procedimento> buscarPorConsulta(@PathVariable Long idConsulta) {
+        return service.buscarPorIdConsulta(idConsulta);
     }
 
     @PutMapping("/{idProcedimento}")
     public String atualizar(
-            @PathVariable Long idConsulta,
             @PathVariable Long idProcedimento,
             @RequestBody Procedimento p) {
 
         p.setIdProcedimento(idProcedimento);
-        p.setIdConsulta(idConsulta);
 
         boolean atualizado = service.atualizar(p);
 
-        return atualizado
-                ? "Procedimento atualizado com sucesso!"
-                : "Procedimento não encontrado!";
+        return atualizado ? "OK" : "ERRO";
     }
 
     @DeleteMapping("/{idProcedimento}")
-    public String deletar(
-            @PathVariable Long idConsulta,
-            @PathVariable Long idProcedimento) {
-        boolean deletado = service.deletar(idConsulta, idProcedimento);
-        return deletado
-                ? "Procedimento deletado com sucesso!"
-                : "Procedimento não encontrado!";
+    public String deletar(@PathVariable Long idProcedimento) {
+        boolean deletado = service.deletar(idProcedimento);
+        return deletado ? "OK" : "ERRO";
     }
 }
