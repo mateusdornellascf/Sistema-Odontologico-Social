@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gerenciar Procedimentos</title>
+  </head>
+
+  <body>
+    <h1>Gerenciar Procedimentos</h1>
+
+    <button onclick="toggleProcedimentos()">Solicitar procedimento</button>
+
+    <div id="menuProcedimentos" style="display: none; margin-top: 20px">
+      <h2>Criar Procedimento</h2>
+      <button onclick="selecionarTipo('Cirurgico')">Cirurgico</button>
+      <button onclick="selecionarTipo('Estetico')">Estetico</button>
+      <button onclick="selecionarTipo('Rotina')">Rotina</button>
+    </div>
+
+    <hr />
+
+    <div id="formDinamico" style="display: none">
+      <h2 id="tituloDinamico"></h2>
+
+      ID da Consulta:
+      <input id="idConsulta" type="number" placeholder="ID da consulta" /><br />
+
+      CPF do paciente:
+      <input id="cpfFormulario" placeholder="Digite o CPF" /><br />
+
+      Alergia:
+      <input id="alergiaFormulario" placeholder="Alergia(s)" /><br />
+
+      Doenças:
+      <input id="doencasFormulario" placeholder="Doenca(s)" /><br />
+
+      Medicamento:
+      <input id="medicamentoFormulario" placeholder="Medicamento(s)" /><br />
+
+      <button onclick="salvarOuAtualizarFormulario()">
+        Salvar / Atualizar
+      </button>
+    </div>
+
+    <hr />
+
+    <h2>Lista de Procedimentos</h2>
+    <button onclick="listarProcedimentos()">Listar procedimentos</button>
+    <ul id="listaProcedimentos"></ul>
+
+    <h2>Atualizar Procedimento</h2>
+    <button onclick="atualizarProcedimento()">Atualizar por ID</button>
+
+    <h2>Deletar Procedimento</h2>
+    <button onclick="deletarProcedimento()">Deletar por ID</button>
+
+    <h2>Buscar por Consulta</h2>
+    <button onclick="buscarPorConsulta()">Buscar</button>
+
+    <h2>Buscar por ID</h2>
+    <button onclick="buscarPorId()">Buscar</button>
+
+    <hr />
+
+    <h2>Buscar procedimento (formulário)</h2>
+    CPF: <input id="cpfBuscarFormulario" />
+    <button onclick="buscarFormularioPorCpf()">Buscar</button>
+    <pre id="resultadoBuscaFormulario"></pre>
+
+    <h2>Listar formulários</h2>
+    <button onclick="listarFormularios()">Listar</button>
+    <ul id="listaFormularios"></ul>
+
+    <script src="procedimento.js"></script>
+  </body>
+</html>
