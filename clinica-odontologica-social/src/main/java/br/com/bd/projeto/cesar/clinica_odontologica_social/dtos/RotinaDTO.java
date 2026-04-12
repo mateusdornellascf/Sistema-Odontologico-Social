@@ -1,6 +1,7 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.dtos;
 
 public class RotinaDTO {
+    private Long idConsulta;
     private String nomeProcedimento;
     private String descricao;
     private String dataProcedimentoRotina;
@@ -56,5 +57,13 @@ public class RotinaDTO {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public Long getIdConsulta() {
+        return idConsulta;
+    }
+
+    public void setIdConsulta(Long idConsulta) {
+        this.idConsulta = idConsulta;
     }
 }

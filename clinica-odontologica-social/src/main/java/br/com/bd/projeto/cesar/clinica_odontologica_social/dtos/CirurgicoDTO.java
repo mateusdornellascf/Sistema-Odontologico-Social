@@ -1,6 +1,7 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.dtos;
 
 public class CirurgicoDTO {
+    private Long idConsulta;
     private String nomeProcedimento;
     private String descricao;
     private String dataCirurgia;
@@ -17,6 +18,13 @@ public class CirurgicoDTO {
         this.dataCirurgia = dataCirurgia;
         this.cpfCirurgiaoDentista = cpfCirurgiaoDentista;
         this.valor = valor;
+    }
+
+    public Long getIdConsulta() {
+        return idConsulta;
+    }
+    public void setIdConsulta(Long idConsulta) {
+        this.idConsulta = idConsulta;
     }
 
     public String getNomeProcedimento() {
