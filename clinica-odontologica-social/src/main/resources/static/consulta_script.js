@@ -138,3 +138,121 @@ function listarConsultasPaciente() {
             alert(typeof err === "string" ? err : "Erro ao listar.");
         });
 }
+
+// ===================== PROCEDIMENTOS =====================
+
+const API_PROCEDIMENTO = "http://localhost:8080/consultas/{idConsulta}/procedimentos";
+
+// Mostrar / esconder menu
+function toggleProcedimentos() {
+    const menu = document.getElementById("menuProcedimentos");
+    menu.style.display = menu.style.display === "none" ? "block" : "none";
+}
+
+// Criar procedimentos
+function criarProcedimentoCirurgico() {
+    fetch(`${API_PROCEDIMENTO}/cirurgico`, { method: "POST" })
+        .then((res) => textoResposta(res).then((msg) => ({ msg })))
+        .then(({ msg }) => alert(msg))
+        .catch((err) => console.error(err));
+}
+
+function criarProcedimentoEstetico() {
+    fetch(`${API_PROCEDIMENTO}/estetico`, { method: "POST" })
+        .then((res) => textoResposta(res).then((msg) => ({ msg })))
+        .then(({ msg }) => alert(msg))
+        .catch((err) => console.error(err));
+}
+
+function criarProcedimentoRotina() {
+    fetch(`${API_PROCEDIMENTO}/rotina`, { method: "POST" })
+        .then((res) => textoResposta(res).then((msg) => ({ msg })))
+        .then(({ msg }) => alert(msg))
+        .catch((err) => console.error(err));
+}
+
+// Listar procedimentos
+function listarProcedimentos() {
+    fetch(API_PROCEDIMENTO)
+        .then((res) => {
+            if (!res.ok) return textoResposta(res).then((t) => Promise.reject(t));
+            return res.json();
+        })
+        .then((dados) => {
+            console.log(dados);
+            alert("Procedimentos listados no console");
+        })
+        .catch((err) => console.error(err));
+}
+
+// Atualizar procedimento
+function atualizarProcedimento() {
+    const id = prompt("Informe o ID do procedimento:");
+    if (!id) {
+        alert("ID obrigatório");
+        return;
+    }
+
+    fetch(`${API_PROCEDIMENTO}/${encodeURIComponent(id)}`, {
+        method: "PUT"
+    })
+        .then((res) => textoResposta(res).then((msg) => ({ msg })))
+        .then(({ msg }) => alert(msg))
+        .catch((err) => console.error(err));
+}
+
+// Deletar procedimento
+function deletarProcedimento() {
+    const id = prompt("Informe o ID do procedimento:");
+    if (!id) {
+        alert("ID obrigatório");
+        return;
+    }
+
+    fetch(`${API_PROCEDIMENTO}/${encodeURIComponent(id)}`, {
+        method: "DELETE"
+    })
+        .then((res) => textoResposta(res).then((msg) => ({ msg })))
+        .then(({ msg }) => alert(msg))
+        .catch((err) => console.error(err));
+}
+
+// Buscar por consulta
+function buscarPorConsulta() {
+    const idConsulta = prompt("Informe o ID da consulta:");
+    if (!idConsulta) {
+        alert("ID obrigatório");
+        return;
+    }
+
+    fetch(`${API_PROCEDIMENTO}/consulta/${encodeURIComponent(idConsulta)}`)
+        .then((res) => {
+            if (!res.ok) return textoResposta(res).then((t) => Promise.reject(t));
+            return res.json();
+        })
+        .then((dados) => {
+            console.log(dados);
+            alert("Resultado no console");
+        })
+        .catch((err) => console.error(err));
+}
+
+// Buscar por ID
+function buscarPorId() {
+    const id = prompt("Informe o ID do procedimento:");
+    if (!id) {
+        alert("ID obrigatório");
+        return;
+    }
+
+    fetch(`${API_PROCEDIMENTO}/${encodeURIComponent(id)}`)
+        .then((res) => {
+            if (!res.ok) return textoResposta(res).then((t) => Promise.reject(t));
+            return res.json();
+        })
+        .then((dados) => {
+            console.log(dados);
+            alert("Resultado no console");
+        })
+        .catch((err) => console.error(err));
+}
