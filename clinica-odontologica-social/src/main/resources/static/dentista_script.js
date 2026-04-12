@@ -49,7 +49,7 @@ function cadastrarDentista() {
 }
 
 function listarDentistas() {
-  fetch(API)
+  fetch(`${API}/listar`)
     .then((res) => res.json())
     .then((dentistas) => {
       const lista = document.getElementById("listaDentistas");
