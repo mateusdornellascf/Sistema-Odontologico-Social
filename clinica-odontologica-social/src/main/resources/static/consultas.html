@@ -1,49 +1,64 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gerenciar Consultas</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>Gerenciar Consultas</h1>
+<div class="container">
+    <h1>🗓️ Gerenciar Consultas</h1>
+    <p class="subtitle">Sistema de gerenciamento</p>
 
-<h2>Marcar consulta</h2>
-CPF paciente: <input id="cpfPacienteCriar" placeholder="CPF do paciente"><br>
-CPF dentista: <input id="cpfDentistaCriar" placeholder="CPF do dentista"><br>
-Data: <input id="dataConsultaCriar" placeholder="AAAA-MM-DD"><br>
-Hora: <input id="horaConsultaCriar" placeholder="hora:minuto"><br>
-<button onclick="criarConsulta()">Marcar</button>
-<hr>
+    <div class="menu">
 
-<h2>Listar todas as consultas</h2>
-<button onclick="listarConsultas()">Listar</button>
-<ul id="listaConsultas"></ul>
-<hr>
+        <div class="card">
+            <h3>Marcar consulta</h3>
+            <input id="cpfPacienteCriar" placeholder="CPF do paciente"><br><br>
+            <input id="cpfDentistaCriar" placeholder="CPF do dentista"><br><br>
+            <input id="dataConsultaCriar" placeholder="AAAA-MM-DD"><br><br>
+            <input id="horaConsultaCriar" placeholder="hora:minuto"><br><br>
+            <button onclick="criarConsulta()">Marcar</button>
+        </div>
 
-<h2>Remarcar consulta</h2>
-ID da consulta: <input id="idRemarcar" type="number" min="1" placeholder="idConsulta"><br>
-Nova data: <input id="novaDataRemarcar" placeholder="AAAA-MM-DD"><br>
-Nova hora: <input id="novaHoraRemarcar" placeholder="hora:minuto"><br>
-<button onclick="remarcarConsulta()">Remarcar</button>
-<hr>
+        <div class="card">
+            <h3>Listar todas</h3>
+            <button onclick="listarConsultas()">Listar</button>
+            <ul id="listaConsultas"></ul>
+        </div>
 
-<h2>Deletar consulta</h2>
-ID da consulta: <input id="idDeletar" type="number" min="1" placeholder="idConsulta"><br>
-<button onclick="deletarConsulta()">Deletar</button>
-<hr>
+        <div class="card">
+            <h3>Remarcar consulta</h3>
+            <input id="idRemarcar" type="number" min="1" placeholder="ID"><br><br>
+            <input id="novaDataRemarcar" placeholder="AAAA-MM-DD"><br><br>
+            <input id="novaHoraRemarcar" placeholder="hora:minuto"><br><br>
+            <button onclick="remarcarConsulta()">Remarcar</button>
+        </div>
 
-<h2>Listar consultas por dentista</h2>
-CPF dentista: <input id="cpfDentistaListar" placeholder="CPF do dentista"><br>
-<button onclick="listarConsultasDentista()">Listar por dentista</button>
-<ul id="listaConsultasDentista"></ul>
-<hr>
+        <div class="card">
+            <h3>Deletar consulta</h3>
+            <input id="idDeletar" type="number" min="1" placeholder="ID"><br><br>
+            <button onclick="deletarConsulta()">Deletar</button>
+        </div>
 
-<h2>Listar consultas por paciente</h2>
-CPF paciente: <input id="cpfPacienteListar" placeholder="CPF do paciente"><br>
-<button onclick="listarConsultasPaciente()">Listar por paciente</button>
-<ul id="listaConsultasPaciente"></ul>
-<hr>
+        <div class="card">
+            <h3>Consultas por dentista</h3>
+            <input id="cpfDentistaListar" placeholder="CPF do dentista"><br><br>
+            <button onclick="listarConsultasDentista()">Listar</button>
+            <ul id="listaConsultasDentista"></ul>
+        </div>
+
+        <div class="card">
+            <h3>Consultas por paciente</h3>
+            <input id="cpfPacienteListar" placeholder="CPF do paciente"><br><br>
+            <button onclick="listarConsultasPaciente()">Listar</button>
+            <ul id="listaConsultasPaciente"></ul>
+        </div>
+
+    </div>
+</div>
 
 <script src="consulta_script.js?v=1"></script>
 </body>
