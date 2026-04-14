@@ -1,83 +1,81 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>CRUD Dentistas</title>
-  </head>
-  <body>
-    <h2>Cadastrar Dentista</h2>
-    CPF: <input id="cpf" placeholder="CPF" /><br />
-    Nome: <input id="nome" placeholder="Nome" /><br />
-    CEP: <input id="cep" placeholder="CEP" /><br />
-    Rua: <input id="rua" placeholder="Rua / logradouro" /><br />
-    Bairro: <input id="bairro" placeholder="Bairro" /><br />
-    Número: <input id="numero" placeholder="Número" /><br />
-    Data Nascimento:
-    <input id="dataNascimento" placeholder="YYYY-MM-DD" /><br />
-    CRO: <input id="cro" placeholder="CRO" /><br />
-    Especialidade:
-    <input id="especialidade" placeholder="Especialidade" /><br />
-    E-mail: <input id="email" placeholder="E-mail" /><br />
-    Coordenador:
-    <input
-      id="coordenador"
-      placeholder="CPF ou vazio"
-    /><br />
-    Telefone (Opcional):<br />
-    <textarea
-      id="telefonesCadastro"
-      rows="3"
-      cols="40"
-      placeholder="11999999999 , 99111111111"
-    ></textarea
-    ><br />
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CRUD Dentistas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <button onclick="cadastrarDentista()">Cadastrar</button>
-    <hr />
+<div class="container">
+  <h1>🦷 Dentistas</h1>
+  <p class="subtitle">Sistema de gerenciamento</p>
 
-    <h2>Lista de Dentistas</h2>
-    <button onclick="listarDentistas()">Listar dentistas</button>
-    <ul id="listaDentistas"></ul>
-    <hr />
+  <div class="menu">
 
-    <h2>Buscar por CPF</h2>
-    CPF: <input id="buscarporcpf" placeholder="Digite o CPF" /><br />
-    <button onclick="buscarDentistaPorCpf()">Buscar</button>
-    <pre id="resultadoBuscaDentista"></pre>
-    <hr />
+    <div class="card">
+      <h3>Cadastrar Dentista</h3>
 
-    <h2>Atualizar dentista</h2>
-    CPF (no banco):
-    <input id="cpfAtualizar" placeholder="CPF do dentista" /><br />
-    Nome: <input id="nomeAtualizar" placeholder="Nome" /><br />
-    CEP: <input id="cepAtualizar" placeholder="CEP" /><br />
-    Rua: <input id="ruaAtualizar" placeholder="Rua / logradouro" /><br />
-    Bairro: <input id="bairroAtualizar" placeholder="Bairro" /><br />
-    Número: <input id="numeroAtualizar" placeholder="Número" /><br />
-    Data Nascimento:
-    <input id="dataNascimentoAtualizar" placeholder="YYYY-MM-DD" /><br />
-    CRO: <input id="croAtualizar" placeholder="CRO" /><br />
-    Especialidade:
-    <input id="especialidadeAtualizar" placeholder="Especialidade" /><br />
-    E-mail: <input id="emailAtualizar" placeholder="E-mail" /><br />
-    Coordenador:
-    <input id="coordenadorAtualizar" placeholder="Coordenador" /><br />
-    Telefone (Opcional):<br />
-    <textarea
-      id="telefonesAtualizar"
-      rows="3"
-      cols="40"
-      placeholder="11999999999 , 99111111111"
-    ></textarea
-    ><br />
+      <input id="cpf" placeholder="CPF"><br><br>
+      <input id="nome" placeholder="Nome"><br><br>
+      <input id="cep" placeholder="CEP"><br><br>
+      <input id="rua" placeholder="Rua / logradouro"><br><br>
+      <input id="bairro" placeholder="Bairro"><br><br>
+      <input id="numero" placeholder="Número"><br><br>
+      <input id="dataNascimento" placeholder="YYYY-MM-DD"><br><br>
+      <input id="cro" placeholder="CRO"><br><br>
+      <input id="especialidade" placeholder="Especialidade"><br><br>
+      <input id="email" placeholder="E-mail"><br><br>
+      <input id="coordenador" placeholder="CPF ou vazio"><br><br>
 
-    <button onclick="atualizarDentista()">Atualizar</button>
-    <hr />
+      <textarea id="telefonesCadastro" rows="3" placeholder="Telefones (ex: 11999999999 , 99111111111)"></textarea><br>
 
-    <h2>Deletar dentista</h2>
-    CPF: <input id="cpfDeletar" placeholder="CPF do dentista" /><br />
-    <button onclick="deletarDentistaPorCpf()">Deletar</button>
+      <button onclick="cadastrarDentista()">Cadastrar</button>
+    </div>
 
-    <script src="dentista_script.js?v=4"></script>
-  </body>
+    <div class="card">
+      <h3>Lista de Dentistas</h3>
+      <button onclick="listarDentistas()">Listar dentistas</button>
+      <ul id="listaDentistas"></ul>
+    </div>
+
+    <div class="card">
+      <h3>Buscar por CPF</h3>
+      <input id="buscarporcpf" placeholder="Digite o CPF"><br><br>
+      <button onclick="buscarDentistaPorCpf()">Buscar</button>
+      <pre id="resultadoBuscaDentista"></pre>
+    </div>
+
+    <div class="card">
+      <h3>Atualizar dentista</h3>
+
+      <input id="cpfAtualizar" placeholder="CPF do dentista"><br><br>
+      <input id="nomeAtualizar" placeholder="Nome"><br><br>
+      <input id="cepAtualizar" placeholder="CEP"><br><br>
+      <input id="ruaAtualizar" placeholder="Rua / logradouro"><br><br>
+      <input id="bairroAtualizar" placeholder="Bairro"><br><br>
+      <input id="numeroAtualizar" placeholder="Número"><br><br>
+      <input id="dataNascimentoAtualizar" placeholder="YYYY-MM-DD"><br><br>
+      <input id="croAtualizar" placeholder="CRO"><br><br>
+      <input id="especialidadeAtualizar" placeholder="Especialidade"><br><br>
+      <input id="emailAtualizar" placeholder="E-mail"><br><br>
+      <input id="coordenadorAtualizar" placeholder="Coordenador"><br><br>
+
+      <textarea id="telefonesAtualizar" rows="3" placeholder="Telefones"></textarea><br>
+
+      <button onclick="atualizarDentista()">Atualizar</button>
+    </div>
+
+    <div class="card">
+      <h3>Deletar dentista</h3>
+      <input id="cpfDeletar" placeholder="CPF do dentista"><br><br>
+      <button onclick="deletarDentistaPorCpf()">Deletar</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="dentista_script.js?v=4"></script>
+</body>
 </html>
