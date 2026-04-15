@@ -1,83 +1,93 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>CRUD Pacientes</title>
-  </head>
-  <body>
-    <h2>Cadastrar Paciente</h2>
-    cpf: <input id="cpf" placeholder="CPF" /><br />
-    Nome: <input id="nome" placeholder="Nome" /><br />
-    CEP: <input id="cep" placeholder="CEP" /><br />
-    Rua: <input id="rua" placeholder="Rua / logradouro" /><br />
-    Bairro: <input id="bairro" placeholder="Bairro" /><br />
-    Número: <input id="numero" placeholder="Número" /><br />
-    Data Nascimento:
-    <input id="dataNascimento" placeholder="YYYY-MM-DD" /><br />
-    Número Plano Saúde:
-    <input id="numPlanoSaude" placeholder="Número Plano Saúde" /><br />
-    Telefone (Opcional):<br />
-    <textarea
-      id="telefonesCadastro"
-      rows="3"
-      cols="40"
-      placeholder="11999999999 , 99111111111"
-    ></textarea
-    ><br />
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CRUD Pacientes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <button onclick="cadastrarPaciente()">Cadastrar</button>
-    <hr />
+<div class="container">
+  <h1>🧑‍⚕️ Pacientes</h1>
+  <p class="subtitle">Sistema de gerenciamento</p>
 
-    <h2>Lista de Pacientes</h2>
-    <button onclick="listarPacientes()">Listar pacientes</button>
-    <ul id="listaPacientes"></ul>
-    <hr />
+  <div class="menu">
 
-    <h2>Buscar por CPF</h2>
-    CPF: <input id="buscarporcpf" placeholder="Digite o CPF" /><br />
-    <button onclick="buscarPacientePorCpf()">Buscar</button>
-    <pre id="resultadoBuscaPaciente"></pre>
-    <hr />
+    <div class="card">
+      <h3>Cadastrar Paciente</h3>
 
-    <h2>Formulario de saude</h2>
-    CPF paciente: <input id="cpfFormularioPaciente" placeholder="CPF do paciente" /><br />
-    Alergia: <input id="alergiaFormularioPaciente" placeholder="Alergia(s)" /><br />
-    Doencas: <input id="doencasFormularioPaciente" placeholder="Doenca(s)" /><br />
-    Medicamento: <input id="medicamentoFormularioPaciente" placeholder="Medicamento(s)" /><br />
-    <button onclick="preencherOuAtualizarFormularioSaude()">Preencher / Atualizar formulario</button>
-    <button onclick="carregarFormularioSaudePaciente()">Carregar formulario atual</button>
-    <button onclick="window.location.href='formularioSaude.html'">Gerenciar formularios</button>
-    <pre id="resultadoFormularioPaciente"></pre>
-    <hr />
+      <input id="cpf" placeholder="CPF"><br><br>
+      <input id="nome" placeholder="Nome"><br><br>
+      <input id="cep" placeholder="CEP"><br><br>
+      <input id="rua" placeholder="Rua / logradouro"><br><br>
+      <input id="bairro" placeholder="Bairro"><br><br>
+      <input id="numero" placeholder="Número"><br><br>
+      <input id="dataNascimento" placeholder="YYYY-MM-DD"><br><br>
+      <input id="numPlanoSaude" placeholder="Número Plano Saúde"><br><br>
 
-    <h2>Atualizar paciente</h2>
-    CPF (no banco):
-    <input id="cpfAtualizar" placeholder="CPF do paciente" /><br />
-    Nome: <input id="nomeAtualizar" placeholder="Nome" /><br />
-    CEP: <input id="cepAtualizar" placeholder="CEP" /><br />
-    Rua: <input id="ruaAtualizar" placeholder="Rua / logradouro" /><br />
-    Bairro: <input id="bairroAtualizar" placeholder="Bairro" /><br />
-    Número: <input id="numeroAtualizar" placeholder="Número" /><br />
-    Data Nascimento:
-    <input id="dataNascimentoAtualizar" placeholder="YYYY-MM-DD" /><br />
-    Número Plano Saúde:
-    <input id="numPlanoSaudeAtualizar" placeholder="Número Plano Saúde" /><br />
-    Telefone (Opcional):<br />
-    <textarea
-      id="telefonesAtualizar"
-      rows="3"
-      cols="40"
-      placeholder="11999999999 , 99111111111"
-    ></textarea
-    ><br />
+      <textarea id="telefonesCadastro" rows="3" placeholder="Telefones"></textarea><br>
 
-    <button onclick="atualizarPaciente()">Atualizar</button>
-    <hr />
+      <button onclick="cadastrarPaciente()">Cadastrar</button>
+    </div>
 
-    <h2>Deletar paciente</h2>
-    CPF: <input id="cpfDeletar" placeholder="CPF do paciente" /><br />
-    <button onclick="deletarPacientePorCpf()">Deletar</button>
+    <div class="card">
+      <h3>Lista de Pacientes</h3>
+      <button onclick="listarPacientes()">Listar pacientes</button>
+      <ul id="listaPacientes"></ul>
+    </div>
 
-    <script src="paciente_script.js?v=6"></script>
-  </body>
+    <div class="card">
+      <h3>Buscar por CPF</h3>
+
+      <input id="buscarporcpf" placeholder="Digite o CPF"><br><br>
+      <button onclick="buscarPacientePorCpf()">Buscar</button>
+
+      <pre id="resultadoBuscaPaciente"></pre>
+    </div>
+
+    <div class="card">
+      <h3>Formulário de Saúde</h3>
+
+      <input id="cpfFormularioPaciente" placeholder="CPF do paciente"><br><br>
+      <input id="alergiaFormularioPaciente" placeholder="Alergia(s)"><br><br>
+      <input id="doencasFormularioPaciente" placeholder="Doença(s)"><br><br>
+      <input id="medicamentoFormularioPaciente" placeholder="Medicamento(s)"><br><br>
+
+      <button onclick="preencherOuAtualizarFormularioSaude()">Preencher / Atualizar</button>
+      <button onclick="carregarFormularioSaudePaciente()">Carregar atual</button>
+      <button onclick="window.location.href='formularioSaude.html'">Gerenciar formulários</button>
+
+      <pre id="resultadoFormularioPaciente"></pre>
+    </div>
+
+    <div class="card">
+      <h3>Atualizar paciente</h3>
+
+      <input id="cpfAtualizar" placeholder="CPF do paciente"><br><br>
+      <input id="nomeAtualizar" placeholder="Nome"><br><br>
+      <input id="cepAtualizar" placeholder="CEP"><br><br>
+      <input id="ruaAtualizar" placeholder="Rua / logradouro"><br><br>
+      <input id="bairroAtualizar" placeholder="Bairro"><br><br>
+      <input id="numeroAtualizar" placeholder="Número"><br><br>
+      <input id="dataNascimentoAtualizar" placeholder="YYYY-MM-DD"><br><br>
+      <input id="numPlanoSaudeAtualizar" placeholder="Número Plano Saúde"><br><br>
+
+      <textarea id="telefonesAtualizar" rows="3" placeholder="Telefones"></textarea><br>
+
+      <button onclick="atualizarPaciente()">Atualizar</button>
+    </div>
+
+    <div class="card">
+      <h3>Deletar paciente</h3>
+
+      <input id="cpfDeletar" placeholder="CPF do paciente"><br><br>
+      <button onclick="deletarPacientePorCpf()">Deletar</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="paciente_script.js?v=6"></script>
+</body>
 </html>
