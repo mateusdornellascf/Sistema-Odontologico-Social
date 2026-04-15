@@ -1,30 +1,49 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Gerenciar Formulario de Saude</title>
-  </head>
-  <body>
-    <h1>Gerenciar Formulario de Saude</h1>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerenciar Formulario de Saude</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <h2>Preencher formulario:</h2>
-    CPF do paciente:
-    <input id="cpfFormulario" placeholder="Digite o CPF" /><br />
-    Alergia: <input id="alergiaFormulario" placeholder="Alergia(s)" /><br />
-    Doencas: <input id="doencasFormulario" placeholder="Doenca(s)" /><br />
-    Medicamento:
-    <input id="medicamentoFormulario" placeholder="Medicamento(s)" /><br />
-    <button onclick="salvarOuAtualizarFormulario()">Salvar / Atualizar</button>
+<div class="container">
+  <h1>🩺 Formulário de Saúde</h1>
+  <p class="subtitle">Sistema de gerenciamento</p>
 
-    <h2>Buscar formulario</h2>
-    CPF: <input id="cpfBuscarFormulario" placeholder="Digite o CPF" /><br />
-    <button onclick="buscarFormularioPorCpf()">Buscar</button>
-    <pre id="resultadoBuscaFormulario"></pre>
+  <div class="menu">
 
-    <h2>Listar formulario</h2>
-    <button onclick="listarFormularios()">Listar formularios</button>
-    <ul id="listaFormularios"></ul>
+    <div class="card">
+      <h3>Preencher formulário</h3>
 
-    <script src="formularioSaude.js?v=2"></script>
-  </body>
+      <input id="cpfFormulario" placeholder="CPF do paciente"><br><br>
+      <input id="alergiaFormulario" placeholder="Alergia(s)"><br><br>
+      <input id="doencasFormulario" placeholder="Doença(s)"><br><br>
+      <input id="medicamentoFormulario" placeholder="Medicamento(s)"><br><br>
+
+      <button onclick="salvarOuAtualizarFormulario()">Salvar / Atualizar</button>
+    </div>
+
+    <div class="card">
+      <h3>Buscar formulário</h3>
+
+      <input id="cpfBuscarFormulario" placeholder="Digite o CPF"><br><br>
+      <button onclick="buscarFormularioPorCpf()">Buscar</button>
+
+      <pre id="resultadoBuscaFormulario"></pre>
+    </div>
+
+    <div class="card">
+      <h3>Listar formulários</h3>
+
+      <button onclick="listarFormularios()">Listar formulários</button>
+      <ul id="listaFormularios"></ul>
+    </div>
+
+  </div>
+</div>
+
+<script src="formularioSaude.js?v=2"></script>
+</body>
 </html>
