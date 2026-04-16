@@ -1,73 +1,76 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>CRUD Pessoas</title>
-  </head>
-  <body>
-    <h2>Cadastrar Pessoa</h2>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CRUD Pessoas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    CPF: <input id="cpf" placeholder="CPF" /><br />
-    Nome: <input id="nome" placeholder="Nome" /><br />
-    CEP: <input id="cep" placeholder="CEP" /><br />
-    Rua: <input id="rua" placeholder="Rua / logradouro" /><br />
-    Bairro: <input id="bairro" placeholder="Bairro" /><br />
-    Número: <input id="numero" placeholder="Número" /><br />
-    Data Nascimento: <input id="data" placeholder="YYYY-MM-DD" /><br />
+<div class="container">
+  <h1>👥 Pessoas</h1>
+  <p class="subtitle">Sistema de gerenciamento</p>
 
-    Telefone (Opcional):<br />
-    <textarea
-      id="telefonesCadastro"
-      rows="3"
-      cols="40"
-      placeholder="11999999999 , 99111111111 (ex.: (81) 99999-0000)"
-    ></textarea
-    ><br />
+  <div class="menu">
 
-    <button onclick="cadastrar()">Cadastrar</button>
+    <div class="card">
+      <h3>Cadastrar Pessoa</h3>
 
-    <hr />
+      <input id="cpf" placeholder="CPF"><br><br>
+      <input id="nome" placeholder="Nome"><br><br>
+      <input id="cep" placeholder="CEP"><br><br>
+      <input id="rua" placeholder="Rua / logradouro"><br><br>
+      <input id="bairro" placeholder="Bairro"><br><br>
+      <input id="numero" placeholder="Número"><br><br>
+      <input id="data" placeholder="AAAA-MM-DD"><br><br>
 
-    <h2>Listar pessoas</h2>
-    <button onclick="listar()">Listar pessoas</button>
-    <ul id="lista"></ul>
+      <textarea id="telefonesCadastro" rows="3" placeholder="Telefones"></textarea><br>
 
-    <hr />
+      <button onclick="cadastrar()">Cadastrar</button>
+    </div>
 
-    <h2>Buscar por CPF</h2>
-    <input id="buscarporcpf" placeholder="Digite o CPF" />
-    <button onclick="buscarPorCpf()">Buscar</button>
-    <pre id="resultadoBusca"></pre>
+    <div class="card">
+      <h3>Listar pessoas</h3>
+      <button onclick="listar()">Listar pessoas</button>
+      <ul id="lista"></ul>
+    </div>
 
-    <hr />
+    <div class="card">
+      <h3>Buscar por CPF</h3>
 
-    <h2>Atualizar pessoa</h2>
+      <input id="buscarporcpf" placeholder="Digite o CPF"><br><br>
+      <button onclick="buscarPorCpf()">Buscar</button>
 
-    CPF: <input id="cpfAtualizar" /><br />
-    Nome: <input id="nomeAtualizar" /><br />
-    CEP: <input id="cepAtualizar" /><br />
-    Rua: <input id="ruaAtualizar" placeholder="Rua / logradouro" /><br />
-    Bairro: <input id="bairroAtualizar" /><br />
-    Número: <input id="numeroAtualizar" /><br />
-    Data: <input id="dataAtualizar" /><br />
+      <pre id="resultadoBusca"></pre>
+    </div>
 
-    Telefone (Opcional):<br />
-    <textarea
-      id="telefonesAtualizar"
-      rows="3"
-      cols="40"
-      placeholder="11999999999 , 99111111111"
-    ></textarea
-    ><br />
+    <div class="card">
+      <h3>Atualizar pessoa</h3>
 
-    <button onclick="atualizarPessoa()">Atualizar</button>
+      <input id="cpfAtualizar" placeholder="CPF"><br><br>
+      <input id="nomeAtualizar" placeholder="Nome"><br><br>
+      <input id="cepAtualizar" placeholder="CEP"><br><br>
+      <input id="ruaAtualizar" placeholder="Rua / logradouro"><br><br>
+      <input id="bairroAtualizar" placeholder="Bairro"><br><br>
+      <input id="numeroAtualizar" placeholder="Número"><br><br>
+      <input id="dataAtualizar" placeholder="YYYY-MM-DD"><br><br>
 
-    <hr />
+      <textarea id="telefonesAtualizar" rows="3" placeholder="Telefones"></textarea><br>
 
-    <h2>Deletar pessoa</h2>
-    CPF: <input id="cpfDeletar" />
-    <button onclick="deletarPorCpf()">Deletar</button>
+      <button onclick="atualizarPessoa()">Atualizar</button>
+    </div>
 
-    <script src="pessoa_script.js"></script>
-  </body>
+    <div class="card">
+      <h3>Deletar pessoa</h3>
+
+      <input id="cpfDeletar" placeholder="CPF"><br><br>
+      <button onclick="deletarPorCpf()">Deletar</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="pessoa_script.js"></script>
+</body>
 </html>
