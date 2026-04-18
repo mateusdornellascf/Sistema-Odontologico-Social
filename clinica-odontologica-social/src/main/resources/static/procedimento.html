@@ -1,76 +1,86 @@
 <!doctype html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Gerenciar Procedimentos</title>
-  </head>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gerenciar Procedimentos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  <body>
-    <h1>Gerenciar Procedimentos</h1>
+<div class="container">
+  <h1>🦷 Procedimentos</h1>
+  <p class="subtitle">Sistema de gerenciamento</p>
 
-    <button onclick="toggleProcedimentos()">Solicitar procedimento</button>
+  <div class="menu">
 
-    <div id="menuProcedimentos" style="display: none; margin-top: 20px">
-      <h2>Criar Procedimento</h2>
-      <button onclick="selecionarTipo('Cirurgico')">Cirurgico</button>
-      <button onclick="selecionarTipo('Estetico')">Estetico</button>
-      <button onclick="selecionarTipo('Rotina')">Rotina</button>
+    <div class="card">
+      <h3>Solicitar procedimento</h3>
+      <button onclick="toggleProcedimentos()">Abrir menu</button>
+
+      <div id="menuProcedimentos" style="display:none; margin-top:15px;">
+        <button onclick="selecionarTipo('Cirurgico')">Cirúrgico</button>
+        <button onclick="selecionarTipo('Estetico')">Estético</button>
+        <button onclick="selecionarTipo('Rotina')">Rotina</button>
+      </div>
+
+      <div id="formDinamico" style="display:none; margin-top:15px;">
+        <h3 id="tituloDinamico"></h3>
+
+        <input id="idConsulta" type="number" placeholder="ID da consulta"><br><br>
+        <input id="cpfFormulario" placeholder="CPF do paciente"><br><br>
+        <input id="alergiaFormulario" placeholder="Alergia(s)"><br><br>
+        <input id="doencasFormulario" placeholder="Doença(s)"><br><br>
+        <input id="medicamentoFormulario" placeholder="Medicamento(s)"><br><br>
+
+        <button onclick="salvarOuAtualizarFormulario()">Salvar / Atualizar</button>
+      </div>
     </div>
 
-    <hr />
-
-    <div id="formDinamico" style="display: none">
-      <h2 id="tituloDinamico"></h2>
-
-      ID da Consulta:
-      <input id="idConsulta" type="number" placeholder="ID da consulta" /><br />
-
-      CPF do paciente:
-      <input id="cpfFormulario" placeholder="Digite o CPF" /><br />
-
-      Alergia:
-      <input id="alergiaFormulario" placeholder="Alergia(s)" /><br />
-
-      Doenças:
-      <input id="doencasFormulario" placeholder="Doenca(s)" /><br />
-
-      Medicamento:
-      <input id="medicamentoFormulario" placeholder="Medicamento(s)" /><br />
-
-      <button onclick="salvarOuAtualizarFormulario()">
-        Salvar / Atualizar
-      </button>
+    <div class="card">
+      <h3>Lista de Procedimentos</h3>
+      <button onclick="listarProcedimentos()">Listar procedimentos</button>
+      <ul id="listaProcedimentos"></ul>
     </div>
 
-    <hr />
+    <div class="card">
+      <h3>Atualizar Procedimento</h3>
+      <button onclick="atualizarProcedimento()">Atualizar por ID</button>
+    </div>
 
-    <h2>Lista de Procedimentos</h2>
-    <button onclick="listarProcedimentos()">Listar procedimentos</button>
-    <ul id="listaProcedimentos"></ul>
+    <div class="card">
+      <h3>Deletar Procedimento</h3>
+      <button onclick="deletarProcedimento()">Deletar por ID</button>
+    </div>
 
-    <h2>Atualizar Procedimento</h2>
-    <button onclick="atualizarProcedimento()">Atualizar por ID</button>
+    <div class="card">
+      <h3>Buscar por Consulta</h3>
+      <button onclick="buscarPorConsulta()">Buscar</button>
+    </div>
 
-    <h2>Deletar Procedimento</h2>
-    <button onclick="deletarProcedimento()">Deletar por ID</button>
+    <div class="card">
+      <h3>Buscar por ID</h3>
+      <button onclick="buscarPorId()">Buscar</button>
+    </div>
 
-    <h2>Buscar por Consulta</h2>
-    <button onclick="buscarPorConsulta()">Buscar</button>
+    <div class="card">
+      <h3>Buscar formulário</h3>
 
-    <h2>Buscar por ID</h2>
-    <button onclick="buscarPorId()">Buscar</button>
+      <input id="cpfBuscarFormulario" placeholder="CPF"><br><br>
+      <button onclick="buscarFormularioPorCpf()">Buscar</button>
 
-    <hr />
+      <pre id="resultadoBuscaFormulario"></pre>
+    </div>
 
-    <h2>Buscar procedimento (formulário)</h2>
-    CPF: <input id="cpfBuscarFormulario" />
-    <button onclick="buscarFormularioPorCpf()">Buscar</button>
-    <pre id="resultadoBuscaFormulario"></pre>
+    <div class="card">
+      <h3>Listar formulários</h3>
+      <button onclick="listarFormularios()">Listar</button>
+      <ul id="listaFormularios"></ul>
+    </div>
 
-    <h2>Listar formulários</h2>
-    <button onclick="listarFormularios()">Listar</button>
-    <ul id="listaFormularios"></ul>
+  </div>
+</div>
 
-    <script src="procedimento.js"></script>
-  </body>
+<script src="procedimento.js"></script>
+</body>
 </html>
