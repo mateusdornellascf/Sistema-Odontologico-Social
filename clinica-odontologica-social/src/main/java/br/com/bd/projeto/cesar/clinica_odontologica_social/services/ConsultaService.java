@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.HistoricoConsultaPacienteDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Consulta;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.repository.ConsultaRepository;
 
@@ -74,5 +75,9 @@ public class ConsultaService {
     public List<Consulta> listarConsultasPaciente(String cpfPaciente) {
         validarPaciente(cpfPaciente); // garante que o paciente existe
         return repository.listarConsultasPaciente(cpfPaciente);
+    }
+
+    public List<HistoricoConsultaPacienteDTO> buscarHistoricoPorPaciente(String cpfPaciente) {
+        return repository.buscarHistoricoPorPaciente(cpfPaciente);
     }
 }
