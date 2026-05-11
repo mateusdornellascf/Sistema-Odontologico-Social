@@ -121,4 +121,40 @@ public class PacienteRepository {
                 doencas);
     }
 
+    public List<Paciente> buscarPacientesSemConsulta() {
+        String sql = """
+                SELECT
+                    pe.cpf,
+                    pe.nome,
+                    pe.rua,
+                    pe.bairro,
+                    pe.cep,
+                    pe.numero,
+                    pe.data_nascimento,
+                    pa.numPlanoSaude
+                FROM pessoa pe
+                JOIN paciente pa
+                    ON pe.cpf = pa.cpf
+                LEFT JOIN consulta c
+                    ON pa.cpf = c.cpfPaciente
+                WHERE c.idConsulta IS NULL
+                ORDER BY pe.nome ASC
+                """;
+        return jdbcTemplate.query(sql, (r, i) -> mapPaciente(r));
+    }
+
+    private Paciente mapPaciente(java.sql.ResultSet r) throws java.sql.SQLException {
+        Paciente p = new Paciente();
+        p.setCpf(r.getString("cpf"));
+        p.setNome(r.getString("nome"));
+        p.setRua(r.getString("rua"));
+        p.setCep(r.getString("cep"));
+        p.setBairro(r.getString("bairro"));
+        p.setNumero(r.getString("numero"));
+        p.setDataNascimento(r.getDate("data_nascimento"));
+        p.setNumPlanoSaude(r.getString("numPlanoSaude"));
+        p.setTelefones(buscarTelefones(p.getCpf()));
+        return p;
+    }
+
 }
