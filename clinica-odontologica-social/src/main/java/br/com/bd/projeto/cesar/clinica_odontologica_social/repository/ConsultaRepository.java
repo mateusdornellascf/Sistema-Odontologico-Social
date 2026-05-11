@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.HistoricoConsultaPacienteDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Consulta;
 
 @Repository
@@ -163,5 +164,50 @@ public class ConsultaRepository {
         String sql = "SELECT COUNT(*) FROM consulta WHERE idConsulta = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, idConsulta);
         return count != null && count > 0;
+    }
+
+    public List<HistoricoConsultaPacienteDTO> buscarHistoricoPorPaciente(String cpfPaciente) {
+        String sql = """
+                SELECT
+                    c.idConsulta,
+                    c.cpfPaciente,
+                    p_pac.nome AS nomePaciente,
+                    c.cpfDentista,
+                    p_den.nome AS nomeDentista,
+                    d.especialidade AS especialidadeDentista,
+                    c.dataConsulta,
+                    c.horaConsulta
+                FROM consulta c
+                JOIN pessoa p_pac
+                    ON c.cpfPaciente = p_pac.cpf
+                JOIN pessoa p_den
+                    ON c.cpfDentista = p_den.cpf
+                JOIN dentista d
+                    ON c.cpfDentista = d.cpf
+                WHERE c.cpfPaciente = ?
+                ORDER BY c.dataConsulta DESC, c.horaConsulta DESC
+                """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            HistoricoConsultaPacienteDTO dto = new HistoricoConsultaPacienteDTO();
+            dto.setIdConsulta(rs.getInt("idConsulta"));
+            dto.setCpfPaciente(rs.getString("cpfPaciente"));
+            dto.setNomePaciente(rs.getString("nomePaciente"));
+            dto.setCpfDentista(rs.getString("cpfDentista"));
+            dto.setNomeDentista(rs.getString("nomeDentista"));
+            dto.setEspecialidadeDentista(rs.getString("especialidadeDentista"));
+            dto.setDataConsulta(rs.getDate("dataConsulta").toLocalDate());
+            dto.setHoraConsulta(rs.getTime("horaConsulta").toLocalTime());
+            return dto;
+        }, cpfPaciente);
+    }
+
+    private Consulta mapConsulta(java.sql.ResultSet r) throws java.sql.SQLException {
+        Consulta c = new Consulta();
+        c.setIdConsulta(r.getInt("idConsulta"));
+        c.setIdPaciente(r.getString("cpfPaciente"));
+        c.setIdDentista(r.getString("cpfDentista"));
+        c.setData(r.getDate("dataConsulta").toLocalDate());
+        c.setHora(r.getTime("horaConsulta").toLocalTime());
+        return c;
     }
 }
