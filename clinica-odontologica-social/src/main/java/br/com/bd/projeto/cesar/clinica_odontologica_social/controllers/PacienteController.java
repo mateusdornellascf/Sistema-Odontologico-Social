@@ -75,4 +75,12 @@ public class PacienteController {
 
         return ResponseEntity.ok("Formulário salvo/atualizado com sucesso!");
     }
+    @GetMapping("/sem-consulta")
+    public ResponseEntity<?> getPacientesSemConsulta() {
+        List<Paciente> resultado = service.buscarPacientesSemConsulta();
+        if (resultado.isEmpty()) {
+            return ResponseEntity.ok("Todos os pacientes cadastrados já possuem ao menos uma consulta.");
+        }
+        return ResponseEntity.ok(resultado);
+    }
 }
