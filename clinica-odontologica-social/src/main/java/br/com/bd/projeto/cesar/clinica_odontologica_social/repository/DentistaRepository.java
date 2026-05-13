@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.DentistaAtivoPorConsultasDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Dentista;
 
 @Repository
@@ -137,5 +138,54 @@ public class DentistaRepository {
         (rs, rowNum) -> rs.getString("telefone"),
         cpf
     );
-}
+    }
+
+    public List<DentistaAtivoPorConsultasDTO> buscarDentistasMaisAtivos(int minConsultas) {
+        String sql = """
+                SELECT
+                    p.cpf,
+                    p.nome,
+                    d.especialidade,
+                    d.cro,
+                    COUNT(c.idConsulta) AS totalConsultas
+                FROM pessoa p
+                JOIN dentista d
+                    ON p.cpf = d.cpf
+                JOIN consulta c
+                    ON d.cpf = c.cpfDentista
+                GROUP BY
+                    p.cpf, p.nome, d.especialidade, d.cro
+                HAVING
+                    COUNT(c.idConsulta) >= ?
+                ORDER BY
+                    totalConsultas DESC
+                """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            DentistaAtivoPorConsultasDTO dto = new DentistaAtivoPorConsultasDTO();
+            dto.setCpf(rs.getString("cpf"));
+            dto.setNome(rs.getString("nome"));
+            dto.setEspecialidade(rs.getString("especialidade"));
+            dto.setCro(rs.getString("cro"));
+            dto.setTotalConsultas(rs.getInt("totalConsultas"));
+            return dto;
+        }, minConsultas);
+    }
+
+    public List<Dentista> buscarDentistasSemConsultaFutura() {
+        String sql = "SELECT * FROM vw_dentistas_sem_consulta_futura ORDER BY nome ASC";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Dentista d = new Dentista();
+            d.setCpf(rs.getString("cpf"));
+            d.setNome(rs.getString("nome"));
+            d.setEspecialidade(rs.getString("especialidade"));
+            d.setCro(rs.getString("cro"));
+            d.setEmail(rs.getString("email"));
+            d.setCoordenador(rs.getString("coordenador"));
+            Date dataSql = rs.getDate("data_nascimento");
+            if (dataSql != null) d.setDataNascimento(new Date(dataSql.getTime()));
+            return d;
+        });
+    }
+
+
 }
