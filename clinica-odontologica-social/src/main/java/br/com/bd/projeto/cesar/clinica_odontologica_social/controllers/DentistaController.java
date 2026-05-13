@@ -2,8 +2,10 @@ package br.com.bd.projeto.cesar.clinica_odontologica_social.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.DentistaAtivoPorConsultasDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Dentista;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.services.DentistaService;
 
@@ -56,5 +58,25 @@ public class DentistaController {
     public String deletarDentista(@PathVariable String cpf) {
         service.deletar(cpf);
         return "Dentista deletado";
+    }
+
+    @GetMapping("/mais-ativos")
+    public ResponseEntity<?> getDentistasMaisAtivos(
+            @RequestParam(defaultValue = "1") int minConsultas) {
+        List<DentistaAtivoPorConsultasDTO> resultado = service.buscarDentistasMaisAtivos(minConsultas);
+        if (resultado.isEmpty()) {
+            return ResponseEntity.ok("Nenhum dentista com " + minConsultas + " ou mais consultas.");
+        }
+        return ResponseEntity.ok(resultado);
+    }
+
+    
+    @GetMapping("/sem-consulta-futura")
+    public ResponseEntity<?> getDentistasSemConsultaFutura() {
+        List<Dentista> resultado = service.buscarDentistasSemConsultaFutura();
+        if (resultado.isEmpty()) {
+            return ResponseEntity.ok("Todos os dentistas possuem consultas futuras agendadas.");
+        }
+        return ResponseEntity.ok(resultado);
     }
 }

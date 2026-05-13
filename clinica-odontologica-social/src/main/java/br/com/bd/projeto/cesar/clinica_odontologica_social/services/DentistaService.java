@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.DentistaAtivoPorConsultasDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Dentista;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.repository.DentistaRepository;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.repository.PessoaRepository;
@@ -59,5 +60,13 @@ public class DentistaService {
 
         dentistaRepository.deletar(cpf);
         pessoaRepository.deletar(cpf);
+    }
+
+    public List<DentistaAtivoPorConsultasDTO> buscarDentistasMaisAtivos(int minConsultas) {
+        return dentistaRepository.buscarDentistasMaisAtivos(minConsultas);
+    }
+
+    public List<Dentista> buscarDentistasSemConsultaFutura() {
+        return dentistaRepository.buscarDentistasSemConsultaFutura();
     }
 }
