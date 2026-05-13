@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.PacienteAlertaSaudeDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.FormularioSaude;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.repository.FormularioSaudeRepository;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.repository.PacienteRepository;
@@ -38,6 +39,9 @@ public class FormularioSaudeService {
 
     public List<FormularioSaude> buscarPorCpf(String cpf) {
         return formularioSaudeRepository.buscarPorCpf(cpf);
+    }
+    public List<PacienteAlertaSaudeDTO> buscarPacientesComAlertaSaude() {
+        return formularioSaudeRepository.buscarPacientesComAlertaSaude();
     }
 
 }
