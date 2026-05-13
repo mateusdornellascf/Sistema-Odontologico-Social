@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.PacienteAlertaSaudeDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.FormularioSaude;
 
 @Repository
@@ -61,6 +62,29 @@ public class FormularioSaudeRepository {
         String sql = "SELECT COUNT(*) FROM formulariosaude WHERE cpfPaciente = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
         return count != null && count > 0;
+    }
+
+    public List<PacienteAlertaSaudeDTO> buscarPacientesComAlertaSaude() {
+        String sql = "SELECT * FROM vw_pacientes_com_alerta_saude ORDER BY nome ASC";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            PacienteAlertaSaudeDTO dto = new PacienteAlertaSaudeDTO();
+            dto.setCpf(rs.getString("cpf"));
+            dto.setNome(rs.getString("nome"));
+            dto.setAlergia(rs.getString("alergia"));
+            dto.setDoencas(rs.getString("doencas"));
+            dto.setMedicamento(rs.getString("medicamento"));
+            return dto;
+        });
+    }
+
+    private FormularioSaude mapFormulario(java.sql.ResultSet rs) throws java.sql.SQLException {
+        FormularioSaude f = new FormularioSaude();
+        f.setIdFormulario(rs.getInt("idFormulario"));
+        f.setCpfPaciente(rs.getString("cpfPaciente"));
+        f.setAlergias(rs.getString("alergia"));
+        f.setDoencas(rs.getString("doencas"));
+        f.setMedicamentos(rs.getString("medicamento"));
+        return f;
     }
 
 }
