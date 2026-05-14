@@ -1,84 +1,96 @@
 -- ============================================================
--- CONSULTAS SQL — Sistema Odontológico Social
+-- CONSULTAS SQL - Sistema Odontologico Social
 -- ============================================================
-use db_clinica_odontologica;
+USE db_clinica_odontologica;
+
+-- Valores de exemplo usados nas consultas abaixo.
+-- Altere estes valores antes de executar o script, se necessario.
+SET @cpfPaciente = '12345678901';
+SET @cpfDentista = '55566677788';
+SET @cpfPessoa = '12345678901';
+SET @idConsulta = 1;
+SET @idProcedimento = 1;
+SET @dataConsulta = '2026-04-01';
+SET @horaConsulta = '09:00:00';
+SET @minimoConsultas = 1;
+
 
 -- ============================================================
 -- ConsultaRepository
 -- ============================================================
 
--- Verifica se já existe consulta para o dentista no horário informado
--- Método: existeConsultaNoHorario()
-SELECT COUNT(*)
+-- Verifica se ja existe consulta para o dentista no horario informado
+-- Metodo: existeConsultaNoHorario()
+SELECT COUNT(*) AS total
 FROM consulta
-WHERE cpfDentista  = ?
-  AND dataConsulta = ?
-  AND horaConsulta = ?;
+WHERE cpfDentista = @cpfDentista
+  AND dataConsulta = @dataConsulta
+  AND horaConsulta = @horaConsulta;
 
--- Verifica se uma consulta existe pelo ID (int) — usada antes de remarcar
--- Método: verificarConsultaExiste()
-SELECT COUNT(*)
+-- Verifica se uma consulta existe pelo ID, usada antes de remarcar
+-- Metodo: verificarConsultaExiste()
+SELECT COUNT(*) AS total
 FROM consulta
-WHERE idConsulta = ?;
+WHERE idConsulta = @idConsulta;
 
 -- Verifica se um paciente existe antes de agendar uma consulta
--- Método: existePaciente()
-SELECT COUNT(*)
+-- Metodo: existePaciente()
+SELECT COUNT(*) AS total
 FROM paciente
-WHERE cpf = ?;
+WHERE cpf = @cpfPaciente;
 
 -- Verifica se um dentista existe antes de agendar uma consulta
--- Método: existeDentista()
-SELECT COUNT(*)
+-- Metodo: existeDentista()
+SELECT COUNT(*) AS total
 FROM dentista
-WHERE cpf = ?;
+WHERE cpf = @cpfDentista;
 
 -- Lista todas as consultas cadastradas
--- Método: listar()
+-- Metodo: listar()
 SELECT *
 FROM consulta;
 
 -- Lista consultas de um paciente
--- Método: listarPorPaciente()
+-- Metodo: listarPorPaciente()
 SELECT *
 FROM consulta
-WHERE cpfPaciente = ?;
+WHERE cpfPaciente = @cpfPaciente;
 
 -- Lista consultas de um dentista
--- Método: listarPorDentista()
+-- Metodo: listarPorDentista()
 SELECT *
 FROM consulta
-WHERE cpfDentista = ?;
+WHERE cpfDentista = @cpfDentista;
 
 -- Busca uma consulta pelo ID
--- Método: buscarPorId()
+-- Metodo: buscarPorId()
 SELECT *
 FROM consulta
-WHERE idConsulta = ?;
+WHERE idConsulta = @idConsulta;
 
--- Verifica se existem procedimentos vinculados a uma consulta (impede deleção)
--- Método: existeProcedimentos()
-SELECT COUNT(*)
+-- Verifica se existem procedimentos vinculados a uma consulta
+-- Metodo: existeProcedimentos()
+SELECT COUNT(*) AS total
 FROM procedimento
-WHERE idConsulta = ?;
+WHERE idConsulta = @idConsulta;
 
--- Lista todas as consultas de um dentista específico (endpoint do controller)
--- Método: listarConsultasDentista()
+-- Lista todas as consultas de um dentista especifico
+-- Metodo: listarConsultasDentista()
 SELECT *
 FROM consulta
-WHERE cpfDentista = ?;
+WHERE cpfDentista = @cpfDentista;
 
--- Lista todas as consultas de um paciente específico (endpoint do controller)
--- Método: listarConsultasPaciente()
+-- Lista todas as consultas de um paciente especifico
+-- Metodo: listarConsultasPaciente()
 SELECT *
 FROM consulta
-WHERE cpfPaciente = ?;
+WHERE cpfPaciente = @cpfPaciente;
 
--- Verifica se uma consulta existe pelo ID (Long) — usada antes de criar procedimento
--- Método: existeConsulta()
-SELECT COUNT(*)
+-- Verifica se uma consulta existe pelo ID, usada antes de criar procedimento
+-- Metodo: existeConsulta()
+SELECT COUNT(*) AS total
 FROM consulta
-WHERE idConsulta = ?;
+WHERE idConsulta = @idConsulta;
 
 
 -- ============================================================
@@ -86,57 +98,57 @@ WHERE idConsulta = ?;
 -- ============================================================
 
 -- Lista todos os dentistas com dados completos
--- Método: listar()
+-- Metodo: listar()
 SELECT p.*, d.cro, d.especialidade, d.email, d.coordenador
 FROM pessoa p
 JOIN dentista d ON p.cpf = d.cpf;
 
 -- Busca um dentista pelo CPF com dados completos
--- Método: buscarPorCpf()
+-- Metodo: buscarPorCpf()
 SELECT p.*, d.cro, d.especialidade, d.email, d.coordenador
 FROM pessoa p
 JOIN dentista d ON p.cpf = d.cpf
-WHERE p.cpf = ?;
+WHERE p.cpf = @cpfDentista;
 
--- Verifica se o dentista possui consultas vinculadas (impede deleção)
--- Método: temConsulta()
-SELECT COUNT(*)
+-- Verifica se o dentista possui consultas vinculadas
+-- Metodo: temConsulta()
+SELECT COUNT(*) AS total
 FROM consulta
-WHERE cpfDentista = ?;
+WHERE cpfDentista = @cpfDentista;
 
 -- Verifica se um dentista existe pelo CPF
--- Método: existe()
-SELECT COUNT(*)
+-- Metodo: existe()
+SELECT COUNT(*) AS total
 FROM dentista
-WHERE cpf = ?;
+WHERE cpf = @cpfDentista;
 
 -- Busca os telefones de um dentista
--- Método: buscarTelefones()
+-- Metodo: buscarTelefones()
 SELECT telefone
 FROM telefone
-WHERE cpf = ?;
+WHERE cpf = @cpfDentista;
 
 
 -- ============================================================
 -- FormularioSaudeRepository
 -- ============================================================
 
--- Lista todos os formulários de saúde
--- Método: listar()
+-- Lista todos os formularios de saude
+-- Metodo: listar()
 SELECT *
 FROM formulariosaude;
 
--- Busca o formulário de saúde de um paciente pelo CPF
--- Método: buscarPorCpf()
+-- Busca o formulario de saude de um paciente pelo CPF
+-- Metodo: buscarPorCpf()
 SELECT *
 FROM formulariosaude
-WHERE cpfPaciente = ?;
+WHERE cpfPaciente = @cpfPaciente;
 
--- Verifica se já existe formulário de saúde para o paciente
--- Método: existe()
-SELECT COUNT(*)
+-- Verifica se ja existe formulario de saude para o paciente
+-- Metodo: existe()
+SELECT COUNT(*) AS total
 FROM formulariosaude
-WHERE cpfPaciente = ?;
+WHERE cpfPaciente = @cpfPaciente;
 
 
 -- ============================================================
@@ -144,35 +156,35 @@ WHERE cpfPaciente = ?;
 -- ============================================================
 
 -- Lista todos os pacientes com dados completos
--- Método: listar()
+-- Metodo: listar()
 SELECT p.*, pa.numPlanoSaude
 FROM pessoa p
 JOIN paciente pa ON p.cpf = pa.cpf;
 
 -- Busca um paciente pelo CPF com dados completos
--- Método: buscarPorCpf()
+-- Metodo: buscarPorCpf()
 SELECT p.*, pa.numPlanoSaude
 FROM pessoa p
 JOIN paciente pa ON p.cpf = pa.cpf
-WHERE p.cpf = ?;
+WHERE p.cpf = @cpfPaciente;
 
 -- Verifica se um paciente existe pelo CPF
--- Método: existe()
-SELECT COUNT(*)
+-- Metodo: existe()
+SELECT COUNT(*) AS total
 FROM paciente
-WHERE cpf = ?;
+WHERE cpf = @cpfPaciente;
 
 -- Busca os telefones de um paciente
--- Método: buscarTelefones()
+-- Metodo: buscarTelefones()
 SELECT telefone
 FROM telefone
-WHERE cpf = ?;
+WHERE cpf = @cpfPaciente;
 
--- Verifica se o paciente possui consultas vinculadas (impede deleção)
--- Método: temConsulta()
-SELECT COUNT(*)
+-- Verifica se o paciente possui consultas vinculadas
+-- Metodo: temConsulta()
+SELECT COUNT(*) AS total
 FROM consulta
-WHERE cpfPaciente = ?;
+WHERE cpfPaciente = @cpfPaciente;
 
 
 -- ============================================================
@@ -180,89 +192,85 @@ WHERE cpfPaciente = ?;
 -- ============================================================
 
 -- Lista todas as pessoas cadastradas
--- Método: listar()
+-- Metodo: listar()
 SELECT *
 FROM pessoa;
 
--- Busca telefones de uma pessoa — chamada interna dentro de listar()
--- Método: listar()
+-- Busca telefones de uma pessoa
+-- Metodo: listar()
 SELECT telefone
 FROM telefone
-WHERE cpf = ?;
+WHERE cpf = @cpfPessoa;
 
 -- Busca uma pessoa pelo CPF
--- Método: buscarPorCpf()
+-- Metodo: buscarPorCpf()
 SELECT *
 FROM pessoa
-WHERE cpf = ?;
+WHERE cpf = @cpfPessoa;
 
--- Busca telefones de uma pessoa — chamada interna dentro de buscarPorCpf()
--- Método: buscarPorCpf()
+-- Busca telefones de uma pessoa
+-- Metodo: buscarPorCpf()
 SELECT telefone
 FROM telefone
-WHERE cpf = ?;
+WHERE cpf = @cpfPessoa;
 
 -- Verifica se uma pessoa existe pelo CPF
--- Método: existe()
-SELECT COUNT(*)
+-- Metodo: existe()
+SELECT COUNT(*) AS total
 FROM pessoa
-WHERE cpf = ?;
+WHERE cpf = @cpfPessoa;
 
 
 -- ============================================================
 -- ProcedimentoRepository
 -- ============================================================
 
--- Recupera o ID do último procedimento inserido
--- Método: criarProcedimento()
-SELECT LAST_INSERT_ID();
+-- Recupera o ID do ultimo procedimento inserido
+-- Metodo: criarProcedimento()
+SELECT LAST_INSERT_ID() AS idProcedimento;
 
 -- Lista todos os procedimentos
--- Método: listar()
+-- Metodo: listar()
 SELECT *
 FROM procedimento;
 
 -- Busca todos os procedimentos de uma consulta
--- Método: buscarPorIdConsulta()
+-- Metodo: buscarPorIdConsulta()
 SELECT *
 FROM procedimento
-WHERE idConsulta = ?;
+WHERE idConsulta = @idConsulta;
 
 -- Busca um procedimento pelo ID
--- Método: buscarPorIdProcedimento()
+-- Metodo: buscarPorIdProcedimento()
 SELECT *
 FROM procedimento
-WHERE idProcedimento = ?;
+WHERE idProcedimento = @idProcedimento;
 
 
 -- ============================================================
--- RelatorioRepository — leitura das views
+-- RelatorioRepository - leitura das views
 -- ============================================================
 
--- Lê todos os registros da View 1 (vw_pacientes_com_alerta_saude)
--- Método: listarPacientesComAlertaSaude()
+-- Le todos os registros da View 1
+-- Metodo: listarPacientesComAlertaSaude()
 SELECT *
 FROM vw_pacientes_com_alerta_saude
 ORDER BY nome ASC;
 
--- Lê todos os registros da View 2 (vw_dentistas_sem_consulta_futura)
--- Método: listarDentistasSemConsultaFutura()
+-- Le todos os registros da View 2
+-- Metodo: listarDentistasSemConsultaFutura()
 SELECT *
 FROM vw_dentistas_sem_consulta_futura
 ORDER BY nome ASC;
 
 
 -- ============================================================
--- CONSULTAS ANALÍTICAS (requisito do trabalho)
+-- CONSULTAS ANALITICAS
 -- ============================================================
 
 -- ------------------------------------------------------------
--- CONSULTA 1 — JOIN + GROUP BY + HAVING
+-- CONSULTA 1 - JOIN + GROUP BY + HAVING
 -- Dentistas que realizaram ao menos N consultas.
--- Útil para identificar os profissionais mais ativos e avaliar
--- a distribuição de carga de trabalho na clínica.
--- Tabelas: pessoa, dentista, consulta
--- Usa índice: idx_consulta_cpfDentista
 -- ------------------------------------------------------------
 SELECT
     p.cpf,
@@ -280,26 +288,20 @@ GROUP BY
     p.nome,
     d.especialidade,
     d.cro
-HAVING
-    COUNT(c.idConsulta) >= ?   -- parâmetro: número mínimo de consultas (ex: 1)
-ORDER BY
-    totalConsultas DESC;
+HAVING COUNT(c.idConsulta) >= @minimoConsultas
+ORDER BY totalConsultas DESC;
 
 
 -- ------------------------------------------------------------
--- CONSULTA 2 — 2 JOINs + WHERE
--- Histórico completo de consultas de um paciente, incluindo
--- nome e especialidade do dentista atendente em cada consulta.
--- Nota: a tabela pessoa é unida duas vezes com aliases
--- distintos — uma para dados do paciente e outra para o dentista.
--- Tabelas: consulta, pessoa (p_pac), pessoa (p_den), dentista
+-- CONSULTA 2 - 2 JOINs + WHERE
+-- Historico completo de consultas de um paciente.
 -- ------------------------------------------------------------
 SELECT
     c.idConsulta,
     c.cpfPaciente,
-    p_pac.nome      AS nomePaciente,
+    p_pac.nome AS nomePaciente,
     c.cpfDentista,
-    p_den.nome      AS nomeDentista,
+    p_den.nome AS nomeDentista,
     d.especialidade AS especialidadeDentista,
     c.dataConsulta,
     c.horaConsulta
@@ -310,18 +312,15 @@ JOIN pessoa p_den
     ON c.cpfDentista = p_den.cpf
 JOIN dentista d
     ON c.cpfDentista = d.cpf
-WHERE
-    c.cpfPaciente = ?          -- parâmetro: CPF do paciente
+WHERE c.cpfPaciente = @cpfPaciente
 ORDER BY
     c.dataConsulta DESC,
     c.horaConsulta DESC;
 
 
 -- ------------------------------------------------------------
--- CONSULTA 3 — ANTI JOIN (LEFT JOIN + IS NULL)
+-- CONSULTA 3 - ANTI JOIN (LEFT JOIN + IS NULL)
 -- Pacientes cadastrados que nunca agendaram uma consulta.
--- Útil para ações de reengajamento: contato, lembretes, etc.
--- Tabelas: pessoa, paciente, consulta
 -- ------------------------------------------------------------
 SELECT
     pe.cpf,
@@ -335,18 +334,13 @@ JOIN paciente pa
     ON pe.cpf = pa.cpf
 LEFT JOIN consulta c
     ON pa.cpf = c.cpfPaciente
-WHERE
-    c.idConsulta IS NULL       -- mantém apenas quem não tem nenhuma consulta
-ORDER BY
-    pe.nome ASC;
+WHERE c.idConsulta IS NULL
+ORDER BY pe.nome ASC;
 
 
 -- ------------------------------------------------------------
--- CONSULTA 4 — SUBCONSULTA
--- Todos os procedimentos realizados nas consultas do dentista
--- com o maior número de atendimentos registrados no sistema.
--- Tabelas: procedimento, consulta, pessoa
--- Usa índice: idx_consulta_cpfDentista
+-- CONSULTA 4 - SUBCONSULTA
+-- Procedimentos das consultas do dentista com mais atendimentos.
 -- ------------------------------------------------------------
 SELECT
     pr.idProcedimento,
@@ -361,12 +355,12 @@ JOIN consulta c
 JOIN pessoa pe
     ON c.cpfDentista = pe.cpf
 WHERE c.cpfDentista = (
-    SELECT cpfDentista          -- subconsulta: encontra o dentista com mais consultas
+    SELECT cpfDentista
     FROM consulta
     GROUP BY cpfDentista
     ORDER BY COUNT(*) DESC
     LIMIT 1
 )
 ORDER BY
-    pr.idConsulta     ASC,
+    pr.idConsulta ASC,
     pr.idProcedimento ASC;
