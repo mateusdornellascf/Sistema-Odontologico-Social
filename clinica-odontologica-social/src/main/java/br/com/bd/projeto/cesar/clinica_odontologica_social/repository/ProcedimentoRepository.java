@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.ProcedimentoDentistaAtivoDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Procedimento;
 
 @Repository
@@ -139,6 +140,50 @@ public class ProcedimentoRepository {
             p.setDescricao(rs.getString("descricao"));
             return p;
         }, idProcedimento);
+    }
+
+    public List<ProcedimentoDentistaAtivoDTO> buscarProcedimentosDentistaMaisAtivo() {
+        String sql = """
+                SELECT
+                    pr.idProcedimento,
+                    pr.idConsulta,
+                    pr.nomeProcedimento,
+                    pr.descricao,
+                    c.cpfDentista,
+                    pe.nome AS nomeDentista
+                FROM procedimento pr
+                JOIN consulta c
+                    ON pr.idConsulta = c.idConsulta
+                JOIN pessoa pe
+                    ON c.cpfDentista = pe.cpf
+                WHERE c.cpfDentista = (
+                    SELECT cpfDentista
+                    FROM consulta
+                    GROUP BY cpfDentista
+                    ORDER BY COUNT(*) DESC
+                    LIMIT 1
+                )
+                ORDER BY pr.idConsulta ASC, pr.idProcedimento ASC
+                """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            ProcedimentoDentistaAtivoDTO dto = new ProcedimentoDentistaAtivoDTO();
+            dto.setIdProcedimento(rs.getLong("idProcedimento"));
+            dto.setIdConsulta(rs.getLong("idConsulta"));
+            dto.setNomeProcedimento(rs.getString("nomeProcedimento"));
+            dto.setDescricao(rs.getString("descricao"));
+            dto.setCpfDentista(rs.getString("cpfDentista"));
+            dto.setNomeDentista(rs.getString("nomeDentista"));
+            return dto;
+        });
+    }
+
+    private Procedimento mapProcedimento(java.sql.ResultSet rs) throws java.sql.SQLException {
+        Procedimento p = new Procedimento();
+        p.setIdProcedimento(rs.getLong("idProcedimento"));
+        p.setIdConsulta(rs.getLong("idConsulta"));
+        p.setNomeProcedimento(rs.getString("nomeProcedimento"));
+        p.setDescricao(rs.getString("descricao"));
+        return p;
     }
 
 }
