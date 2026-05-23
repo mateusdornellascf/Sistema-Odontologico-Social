@@ -53,15 +53,25 @@ public class FormularioSaudeRepository {
     }
 
     public void atualizar(String cpf, String alergia, String doencas, String medicamento) {
-    String sql = "UPDATE formulariosaude SET alergia = ?, doencas = ?, medicamento = ? WHERE cpfPaciente = ?";
+        String sql = "UPDATE formulariosaude SET alergia = ?, doencas = ?, medicamento = ? WHERE cpfPaciente = ?";
 
-    jdbcTemplate.update(sql, alergia, doencas, medicamento, cpf);
-}
+        jdbcTemplate.update(sql, alergia, doencas, medicamento, cpf);
+    }
 
     public boolean existe(String cpf) {
         String sql = "SELECT COUNT(*) FROM formulariosaude WHERE cpfPaciente = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, cpf);
         return count != null && count > 0;
+    }
+
+    public boolean deletarPorCpf(String cpf) {
+        String sql = "DELETE FROM formulariosaude WHERE cpfPaciente = ?";
+        return jdbcTemplate.update(sql, cpf) > 0;
+    }
+
+    public boolean deletarPorId(int idFormulario) {
+        String sql = "DELETE FROM formulariosaude WHERE idFormulario = ?";
+        return jdbcTemplate.update(sql, idFormulario) > 0;
     }
 
     public List<PacienteAlertaSaudeDTO> buscarPacientesComAlertaSaude() {
