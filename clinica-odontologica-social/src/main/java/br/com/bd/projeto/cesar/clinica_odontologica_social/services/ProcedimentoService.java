@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.CirurgicoDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.EsteticoDTO;
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.ProcedimentoDentistaAtivoDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.RotinaDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Procedimento;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.repository.ConsultaRepository;
@@ -108,5 +109,8 @@ public class ProcedimentoService {
 
     public boolean deletar(Long idProcedimento) {
         return procedimentoRepository.deletar(idProcedimento);
+    }
+    public List<ProcedimentoDentistaAtivoDTO> buscarProcedimentosDentistaMaisAtivo() {
+        return procedimentoRepository.buscarProcedimentosDentistaMaisAtivo();
     }
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.CirurgicoDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.EsteticoDTO;
+import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.ProcedimentoDentistaAtivoDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.RotinaDTO;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Procedimento;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.services.ProcedimentoService;
@@ -96,5 +98,13 @@ public class ProcedimentoController {
     public String deletar(@PathVariable Long idProcedimento) {
         boolean deletado = service.deletar(idProcedimento);
         return deletado ? "OK" : "ERRO";
+    }
+    @GetMapping("/dentista-mais-ativo")
+    public ResponseEntity<?> getProcedimentosDentistaMaisAtivo() {
+        List<ProcedimentoDentistaAtivoDTO> resultado = service.buscarProcedimentosDentistaMaisAtivo();
+        if (resultado.isEmpty()) {
+            return ResponseEntity.ok("Nenhum procedimento encontrado para o dentista mais ativo.");
+        }
+        return ResponseEntity.ok(resultado);
     }
 }
