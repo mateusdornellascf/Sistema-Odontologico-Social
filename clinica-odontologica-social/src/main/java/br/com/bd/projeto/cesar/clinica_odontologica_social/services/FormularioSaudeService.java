@@ -44,4 +44,12 @@ public class FormularioSaudeService {
         return formularioSaudeRepository.buscarPacientesComAlertaSaude();
     }
 
+    public boolean deletarPorCpf(String cpf) {
+    return formularioSaudeRepository.deletarPorCpf(cpf);
+}
+
+public boolean deletarPorId(int idFormulario) {
+    return formularioSaudeRepository.deletarPorId(idFormulario);
+}
+
 }

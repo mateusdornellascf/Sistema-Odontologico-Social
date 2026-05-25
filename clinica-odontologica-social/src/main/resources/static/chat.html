@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistente IA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>🤖 Assistente IA</h1>
+        <p class="subtitle">Faça perguntas sobre o Sistema Odontológico Social</p>
+
+        <div class="chat-box">
+            <textarea
+                id="pergunta"
+                placeholder="Ex: Qual alergia o paciente de CPF 12345678900 possui?"
+            ></textarea>
+
+            <button class="card chat-button" onclick="enviarPergunta()">
+                Perguntar
+            </button>
+        </div>
+
+        <h3 class="section-title">Sugestões</h3>
+        <div id="sugestoes" class="sugestoes"></div>
+
+        <h3 class="section-title">Resposta</h3>
+        <div id="resposta" class="resposta">
+            A resposta da IA aparecerá aqui.
+        </div>
+
+        <a href="index.html" class="card voltar-card">Voltar ao menu principal</a>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
