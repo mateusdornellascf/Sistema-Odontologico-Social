@@ -102,7 +102,7 @@ begin
             leave loop_consultas;
         end if;
 
-        set v_classificacao_risco = lower(fn_classificar_risco_saude(v_cpf_paciente));
+        set v_classificacao_risco = lower(func_classificar_risco_saude(v_cpf_paciente));
 
         if v_classificacao_risco in ('atencao', 'alto risco') then
             select count(*)
