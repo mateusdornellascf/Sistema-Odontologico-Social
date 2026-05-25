@@ -102,7 +102,7 @@ public class ProcedimentoRepository {
                 p.getNomeProcedimento(),
                 p.getDescricao(),
                 p.getIdProcedimento());
-                System.out.println("Linhas afetadas: " + linhasAfetadas);
+        System.out.println("Linhas afetadas: " + linhasAfetadas);
         return linhasAfetadas > 0;
     }
 

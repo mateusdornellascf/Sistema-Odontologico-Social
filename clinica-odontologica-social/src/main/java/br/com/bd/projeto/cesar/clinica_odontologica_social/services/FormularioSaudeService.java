@@ -45,11 +45,11 @@ public class FormularioSaudeService {
     }
 
     public boolean deletarPorCpf(String cpf) {
-    return formularioSaudeRepository.deletarPorCpf(cpf);
-}
+        return formularioSaudeRepository.deletarPorCpf(cpf);
+    }
 
-public boolean deletarPorId(int idFormulario) {
-    return formularioSaudeRepository.deletarPorId(idFormulario);
-}
+    public boolean deletarPorId(int idFormulario) {
+        return formularioSaudeRepository.deletarPorId(idFormulario);
+    }
 
 }
