@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Estatístico — Clínica Odontológica</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="container wide">
+    <h1>📈 Dashboard Estatístico</h1>
+    <p class="subtitle">Indicadores e gráficos integrados ao banco de dados</p>
+
+    <!-- ===================== FILTROS GLOBAIS ===================== -->
+    <div class="section">
+        <h2>Filtros</h2>
+        <div class="filtros">
+            <label>Ano (consultas por mês):
+                <input id="anoFiltro" type="number" min="2000" max="2100" placeholder="ex: 2026" style="width:110px">
+            </label>
+            <label>Top dentistas:
+                <input id="topDentistas" type="number" min="1" max="50" value="10" style="width:80px">
+            </label>
+            <button onclick="atualizarTudo()">Aplicar / Atualizar</button>
+        </div>
+    </div>
+
+    <!-- ===================== KPIs ===================== -->
+    <div class="section">
+        <h2>Indicadores resumidos</h2>
+        <div id="kpiGrid" class="kpi-grid"></div>
+    </div>
+
+    <!-- ===================== GRÁFICOS ===================== -->
+    <div class="charts-grid">
+
+        <div class="chart-card">
+            <h3>1. Consultas por mês (linha)</h3>
+            <p class="desc">Tendência temporal de consultas agendadas. Filtro por ano disponível acima.</p>
+            <canvas id="chartLinhaMes"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>2. Top dentistas por nº de consultas (barras)</h3>
+            <p class="desc">Comparativo de produtividade. Use o filtro "Top dentistas" para ajustar o N.</p>
+            <canvas id="chartBarrasDent"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>3. Classificação de risco dos pacientes (pizza)</h3>
+            <p class="desc">Distribuição vinda da função <code>func_classificar_risco_saude</code>.</p>
+            <canvas id="chartPizzaRisco"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>4. Procedimentos por tipo (donut)</h3>
+            <p class="desc">Distribuição percentual entre cirúrgico, estético e rotina.</p>
+            <canvas id="chartDonutProc"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>5. Consultas por especialidade do dentista (radar)</h3>
+            <p class="desc">Demanda por especialidade — útil para realocar profissionais.</p>
+            <canvas id="chartRadarEsp"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>6. Distribuição etária dos pacientes (histograma)</h3>
+            <p class="desc">
+                Faixas de 10 anos calculadas com <code>func_calcular_idade_pessoa</code>.
+            </p>
+            <canvas id="chartHistIdade"></canvas>
+            <div id="statsIdade" class="stats-inline"></div>
+        </div>
+
+        <div class="chart-card">
+            <h3>7. Correlação consultas × procedimentos por dentista (dispersão)</h3>
+            <p class="desc">Cada ponto = um dentista. Tendência mostra se mais consultas implicam mais procedimentos.</p>
+            <canvas id="chartScatter"></canvas>
+        </div>
+
+        <div class="chart-card">
+            <h3>8. Pacientes por bairro (barras horizontais)</h3>
+            <p class="desc">Frequência de cadastro por região atendida.</p>
+            <canvas id="chartBairros"></canvas>
+        </div>
+
+    </div>
+
+    <a class="back-link" href="index.html">← voltar</a>
+</div>
+
+<script src="dashboard.js?v=1"></script>
+</body>
+</html>

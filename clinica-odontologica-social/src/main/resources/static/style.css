@@ -58,3 +58,180 @@ h1 {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
+
+/* ---------- Páginas amplas (Relatórios / Operações BD) ---------- */
+.container.wide {
+    width: 1100px;
+    max-width: 98%;
+    text-align: left;
+}
+
+.container.wide h1,
+.container.wide .subtitle {
+    text-align: center;
+}
+
+.section {
+    background: #f0fbff;
+    border: 1px solid #caf0f8;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.section h2 {
+    color: #023e8a;
+    margin-bottom: 6px;
+    font-size: 1.15rem;
+}
+
+.section .desc {
+    color: #555;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+.section .filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.section .filtros input,
+.section .filtros select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #90e0ef;
+    font-size: 0.9rem;
+}
+
+.section button {
+    background-color: #0077b6;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.section button:hover { background-color: #023e8a; }
+
+.section .kpi {
+    display: inline-block;
+    background: #0077b6;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-right: 8px;
+    margin-top: 6px;
+    font-size: 0.85rem;
+}
+
+table.dados {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    background: white;
+}
+
+table.dados th,
+table.dados td {
+    border: 1px solid #caf0f8;
+    padding: 6px 8px;
+    text-align: left;
+}
+
+table.dados th {
+    background: #023e8a;
+    color: white;
+}
+
+table.dados tr:nth-child(even) td { background: #f7fcff; }
+
+.badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+}
+.badge.alto    { background: #c1121f; }
+.badge.atencao { background: #f4a261; }
+.badge.sem     { background: #2a9d8f; }
+.badge.semf    { background: #888; }
+
+.back-link {
+    display: inline-block;
+    margin-top: 12px;
+    color: #0077b6;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* ---------- Dashboard ---------- */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    background: linear-gradient(135deg, #0077b6, #00b4d8);
+    color: white;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+.kpi-card .label { font-size: 0.75rem; opacity: 0.9; letter-spacing: 0.5px; text-transform: uppercase; }
+.kpi-card .value { font-size: 1.6rem; font-weight: bold; margin-top: 4px; }
+.kpi-card.sec { background: linear-gradient(135deg, #023e8a, #0096c7); }
+.kpi-card.warn { background: linear-gradient(135deg, #f4a261, #e76f51); }
+.kpi-card.ok  { background: linear-gradient(135deg, #2a9d8f, #43aa8b); }
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 16px;
+}
+
+.chart-card {
+    background: white;
+    border: 1px solid #caf0f8;
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.chart-card h3 {
+    color: #023e8a;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+.chart-card .desc {
+    color: #666;
+    font-size: 0.78rem;
+    margin-bottom: 8px;
+}
+.chart-card canvas { max-height: 280px; }
+
+.stats-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 0.78rem;
+}
+.stats-inline span {
+    background: #caf0f8;
+    color: #023e8a;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
