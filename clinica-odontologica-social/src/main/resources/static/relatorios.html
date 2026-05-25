@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios — Views e Consultas Analíticas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container wide">
+    <h1>📊 Relatórios</h1>
+    <p class="subtitle">Views e consultas analíticas do banco</p>
+
+    <!-- VIEW 1 -->
+    <div class="section">
+        <h2>VIEW 1 — Pacientes com alerta de saúde</h2>
+        <p class="desc"><code>view_pacientes_com_alerta_saude</code> — JOIN: pessoa + paciente + formulariosaude;
+            Filtra pacientes com alergia, doença ou medicamento preenchidos.</p>
+        <div class="filtros">
+            <input id="filtroAlertaNome" placeholder="filtrar por nome…">
+            <button onclick="carregarAlertaSaude()">Carregar</button>
+        </div>
+        <div id="kpiAlertaSaude"></div>
+        <div id="tabelaAlertaSaude"></div>
+    </div>
+
+    <!-- VIEW 2 -->
+    <div class="section">
+        <h2>VIEW 2 — Dentistas sem consulta futura</h2>
+        <p class="desc"><code>view_dentistas_sem_consulta_futura</code> — usa NOT EXISTS para listar
+            dentistas que não possuem consulta agendada a partir de hoje.</p>
+        <div class="filtros">
+            <button onclick="carregarDentistasSemFutura()">Carregar</button>
+        </div>
+        <div id="kpiDentSemFutura"></div>
+        <div id="tabelaDentSemFutura"></div>
+    </div>
+
+    <!-- CONSULTA 1 -->
+    <div class="section">
+        <h2>CONSULTA 1 — Dentistas com ao menos N consultas (JOIN + GROUP BY + HAVING)</h2>
+        <p class="desc">Use o filtro abaixo para ajustar o N mínimo de consultas.</p>
+        <div class="filtros">
+            <input id="minConsultas" type="number" min="1" value="1" style="width:90px">
+            <button onclick="carregarDentistasAtivos()">Filtrar</button>
+        </div>
+        <div id="kpiDentAtivos"></div>
+        <div id="tabelaDentAtivos"></div>
+    </div>
+
+    <!-- CONSULTA 2 -->
+    <div class="section">
+        <h2>CONSULTA 2 — Histórico completo de consultas de um paciente (2 JOINs + WHERE)</h2>
+        <div class="filtros">
+            <input id="cpfHistorico" placeholder="CPF do paciente" maxlength="11">
+            <button onclick="carregarHistorico()">Buscar</button>
+        </div>
+        <div id="kpiHistorico"></div>
+        <div id="tabelaHistorico"></div>
+    </div>
+
+    <!-- CONSULTA 3 -->
+    <div class="section">
+        <h2>CONSULTA 3 — Pacientes que nunca agendaram consulta (ANTI JOIN)</h2>
+        <p class="desc"><code>LEFT JOIN consulta + WHERE c.idConsulta IS NULL</code>.</p>
+        <div class="filtros">
+            <button onclick="carregarPacSemConsulta()">Carregar</button>
+        </div>
+        <div id="kpiPacSemConsulta"></div>
+        <div id="tabelaPacSemConsulta"></div>
+    </div>
+
+    <!-- CONSULTA 4 -->
+    <div class="section">
+        <h2>CONSULTA 4 — Procedimentos do dentista com mais consultas marcadas (SUBCONSULTA)</h2>
+        <p class="desc">
+            Lista os procedimentos realizados pelo dentista com maior número de consultas agendadas.
+            <br>
+        </p>
+        <div class="filtros">
+            <button onclick="carregarProcDentMaisAtivo()">Carregar</button>
+        </div>
+        <div id="kpiProcDent"></div>
+        <div id="tabelaProcDent"></div>
+    </div>
+
+    <a class="back-link" href="index.html">← voltar</a>
+</div>
+
+<script src="relatorios.js?v=1"></script>
+</body>
+</html>

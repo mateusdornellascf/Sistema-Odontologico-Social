@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gerenciar Procedimentos</title>
+  <title>CRUD Procedimentos</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,71 +14,87 @@
 
   <div class="menu">
 
+    <!-- =================== CADASTRAR =================== -->
     <div class="card">
-      <h3>Solicitar procedimento</h3>
-      <button onclick="toggleProcedimentos()">Abrir menu</button>
+      <h3>Cadastrar procedimento</h3>
 
-      <div id="menuProcedimentos" style="display:none; margin-top:15px;">
-        <button onclick="selecionarTipo('Cirurgico')">Cirúrgico</button>
-        <button onclick="selecionarTipo('Estetico')">Estético</button>
-        <button onclick="selecionarTipo('Rotina')">Rotina</button>
+      <label for="tipoProcedimento">Tipo:</label>
+      <select id="tipoProcedimento" onchange="atualizarCamposTipo()">
+        <option value="">-- selecione --</option>
+        <option value="cirurgico">Cirúrgico</option>
+        <option value="estetico">Estético</option>
+        <option value="rotina">Rotina</option>
+      </select>
+      <br><br>
+
+      <input id="idConsulta" type="number" placeholder="ID da consulta"><br><br>
+      <input id="nomeProcedimento" placeholder="Nome do procedimento"><br><br>
+      <input id="descricao" placeholder="Descrição"><br><br>
+
+      <!-- Campos específicos por tipo -->
+      <div id="camposCirurgico" style="display:none;">
+        <input id="dataCirurgia" placeholder="Data cirurgia (AAAA-MM-DD)"><br><br>
+        <input id="cpfCirurgiaoDentista" placeholder="CPF do cirurgião-dentista"><br><br>
+        <input id="valorCirurgico" type="number" step="0.01" placeholder="Valor"><br><br>
       </div>
 
-      <div id="formDinamico" style="display:none; margin-top:15px;">
-        <h3 id="tituloDinamico"></h3>
-
-        <input id="idConsulta" type="number" placeholder="ID da consulta"><br><br>
-        <input id="cpfFormulario" placeholder="CPF do paciente"><br><br>
-        <input id="alergiaFormulario" placeholder="Alergia(s)"><br><br>
-        <input id="doencasFormulario" placeholder="Doença(s)"><br><br>
-        <input id="medicamentoFormulario" placeholder="Medicamento(s)"><br><br>
-
-        <button onclick="salvarOuAtualizarFormulario()">Salvar / Atualizar</button>
+      <div id="camposEstetico" style="display:none;">
+        <input id="dataSessoes" placeholder="Data das sessões (AAAA-MM-DD)"><br><br>
+        <input id="quantidadeSessoes" type="number" placeholder="Quantidade de sessões"><br><br>
+        <input id="valorEstetico" type="number" step="0.01" placeholder="Valor"><br><br>
       </div>
+
+      <div id="camposRotina" style="display:none;">
+        <input id="dataProcedimentoRotina" placeholder="Data (AAAA-MM-DD)"><br><br>
+        <input id="statusRotina" placeholder="Status (ex: AGENDADO, REALIZADO)"><br><br>
+        <input id="valorRotina" type="number" step="0.01" placeholder="Valor"><br><br>
+      </div>
+
+      <button onclick="cadastrarProcedimento()">Cadastrar</button>
     </div>
 
+    <!-- =================== LISTAR =================== -->
     <div class="card">
-      <h3>Lista de Procedimentos</h3>
+      <h3>Listar procedimentos</h3>
       <button onclick="listarProcedimentos()">Listar procedimentos</button>
       <ul id="listaProcedimentos"></ul>
     </div>
 
-    <div class="card">
-      <h3>Atualizar Procedimento</h3>
-      <button onclick="atualizarProcedimento()">Atualizar por ID</button>
-    </div>
-
-    <div class="card">
-      <h3>Deletar Procedimento</h3>
-      <button onclick="deletarProcedimento()">Deletar por ID</button>
-    </div>
-
-    <div class="card">
-      <h3>Buscar por Consulta</h3>
-      <button onclick="buscarPorConsulta()">Buscar</button>
-    </div>
-
+    <!-- =================== BUSCAR POR ID =================== -->
     <div class="card">
       <h3>Buscar por ID</h3>
-      <button onclick="buscarPorId()">Buscar</button>
+      <input id="buscarPorId" type="number" placeholder="Digite o ID do procedimento"><br><br>
+      <button onclick="buscarPorIdProcedimento()">Buscar</button>
+      <pre id="resultadoBuscaId"></pre>
     </div>
 
+    <!-- =================== BUSCAR POR CONSULTA =================== -->
     <div class="card">
-      <h3>Buscar formulário</h3>
-
-      <input id="cpfBuscarFormulario" placeholder="CPF"><br><br>
-      <button onclick="buscarFormularioPorCpf()">Buscar</button>
-
-      <pre id="resultadoBuscaFormulario"></pre>
+      <h3>Buscar por consulta</h3>
+      <input id="buscarPorConsulta" type="number" placeholder="Digite o ID da consulta"><br><br>
+      <button onclick="buscarPorIdConsulta()">Buscar</button>
+      <pre id="resultadoBuscaConsulta"></pre>
     </div>
 
+    <!-- =================== ATUALIZAR =================== -->
     <div class="card">
-      <h3>Listar formulários</h3>
-      <button onclick="listarFormularios()">Listar</button>
-      <ul id="listaFormularios"></ul>
+      <h3>Atualizar procedimento</h3>
+      <input id="idAtualizar" type="number" placeholder="ID do procedimento"><br><br>
+      <input id="nomeAtualizar" placeholder="Novo nome do procedimento"><br><br>
+      <input id="descricaoAtualizar" placeholder="Nova descrição"><br><br>
+      <button onclick="atualizarProcedimento()">Atualizar</button>
+    </div>
+
+    <!-- =================== DELETAR =================== -->
+    <div class="card">
+      <h3>Deletar procedimento</h3>
+      <input id="idDeletar" type="number" placeholder="ID do procedimento"><br><br>
+      <button onclick="deletarProcedimento()">Deletar</button>
     </div>
 
   </div>
+
+  <a class="back-link" href="index.html">← voltar</a>
 </div>
 
 <script src="procedimento.js"></script>

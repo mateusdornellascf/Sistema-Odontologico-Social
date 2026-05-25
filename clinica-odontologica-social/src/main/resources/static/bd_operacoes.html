@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operações do Banco — Funções, Procedures e Triggers</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container wide">
+    <h1>⚙️ Operações do Banco</h1>
+    <p class="subtitle">Executar funções e procedures, e visualizar efeitos das triggers</p>
+
+    <!-- ============================================================
+         FUNÇÕES
+         ============================================================ -->
+    <div class="section">
+        <h2>🧮 Função — <code>func_calcular_idade_pessoa(cpf)</code></h2>
+        <p class="desc">Calcula a idade atual da pessoa a partir do CPF (data_nascimento + CURDATE).</p>
+        <div class="filtros">
+            <input id="cpfIdade" placeholder="CPF (11 dígitos)" maxlength="11">
+            <button onclick="fnCalcularIdade()">Executar</button>
+        </div>
+        <div id="saidaIdade"></div>
+    </div>
+
+    <div class="section">
+        <h2>🚦 Função — <code>func_classificar_risco_saude(cpf)</code></h2>
+        <p class="desc">Classifica o paciente em SEM RISCO / ATENCAO / ALTO RISCO / SEM FORMULARIO,
+            com base no último formulário de saúde cadastrado.</p>
+        <div class="filtros">
+            <input id="cpfRisco" placeholder="CPF do paciente" maxlength="11">
+            <button onclick="fnClassificarRisco()">Executar</button>
+        </div>
+        <div id="saidaRisco"></div>
+    </div>
+
+    <!-- ============================================================
+         PROCEDURES
+         ============================================================ -->
+    <div class="section">
+        <h2>🛠️ Procedure — <code>sp_gerar_alertas_consultas_do_dia(data)</code></h2>
+        <p class="desc">Percorre as consultas do dia (CURSOR), aplica a função de risco em cada paciente
+            e insere registros em <code>alerta_atendimento</code> quando há risco.</p>
+        <div class="filtros">
+            <input id="dataAlertas" type="date">
+            <button onclick="spGerarAlertas()">Executar Procedure</button>
+            <button onclick="carregarAlertas()">Ver alertas da data</button>
+            <button onclick="carregarAlertas(true)">Ver todos os alertas</button>
+        </div>
+        <div id="saidaProcAlertas"></div>
+        <div id="tabelaAlertas"></div>
+    </div>
+
+    <div class="section">
+        <h2>🛠️ Procedure — <code>sp_remarcar_consulta(id, data, hora)</code></h2>
+        <p class="desc">Versão via stored procedure (valida existência da consulta e conflito de agenda
+            do dentista antes de remarcar). Retorna a mensagem do próprio SP.</p>
+        <div class="filtros">
+            <input id="idConsultaSp" type="number" min="1" placeholder="ID da consulta">
+            <input id="dataSp" type="date">
+            <input id="horaSp" type="time">
+            <button onclick="spRemarcar()">Executar</button>
+        </div>
+        <div id="saidaSpRemarcar"></div>
+    </div>
+
+    <!-- ============================================================
+         TRIGGERS
+         ============================================================ -->
+    <div class="section">
+        <h2>⚡ Trigger — <code>t_log_remarcacao_consulta</code></h2>
+        <p class="desc">Toda vez que uma consulta tem data/hora alterada, esta trigger insere um
+            registro em <code>log_consulta</code>. Abaixo, os efeitos acumulados (com filtro por consulta).</p>
+        <div class="filtros">
+            <input id="idConsultaLog" type="number" min="1" placeholder="Filtrar por ID da consulta (opcional)">
+            <button onclick="carregarLogConsulta()">Carregar log</button>
+        </div>
+        <div id="tabelaLog"></div>
+    </div>
+
+    <div class="section">
+        <h2>⚡ Trigger — <code>t_impedir_conflito_agenda_dentista</code></h2>
+        <p class="desc">Esta trigger é validada quando uma nova consulta é inserida.
+            Você pode testar tentando criar duas consultas no mesmo horário pelo mesmo dentista
+            em <a href="consultas.html">Gerenciar Consultas</a> — a segunda inserção será bloqueada
+            com a mensagem <em>"dentista ja possui consulta cadastrada nesse horario"</em>.</p>
+    </div>
+
+    <a class="back-link" href="index.html">← voltar</a>
+</div>
+
+<script src="bd_operacoes.js?v=1"></script>
+</body>
+</html>

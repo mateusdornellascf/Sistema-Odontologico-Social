@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gerenciar Formulario de Saude</title>
+  <title>Gerenciar Formulário de Saúde</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,11 +22,11 @@
       <input id="doencasFormulario" placeholder="Doença(s)"><br><br>
       <input id="medicamentoFormulario" placeholder="Medicamento(s)"><br><br>
 
-      <button onclick="salvarOuAtualizarFormulario()">Salvar / Atualizar</button>
+      <button onclick="salvarFormulario()">Salvar</button>
     </div>
 
     <div class="card">
-      <h3>Buscar formulário</h3>
+      <h3>Buscar formulário por CPF</h3>
 
       <input id="cpfBuscarFormulario" placeholder="Digite o CPF"><br><br>
       <button onclick="buscarFormularioPorCpf()">Buscar</button>
@@ -36,14 +36,27 @@
 
     <div class="card">
       <h3>Listar formulários</h3>
-
       <button onclick="listarFormularios()">Listar formulários</button>
       <ul id="listaFormularios"></ul>
     </div>
 
+    <div class="card">
+      <h3>Deletar formulário por ID</h3>
+      <input id="idDeletarFormulario" type="number" placeholder="ID do formulário"><br><br>
+      <button onclick="deletarFormularioPorId()">Deletar</button>
+    </div>
+
+    <div class="card">
+      <h3>Deletar todos por CPF</h3>
+      <input id="cpfDeletarFormulario" placeholder="CPF do paciente"><br><br>
+      <button onclick="deletarFormulariosPorCpf()">Deletar</button>
+    </div>
+
   </div>
+
+  <a class="back-link" href="index.html">← voltar</a>
 </div>
 
-<script src="formularioSaude.js?v=2"></script>
+<script src="formularioSaude.js?v=3"></script>
 </body>
 </html>
