@@ -31,6 +31,10 @@ public class ChatService {
         try {
             String sql = gerarSqlComGemini(pergunta);
 
+            if (sql.equalsIgnoreCase("FORA_DO_CONTEXTO")) {
+                return "Só posso responder perguntas relacionadas aos dados do Sistema Odontológico Social.";
+            }
+
             if (!sqlValido(sql)) {
                 return "Não consegui gerar uma consulta segura para essa pergunta. Tente perguntar de outra forma.";
             }
@@ -52,8 +56,12 @@ public class ChatService {
                 Sua tarefa é transformar a pergunta do usuário em UMA consulta SQL MySQL.
 
                 REGRAS OBRIGATÓRIAS:
-                - Responda SOMENTE com SQL.
+                - Responda SOMENTE com SQL ou com FORA_DO_CONTEXTO.
                 - Use apenas SELECT.
+                - Se a pergunta NÃO for sobre dados do Sistema Odontológico Social, responda exatamente: FORA_DO_CONTEXTO.
+                - Não responda perguntas de conhecimento geral.
+                - Não responda perguntas sobre programação, história, geografia, matemática ou qualquer assunto fora do sistema.
+                - Se a pergunta não puder ser respondida usando as tabelas disponíveis, responda exatamente: FORA_DO_CONTEXTO.
                 - Não use INSERT, UPDATE, DELETE, DROP, ALTER, CREATE, TRUNCATE, GRANT ou REVOKE.
                 - Não use markdown.
                 - Não coloque ```sql.
