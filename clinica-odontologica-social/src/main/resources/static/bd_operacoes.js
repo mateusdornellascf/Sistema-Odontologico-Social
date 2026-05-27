@@ -62,24 +62,26 @@ function spGerarAlertas() {
         `<span class="kpi">${d.procedure}</span>
          <span class="kpi">Data: ${d.data}</span>
          <span class="kpi">Alertas na data: ${d.totalAlertasNaData}</span>`);
-      carregarAlertas();
+      renderAlertas(d.alertas || []);
     })
     .catch(e => render("saidaProcAlertas", `<p style="color:red">Erro: ${e}</p>`));
 }
 
-function carregarAlertas(todos = false) {
+function renderAlertas(rows) {
+  render("tabelaAlertas", tabela(
+    ["ID", "Consulta", "CPF Paciente", "CPF Dentista", "Risco", "Mensagem", "Gerado em"],
+    rows,
+    r => [r.idAlerta, r.idConsulta, r.cpfPaciente, r.cpfDentista,
+          badgeRisco(r.classificacaoRisco), r.mensagem,
+          (r.dataGeracao || "").replace("T", " ")]));
+}
+
+function carregarAlertas() {
   const data = document.getElementById("dataAlertas").value;
-  const url = todos || !data ? `${API}/alertas` : `${API}/alertas?data=${data}`;
-  fetch(url)
+  if (!data) return alert("Informe a data.");
+  fetch(`${API}/alertas?data=${data}`)
     .then(r => r.json())
-    .then(rows => {
-      render("tabelaAlertas", tabela(
-        ["ID", "Consulta", "CPF Paciente", "CPF Dentista", "Risco", "Mensagem", "Gerado em"],
-        rows,
-        r => [r.idAlerta, r.idConsulta, r.cpfPaciente, r.cpfDentista,
-              badgeRisco(r.classificacaoRisco), r.mensagem,
-              (r.dataGeracao || "").replace("T", " ")]));
-    })
+    .then(rows => renderAlertas(rows))
     .catch(e => render("tabelaAlertas", `<p style="color:red">Erro: ${e}</p>`));
 }
 

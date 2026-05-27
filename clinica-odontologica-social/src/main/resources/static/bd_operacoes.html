@@ -42,12 +42,11 @@
     <div class="section">
         <h2>🛠️ Procedure — <code>sp_gerar_alertas_consultas_do_dia(data)</code></h2>
         <p class="desc">Percorre as consultas do dia (CURSOR), aplica a função de risco em cada paciente
-            e insere registros em <code>alerta_atendimento</code> quando há risco.</p>
+            e retorna os alertas calculados, sem criar tabela permanente no modelo.</p>
         <div class="filtros">
             <input id="dataAlertas" type="date">
             <button onclick="spGerarAlertas()">Executar Procedure</button>
             <button onclick="carregarAlertas()">Ver alertas da data</button>
-            <button onclick="carregarAlertas(true)">Ver todos os alertas</button>
         </div>
         <div id="saidaProcAlertas"></div>
         <div id="tabelaAlertas"></div>
