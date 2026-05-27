@@ -30,7 +30,7 @@
 
         marca.className = "sidebar-brand";
         marca.href = "dashboard.html";
-        marca.innerHTML = "<strong>Clínica Odontológica</strong><span>Sistema Social</span>";
+        marca.textContent = "Clínica Odontológica";
         sidebar.appendChild(marca);
 
         navegacao.className = "sidebar-nav";
