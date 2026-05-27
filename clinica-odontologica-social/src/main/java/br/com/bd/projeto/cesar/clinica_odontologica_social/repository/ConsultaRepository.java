@@ -54,13 +54,9 @@ public class ConsultaRepository {
         return jdbcTemplate.queryForObject(sql, Integer.class, cpfDentista) > 0;
     }
 
-    public void remarcarConsulta(int idConsulta, LocalDate novaData, LocalTime novaHora) {
-        if (!verificarConsultaExiste(idConsulta)) {
-            throw new RuntimeException("Consulta não encontrada");
-        }
-
-        String sql = "UPDATE consulta SET dataConsulta = ?, horaConsulta = ? WHERE idConsulta = ?";
-        jdbcTemplate.update(sql, novaData, novaHora, idConsulta);
+    public String remarcarConsulta(int idConsulta, LocalDate novaData, LocalTime novaHora) {
+        String sql = "CALL sp_remarcar_consulta(?, ?, ?)";
+        return jdbcTemplate.queryForObject(sql, String.class, idConsulta, novaData, novaHora);
     }
 
     public List<Consulta> listar() {
@@ -174,7 +170,6 @@ public class ConsultaRepository {
                     p_pac.nome AS nomePaciente,
                     c.cpfDentista,
                     p_den.nome AS nomeDentista,
-                    d.especialidade AS especialidadeDentista,
                     c.dataConsulta,
                     c.horaConsulta
                 FROM consulta c
@@ -182,8 +177,6 @@ public class ConsultaRepository {
                     ON c.cpfPaciente = p_pac.cpf
                 JOIN pessoa p_den
                     ON c.cpfDentista = p_den.cpf
-                JOIN dentista d
-                    ON c.cpfDentista = d.cpf
                 WHERE c.cpfPaciente = ?
                 ORDER BY c.dataConsulta DESC, c.horaConsulta DESC
                 """;
@@ -194,7 +187,6 @@ public class ConsultaRepository {
             dto.setNomePaciente(rs.getString("nomePaciente"));
             dto.setCpfDentista(rs.getString("cpfDentista"));
             dto.setNomeDentista(rs.getString("nomeDentista"));
-            dto.setEspecialidadeDentista(rs.getString("especialidadeDentista"));
             dto.setDataConsulta(rs.getDate("dataConsulta").toLocalDate());
             dto.setHoraConsulta(rs.getTime("horaConsulta").toLocalTime());
             return dto;

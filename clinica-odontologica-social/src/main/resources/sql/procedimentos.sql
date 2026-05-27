@@ -1,20 +1,6 @@
 use db_clinica_odontologica;
 
-create table if not exists alerta_atendimento (
-    idalerta int auto_increment primary key,
-    idconsulta int not null,
-    cpfpaciente varchar(11) not null,
-    cpfdentista varchar(11) not null,
-    classificacaorisco varchar(20) not null,
-    mensagem varchar(255) not null,
-    datageracao datetime not null default current_timestamp,
-    foreign key (idconsulta) references consulta(idconsulta),
-    foreign key (cpfpaciente) references paciente(cpf),
-    foreign key (cpfdentista) references dentista(cpf)
-);
-
 delimiter $$
-drop procedure if exists sp_remarcar_consulta $$
 create procedure sp_remarcar_consulta(
     in p_id_consulta int,
     in p_nova_data date,
@@ -59,7 +45,7 @@ begin
     end if;
 end $$
 
-drop procedure if exists sp_gerar_alertas_consultas_do_dia $$
+
 create procedure sp_gerar_alertas_consultas_do_dia(
     in p_data_consulta date
 )
@@ -72,7 +58,6 @@ begin
     declare v_nome_dentista varchar(50);
     declare v_classificacao_risco varchar(20);
     declare v_mensagem varchar(255);
-    declare v_total_alertas int default 0;
 
     declare cur_consultas cursor for
         select
@@ -91,6 +76,18 @@ begin
 
     declare continue handler for not found set v_fim_cursor = 1;
 
+    create temporary table if not exists tmp_alerta_atendimento (
+        idalerta int auto_increment primary key,
+        idconsulta int not null,
+        cpfpaciente varchar(11) not null,
+        cpfdentista varchar(11) not null,
+        classificacaorisco varchar(20) not null,
+        mensagem varchar(255) not null,
+        datageracao datetime not null default current_timestamp
+    );
+
+    truncate table tmp_alerta_atendimento;
+
     open cur_consultas;
 
     loop_consultas: loop
@@ -102,15 +99,9 @@ begin
             leave loop_consultas;
         end if;
 
-        set v_classificacao_risco = lower(fn_classificar_risco_saude(v_cpf_paciente));
+        set v_classificacao_risco = lower(func_classificar_risco_saude(v_cpf_paciente));
 
         if v_classificacao_risco in ('atencao', 'alto risco') then
-            select count(*)
-            into v_total_alertas
-            from alerta_atendimento
-            where idconsulta = v_id_consulta
-              and classificacaorisco = v_classificacao_risco;
-
             set v_mensagem = concat(
                 'paciente ', v_nome_paciente,
                 ' possui classificacao ', v_classificacao_risco,
@@ -118,23 +109,32 @@ begin
                 '. verificar formulario de saude antes do procedimento.'
             );
 
-            if v_total_alertas = 0 then
-                insert into alerta_atendimento (
-                    idconsulta,
-                    cpfpaciente,
-                    cpfdentista,
-                    classificacaorisco,
-                    mensagem
-                ) values (
-                    v_id_consulta,
-                    v_cpf_paciente,
-                    v_cpf_dentista,
-                    v_classificacao_risco,
-                    v_mensagem
-                );
-            end if;
+            insert into tmp_alerta_atendimento (
+                idconsulta,
+                cpfpaciente,
+                cpfdentista,
+                classificacaorisco,
+                mensagem
+            ) values (
+                v_id_consulta,
+                v_cpf_paciente,
+                v_cpf_dentista,
+                v_classificacao_risco,
+                v_mensagem
+            );
         end if;
     end loop;
     close cur_consultas;
+
+    select
+        idalerta,
+        idconsulta,
+        cpfpaciente,
+        cpfdentista,
+        classificacaorisco,
+        mensagem,
+        datageracao
+    from tmp_alerta_atendimento
+    order by idalerta;
 end $$
 delimiter ;

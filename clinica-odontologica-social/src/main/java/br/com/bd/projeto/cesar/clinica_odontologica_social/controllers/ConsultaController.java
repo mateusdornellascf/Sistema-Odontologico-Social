@@ -51,9 +51,7 @@ public class ConsultaController {
         LocalDate novaData = LocalDate.parse(body.get("data"));
         LocalTime novaHora = LocalTime.parse(body.get("hora"));
 
-        service.remarcarConsulta(idConsulta, novaData, novaHora);
-
-        return "Consulta remarcada com sucesso!";
+        return service.remarcarConsulta(idConsulta, novaData, novaHora);
     }
 
     @DeleteMapping("/{idConsulta}")

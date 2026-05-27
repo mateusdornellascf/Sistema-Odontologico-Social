@@ -38,8 +38,8 @@ public class ConsultaService {
         return repository.listar();
     }
 
-    public void remarcarConsulta(int idConsulta, LocalDate novaData, LocalTime novaHora) {
-        repository.remarcarConsulta(idConsulta, novaData, novaHora);
+    public String remarcarConsulta(int idConsulta, LocalDate novaData, LocalTime novaHora) {
+        return repository.remarcarConsulta(idConsulta, novaData, novaHora);
     }
 
     public void validarPaciente(String cpfPaciente) {

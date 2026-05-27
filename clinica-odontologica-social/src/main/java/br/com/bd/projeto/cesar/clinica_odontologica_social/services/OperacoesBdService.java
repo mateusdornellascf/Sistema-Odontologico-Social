@@ -27,7 +27,7 @@ public class OperacoesBdService {
         return repository.classificarRiscoSaude(cpf);
     }
 
-    public int gerarAlertasDoDia(LocalDate data) {
+    public List<AlertaAtendimentoDTO> gerarAlertasDoDia(LocalDate data) {
         return repository.gerarAlertasConsultasDoDia(data);
     }
 

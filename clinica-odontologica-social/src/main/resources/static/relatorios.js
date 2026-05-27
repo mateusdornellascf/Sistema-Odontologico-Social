@@ -103,10 +103,10 @@ async function carregarHistorico() {
     }
     kpi("kpiHistorico", [["CPF", cpf], ["Total de consultas", data.length]]);
     render("tabelaHistorico", tabela(
-      ["ID", "Paciente", "Dentista", "Especialidade", "Data", "Hora"],
+      ["ID", "Paciente", "Dentista", "Data", "Hora"],
       data,
       r => [r.idConsulta, r.nomePaciente, r.nomeDentista,
-            r.especialidadeDentista, r.dataConsulta, r.horaConsulta]));
+            r.dataConsulta, r.horaConsulta]));
   } catch (e) {
     render("tabelaHistorico", `<p style="color:red">Erro: ${e}</p>`);
   }

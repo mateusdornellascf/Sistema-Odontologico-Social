@@ -15,8 +15,6 @@ create table if not exists log_consulta (
 
 delimiter $$
 
-drop trigger if exists t_log_remarcacao_consulta $$
-
 create trigger t_log_remarcacao_consulta
 after update on consulta
 for each row
@@ -44,8 +42,6 @@ begin
         );
     end if;
 end $$
-
-drop trigger if exists t_impedir_conflito_agenda_dentista $$
 
 create trigger t_impedir_conflito_agenda_dentista
 before insert on consulta
