@@ -28,11 +28,9 @@ public class ChatController {
     @GetMapping("/suggestions")
     public SuggestionsResponseDTO suggestions() {
         return new SuggestionsResponseDTO(List.of(
-                "Quantos pacientes existem?",
-                "Quais pacientes têm alerta de saúde?",
-                "Quais dentistas estão sem consulta futura?",
-                "Quais consultas estão cadastradas?",
-                "Existe algum paciente chamado João?"
+                "Qual é o faturamento total?",
+                "Quais são os top dentistas por nº de consultas?",
+                "Quantos pacientes estão cadastrados?"
         ));
     }
 }

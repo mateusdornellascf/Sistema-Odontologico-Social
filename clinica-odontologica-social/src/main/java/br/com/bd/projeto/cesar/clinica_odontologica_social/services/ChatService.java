@@ -97,8 +97,14 @@ public class ChatService {
 
                 EXEMPLOS:
 
-                Pergunta: Quantos pacientes existem?
+                Pergunta: Quantos pacientes estão cadastrados?
                 SQL: SELECT COUNT(*) AS total_pacientes FROM paciente;
+
+                Pergunta: Qual é o faturamento total?
+                SQL: SELECT COALESCE((SELECT SUM(valor) FROM cirurgico), 0) + COALESCE((SELECT SUM(valor) FROM estetico), 0) + COALESCE((SELECT SUM(valor) FROM rotina), 0) AS faturamento_total;
+
+                Pergunta: Quais são os top dentistas por nº de consultas?
+                SQL: SELECT pe.nome, d.cro, d.especialidade, COUNT(c.idConsulta) AS total_consultas FROM dentista d JOIN pessoa pe ON pe.cpf = d.cpf LEFT JOIN consulta c ON c.cpfDentista = d.cpf GROUP BY pe.nome, d.cro, d.especialidade ORDER BY total_consultas DESC;
 
                 Pergunta: Existe paciente chamado João?
                 SQL: SELECT pe.cpf, pe.nome FROM pessoa pe JOIN paciente pa ON pe.cpf = pa.cpf WHERE LOWER(pe.nome) LIKE '%joão%' OR LOWER(pe.nome) LIKE '%joao%';

@@ -4,36 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assistente IA</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=3">
+    <script src="layout.js?v=1" defer></script>
 </head>
 <body>
 
-    <div class="container">
-        <h1>🤖 Assistente IA</h1>
-        <p class="subtitle">Faça perguntas sobre o Sistema Odontológico Social</p>
+    <div class="container chat-page">
+        <section class="chat-conversation">
+            <span class="assistant-tag">Assistente inteligente</span>
+            <h1>Olá, eu sou o Gemini!</h1>
+            <p>Como posso ajudar com o Sistema Odontológico Social hoje?</p>
+            <div id="resposta" class="resposta" aria-live="polite"></div>
+        </section>
 
-        <div class="chat-box">
-            <textarea
-                id="pergunta"
-                placeholder="Ex: Qual alergia o paciente de CPF 12345678900 possui?"
-            ></textarea>
+        <section class="composer">
+            <p class="suggestions-label">Experimente uma pergunta</p>
+            <div id="sugestoes" class="sugestoes"></div>
 
-            <button class="card chat-button" onclick="enviarPergunta()">
-                Perguntar
-            </button>
-        </div>
+            <div class="chat-box">
+                <textarea
+                    id="pergunta"
+                    rows="1"
+                    placeholder="Pergunte alguma coisa"
+                ></textarea>
 
-        <h3 class="section-title">Sugestões</h3>
-        <div id="sugestoes" class="sugestoes"></div>
-
-        <h3 class="section-title">Resposta</h3>
-        <div id="resposta" class="resposta">
-            A resposta da IA aparecerá aqui.
-        </div>
-
-        <a href="index.html" class="card voltar-card">Voltar ao menu principal</a>
+                <button class="chat-button" onclick="enviarPergunta()">
+                    Enviar
+                </button>
+            </div>
+        </section>
     </div>
 
-    <script src="chat.js"></script>
+    <script src="chat.js?v=2"></script>
 </body>
 </html>
