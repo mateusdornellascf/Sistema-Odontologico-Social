@@ -80,6 +80,9 @@ public class FormularioSaudeRepository {
             PacienteAlertaSaudeDTO dto = new PacienteAlertaSaudeDTO();
             dto.setCpf(rs.getString("cpf"));
             dto.setNome(rs.getString("nome"));
+            dto.setIdConsulta(rs.getInt("idConsulta"));
+            dto.setDataConsulta(rs.getDate("dataConsulta").toLocalDate());
+            dto.setHoraConsulta(rs.getTime("horaConsulta").toLocalTime());
             dto.setAlergia(rs.getString("alergia"));
             dto.setDoencas(rs.getString("doencas"));
             dto.setMedicamento(rs.getString("medicamento"));

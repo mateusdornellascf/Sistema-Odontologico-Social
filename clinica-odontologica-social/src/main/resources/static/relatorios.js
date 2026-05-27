@@ -36,9 +36,10 @@ async function carregarAlertaSaude() {
       : data;
     kpi("kpiAlertaSaude", [["Total na view", data.length], ["Após filtro", rows.length]]);
     render("tabelaAlertaSaude", tabela(
-      ["CPF", "Nome", "Alergia", "Doenças", "Medicamento"],
+      ["CPF", "Nome", "Consulta", "Data", "Hora", "Alergia", "Doenças", "Medicamento"],
       rows,
-      r => [r.cpf, r.nome, r.alergia, r.doencas, r.medicamento]));
+      r => [r.cpf, r.nome, r.idConsulta, r.dataConsulta, r.horaConsulta,
+            r.alergia, r.doencas, r.medicamento]));
   } catch (e) {
     render("tabelaAlertaSaude", `<p style="color:red">Erro: ${e}</p>`);
   }
