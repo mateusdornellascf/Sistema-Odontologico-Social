@@ -53,13 +53,14 @@ public class OperacoesBdController {
     @PostMapping("/procedures/gerar-alertas")
     public ResponseEntity<Map<String, Object>> gerarAlertas(@RequestBody Map<String, String> body) {
         LocalDate data = LocalDate.parse(body.get("data"));
-        int total = service.gerarAlertasDoDia(data);
+        List<AlertaAtendimentoDTO> alertas = service.gerarAlertasDoDia(data);
         Map<String, Object> resp = new HashMap<>();
         resp.put("procedure", "sp_gerar_alertas_consultas_do_dia");
         resp.put("data", data.toString());
-        resp.put("totalAlertasNaData", total);
+        resp.put("totalAlertasNaData", alertas.size());
+        resp.put("alertas", alertas);
         resp.put("mensagem",
-                "Procedure executada. Verifique a tabela alerta_atendimento abaixo.");
+                "Procedure executada. Os alertas foram calculados sem criar tabela permanente.");
         return ResponseEntity.ok(resp);
     }
 

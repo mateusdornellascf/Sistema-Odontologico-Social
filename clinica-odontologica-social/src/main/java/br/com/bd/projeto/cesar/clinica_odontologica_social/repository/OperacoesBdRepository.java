@@ -34,17 +34,11 @@ public class OperacoesBdRepository {
         return jdbcTemplate.queryForObject(sql, (rs, i) -> rs.getString("risco"), cpf);
     }
 
-    public int gerarAlertasConsultasDoDia(LocalDate data) {
-        jdbcTemplate.update("CALL sp_gerar_alertas_consultas_do_dia(?)", data);
-
-        String sql = """
-                SELECT COUNT(*) AS total
-                FROM alerta_atendimento aa
-                JOIN consulta c ON aa.idconsulta = c.idconsulta
-                WHERE c.dataconsulta = ?
-                """;
-        Integer total = jdbcTemplate.queryForObject(sql, Integer.class, data);
-        return total == null ? 0 : total;
+    public List<AlertaAtendimentoDTO> gerarAlertasConsultasDoDia(LocalDate data) {
+        return jdbcTemplate.query(
+                "CALL sp_gerar_alertas_consultas_do_dia(?)",
+                (rs, i) -> mapAlerta(rs),
+                data);
     }
 
     public String chamarSpRemarcarConsulta(int idConsulta, LocalDate novaData, java.time.LocalTime novaHora) {
@@ -68,31 +62,23 @@ public class OperacoesBdRepository {
     }
 
     public List<AlertaAtendimentoDTO> listarAlertas(LocalDate data) {
-        StringBuilder sql = new StringBuilder("""
-                SELECT aa.idalerta, aa.idconsulta, aa.cpfpaciente, aa.cpfdentista,
-                       aa.classificacaorisco, aa.mensagem, aa.datageracao
-                FROM alerta_atendimento aa
-                """);
-        List<Object> params = new java.util.ArrayList<>();
-        if (data != null) {
-            sql.append(" JOIN consulta c ON aa.idconsulta = c.idconsulta ");
-            sql.append(" WHERE c.dataconsulta = ? ");
-            params.add(data);
+        if (data == null) {
+            return List.of();
         }
-        sql.append(" ORDER BY aa.datageracao DESC ");
+        return gerarAlertasConsultasDoDia(data);
+    }
 
-        return jdbcTemplate.query(sql.toString(), (rs, i) -> {
-            AlertaAtendimentoDTO dto = new AlertaAtendimentoDTO();
-            dto.setIdAlerta(rs.getInt("idalerta"));
-            dto.setIdConsulta(rs.getInt("idconsulta"));
-            dto.setCpfPaciente(rs.getString("cpfpaciente"));
-            dto.setCpfDentista(rs.getString("cpfdentista"));
-            dto.setClassificacaoRisco(rs.getString("classificacaorisco"));
-            dto.setMensagem(rs.getString("mensagem"));
-            var ts = rs.getTimestamp("datageracao");
-            if (ts != null) dto.setDataGeracao(ts.toLocalDateTime());
-            return dto;
-        }, params.toArray());
+    private AlertaAtendimentoDTO mapAlerta(java.sql.ResultSet rs) throws java.sql.SQLException {
+        AlertaAtendimentoDTO dto = new AlertaAtendimentoDTO();
+        dto.setIdAlerta(rs.getInt("idalerta"));
+        dto.setIdConsulta(rs.getInt("idconsulta"));
+        dto.setCpfPaciente(rs.getString("cpfpaciente"));
+        dto.setCpfDentista(rs.getString("cpfdentista"));
+        dto.setClassificacaoRisco(rs.getString("classificacaorisco"));
+        dto.setMensagem(rs.getString("mensagem"));
+        var ts = rs.getTimestamp("datageracao");
+        if (ts != null) dto.setDataGeracao(ts.toLocalDateTime());
+        return dto;
     }
 
     public List<LogConsultaDTO> listarLogConsulta(Integer idConsulta) {
