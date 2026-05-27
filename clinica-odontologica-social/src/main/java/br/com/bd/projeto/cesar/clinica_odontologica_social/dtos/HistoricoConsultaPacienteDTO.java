@@ -10,7 +10,6 @@ public class HistoricoConsultaPacienteDTO {
     private String nomePaciente;
     private String cpfDentista;
     private String nomeDentista;
-    private String especialidadeDentista;
     private LocalDate dataConsulta;
     private LocalTime horaConsulta;
 
@@ -55,14 +54,6 @@ public class HistoricoConsultaPacienteDTO {
 
     public void setNomeDentista(String nomeDentista) {
         this.nomeDentista = nomeDentista;
-    }
-
-    public String getEspecialidadeDentista() {
-        return especialidadeDentista;
-    }
-
-    public void setEspecialidadeDentista(String e) {
-        this.especialidadeDentista = e;
     }
 
     public LocalDate getDataConsulta() {

@@ -16,8 +16,8 @@
     <!-- VIEW 1 -->
     <div class="section">
         <h2>VIEW 1 — Pacientes com alerta de saúde</h2>
-        <p class="desc"><code>view_pacientes_com_alerta_saude</code> — JOIN: pessoa + paciente + formulariosaude;
-            Filtra pacientes com alergia, doença ou medicamento preenchidos.</p>
+        <p class="desc"><code>vw_pacientes_com_alerta_saude</code> — 3 JOINs: pessoa + paciente + formulariosaude + consulta;
+            filtra pacientes com consulta e alerta de saúde preenchido.</p>
         <div class="filtros">
             <input id="filtroAlertaNome" placeholder="filtrar por nome…">
             <button onclick="carregarAlertaSaude()">Carregar</button>
@@ -29,7 +29,7 @@
     <!-- VIEW 2 -->
     <div class="section">
         <h2>VIEW 2 — Dentistas sem consulta futura</h2>
-        <p class="desc"><code>view_dentistas_sem_consulta_futura</code> — usa NOT EXISTS para listar
+        <p class="desc"><code>vw_dentistas_sem_consulta_futura</code> — 1 JOIN + subconsulta com NOT EXISTS para listar
             dentistas que não possuem consulta agendada a partir de hoje.</p>
         <div class="filtros">
             <button onclick="carregarDentistasSemFutura()">Carregar</button>

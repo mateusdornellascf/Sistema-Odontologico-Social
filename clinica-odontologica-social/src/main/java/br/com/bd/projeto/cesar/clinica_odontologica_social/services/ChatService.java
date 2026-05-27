@@ -91,7 +91,7 @@ public class ChatService {
 
                 rotina(idProcedimento, dataProcedimentoRotina, statusProcedimento, valor)
 
-                vw_pacientes_com_alerta_saude(cpf, nome, alergia, doencas, medicamento)
+                vw_pacientes_com_alerta_saude(cpf, nome, idConsulta, dataConsulta, horaConsulta, alergia, doencas, medicamento)
 
                 vw_dentistas_sem_consulta_futura(cpf, nome, data_nascimento, especialidade, cro, email, coordenador)
 
@@ -110,7 +110,7 @@ public class ChatService {
                 SQL: SELECT pe.cpf, pe.nome FROM pessoa pe JOIN paciente pa ON pe.cpf = pa.cpf WHERE LOWER(pe.nome) LIKE '%joão%' OR LOWER(pe.nome) LIKE '%joao%';
 
                 Pergunta: Quais pacientes têm alergia?
-                SQL: SELECT nome, alergia FROM vw_pacientes_com_alerta_saude WHERE alergia IS NOT NULL AND alergia <> '';
+                SQL: SELECT nome, idConsulta, dataConsulta, horaConsulta, alergia FROM vw_pacientes_com_alerta_saude WHERE alergia IS NOT NULL AND alergia <> '';
 
                 Pergunta: Quais dentistas estão sem consulta futura?
                 SQL: SELECT nome, especialidade, cro, email FROM vw_dentistas_sem_consulta_futura;

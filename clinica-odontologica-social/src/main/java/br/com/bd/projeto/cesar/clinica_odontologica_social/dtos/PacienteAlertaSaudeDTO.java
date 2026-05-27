@@ -1,9 +1,15 @@
 package br.com.bd.projeto.cesar.clinica_odontologica_social.dtos;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class PacienteAlertaSaudeDTO {
 
     private String cpf;
     private String nome;
+    private int idConsulta;
+    private LocalDate dataConsulta;
+    private LocalTime horaConsulta;
     private String alergia;
     private String doencas;
     private String medicamento;
@@ -25,6 +31,30 @@ public class PacienteAlertaSaudeDTO {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getIdConsulta() {
+        return idConsulta;
+    }
+
+    public void setIdConsulta(int idConsulta) {
+        this.idConsulta = idConsulta;
+    }
+
+    public LocalDate getDataConsulta() {
+        return dataConsulta;
+    }
+
+    public void setDataConsulta(LocalDate dataConsulta) {
+        this.dataConsulta = dataConsulta;
+    }
+
+    public LocalTime getHoraConsulta() {
+        return horaConsulta;
+    }
+
+    public void setHoraConsulta(LocalTime horaConsulta) {
+        this.horaConsulta = horaConsulta;
     }
 
     public String getAlergia() {
