@@ -20,9 +20,15 @@ Exemplo:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/db_clinica_odontologica
-spring.datasource.username=root
-spring.datasource.password=root
+spring.datasource.username=username
+spring.datasource.password=password
+
+gemini.api.key=SUA_CHAVE_DA_API_GEMINI
+gemini.model=gemini-3.1-flash-lite
 ```
+
+> Antes de rodar a aplicacao, substitua `SUA_CHAVE_DA_API_GEMINI` pela sua chave da API do Gemini.
+> Evite commitar chaves reais no repositorio.
 
 2. Crie o banco e execute os scripts SQL em `src/main/resources/sql`, nesta ordem sugerida:
 
