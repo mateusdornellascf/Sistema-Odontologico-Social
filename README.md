@@ -10,13 +10,19 @@ Aplicacao Spring Boot para gerenciamento de uma clinica odontologica social.
 
 ## Como executar
 
-1. Configure o banco no arquivo:
+1. Crie o arquivo de configuracao local a partir do exemplo:
 
 ```text
-src/main/resources/application.properties
+clinica-odontologica-social/src/main/resources/application-example.properties
 ```
 
-Exemplo:
+Copie esse arquivo para:
+
+```text
+clinica-odontologica-social/src/main/resources/application.properties
+```
+
+Depois, ajuste as configuracoes do banco e informe sua chave da API do Gemini:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/db_clinica_odontologica
@@ -27,8 +33,8 @@ gemini.api.key=SUA_CHAVE_DA_API_GEMINI
 gemini.model=gemini-3.1-flash-lite
 ```
 
-> Antes de rodar a aplicacao, substitua `SUA_CHAVE_DA_API_GEMINI` pela sua chave da API do Gemini.
-> Evite commitar chaves reais no repositorio.
+> O arquivo `application.properties` e local e nao deve ser commitado.
+> Mantenha chaves reais apenas nesse arquivo.
 
 2. Crie o banco e execute os scripts SQL em `src/main/resources/sql`, nesta ordem sugerida:
 
