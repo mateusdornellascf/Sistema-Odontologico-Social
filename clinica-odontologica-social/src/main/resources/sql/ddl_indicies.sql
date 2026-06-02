@@ -1,10 +1,8 @@
-create index idx_pessoa_nome on
-   pessoa (
-      nome
-   );
+CREATE INDEX idx_consulta_cpfPaciente ON
+consulta (cpfPaciente);
 
 
-create index idx_consulta_dentista_data_hora on
+create index idx_consulta_cpfDentista on
    consulta (
       cpfdentista,
       dataconsulta,
