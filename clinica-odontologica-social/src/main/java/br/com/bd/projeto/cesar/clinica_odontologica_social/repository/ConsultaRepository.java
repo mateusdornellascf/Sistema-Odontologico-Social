@@ -20,7 +20,7 @@ public class ConsultaRepository {
 
     public void criarConsulta(String cpfPaciente, String cpfDentista, LocalDate data, LocalTime hora) {
         if (existeConsultaNoHorario(cpfDentista, data, hora)) {
-            throw new RuntimeException("Horário indisponível");
+            throw new RuntimeException("Este horário não está disponível. O dentista já possui uma consulta marcada neste dia e hora.");
         }
         String sql = "INSERT INTO consulta (cpfPaciente, cpfDentista, dataConsulta, horaConsulta) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, cpfPaciente, cpfDentista, data, hora);
@@ -201,5 +201,36 @@ public class ConsultaRepository {
         c.setData(r.getDate("dataConsulta").toLocalDate());
         c.setHora(r.getTime("horaConsulta").toLocalTime());
         return c;
+    }
+
+    public List<HistoricoConsultaPacienteDTO> buscarConsultasPorNomePaciente(String nomePaciente) {
+        String sql = """
+                SELECT
+                    c.idConsulta,
+                    c.cpfPaciente,
+                    p_pac.nome AS nomePaciente,
+                    c.cpfDentista,
+                    p_den.nome AS nomeDentista,
+                    c.dataConsulta,
+                    c.horaConsulta
+                FROM consulta c
+                JOIN pessoa p_pac
+                    ON c.cpfPaciente = p_pac.cpf
+                JOIN pessoa p_den
+                    ON c.cpfDentista = p_den.cpf
+                WHERE p_pac.nome LIKE ?
+                ORDER BY c.dataConsulta DESC, c.horaConsulta DESC
+                """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            HistoricoConsultaPacienteDTO dto = new HistoricoConsultaPacienteDTO();
+            dto.setIdConsulta(rs.getInt("idConsulta"));
+            dto.setCpfPaciente(rs.getString("cpfPaciente"));
+            dto.setNomePaciente(rs.getString("nomePaciente"));
+            dto.setCpfDentista(rs.getString("cpfDentista"));
+            dto.setNomeDentista(rs.getString("nomeDentista"));
+            dto.setDataConsulta(rs.getDate("dataConsulta").toLocalDate());
+            dto.setHoraConsulta(rs.getTime("horaConsulta").toLocalTime());
+            return dto;
+        }, "%" + nomePaciente + "%");
     }
 }

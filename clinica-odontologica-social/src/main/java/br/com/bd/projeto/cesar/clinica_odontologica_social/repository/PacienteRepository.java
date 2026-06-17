@@ -157,4 +157,31 @@ public class PacienteRepository {
         return p;
     }
 
+    public List<Paciente> buscarPorNome(String nome) {
+        String sql = """
+                    SELECT p.*, pa.numPlanoSaude
+                    FROM pessoa p
+                    JOIN paciente pa ON p.cpf = pa.cpf
+                    WHERE p.nome LIKE ?
+                    ORDER BY p.nome ASC
+                """;
+
+        return jdbcTemplate.query(sql, (r, i) -> {
+            Paciente p = new Paciente();
+
+            p.setCpf(r.getString("cpf"));
+            p.setNome(r.getString("nome"));
+            p.setRua(r.getString("rua"));
+            p.setCep(r.getString("cep"));
+            p.setBairro(r.getString("bairro"));
+            p.setNumero(r.getString("numero"));
+            p.setDataNascimento(r.getDate("data_nascimento"));
+            p.setNumPlanoSaude(r.getString("numPlanoSaude"));
+
+            p.setTelefones(buscarTelefones(p.getCpf()));
+
+            return p;
+        }, "%" + nome + "%");
+    }
+
 }
