@@ -12,34 +12,21 @@ function telefonesDoCampo(id) {
     return parseTelefones(document.getElementById(id).value);
 }
 
-function cadastrar() {
-    const pessoa = {
-        cpf: document.getElementById("cpf").value,
-        nome: document.getElementById("nome").value,
-        rua: document.getElementById("rua").value,
-        cep: document.getElementById("cep").value,
-        bairro: document.getElementById("bairro").value,
-        numero: document.getElementById("numero").value,
-        dataNascimento: document.getElementById("data").value,
-        telefones: telefonesDoCampo("telefonesCadastro")
-    };
-
-    fetch(API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(pessoa)
-    })
-        .then((res) => res.text())
-        .then((msg) => {
-            alert(msg);
-            document.getElementById("telefonesCadastro").value = "";
-        })
-        .catch((err) => console.error(err));
+function telefonesParaTextarea(list) {
+    if (!list || !list.length) return "";
+    return list.join("\n");
 }
+
+// ================= LISTAR =================
 
 function listar() {
     fetch(API)
-        .then((res) => res.json())
+        .then((res) => {
+            if (!res.ok) {
+                throw new Error("Erro ao listar pessoas (HTTP " + res.status + ")");
+            }
+            return res.json();
+        })
         .then((pessoas) => {
             const lista = document.getElementById("lista");
             lista.innerHTML = "";
@@ -53,40 +40,48 @@ function listar() {
 
             pessoas.forEach((p) => {
                 const li = document.createElement("li");
-
-                const tels = p.telefones ? p.telefones.join(", ") : "sem telefone";
-
-                const ruaTxt = p.rua ? ` | Rua: ${p.rua}` : "";
-                li.textContent = `${p.cpf} - ${p.nome}${ruaTxt} | Tel: ${tels}`;
+                const tels = p.telefones && p.telefones.length
+                    ? p.telefones.join(", ")
+                    : "sem telefone";
+                li.textContent = `${p.cpf} - ${p.nome} | ${p.rua} | Tel: ${tels}`;
                 lista.appendChild(li);
             });
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+            console.error(err);
+            const lista = document.getElementById("lista");
+            lista.innerHTML = "";
+            const li = document.createElement("li");
+            li.textContent = "Erro ao listar pessoas.";
+            lista.appendChild(li);
+        });
 }
+
+// ================= BUSCAR =================
 
 function buscarPorCpf() {
     const cpf = document.getElementById("buscarporcpf").value.trim();
-    const out = document.getElementById("resultadoBusca");
-
     if (!cpf) {
-        out.textContent = "Informe um CPF.";
+        alert("Informe um CPF.");
         return;
     }
 
     fetch(`${API}/${encodeURIComponent(cpf)}`)
         .then((res) => {
             if (res.status === 404) {
-                out.textContent = "Nenhuma pessoa encontrada com esse CPF.";
-                return null;
-            }
-            if (!res.ok) {
-                out.textContent = "Erro ao buscar.";
+                alert("Pessoa não encontrada.");
                 return null;
             }
             return res.json();
         })
         .then((p) => {
-            if (p === null || !p) return;
+            if (!p) {
+                document.getElementById("resultadoBusca").textContent =
+                    "Nenhuma pessoa encontrada com esse CPF.";
+                return;
+            }
+
+            const out = document.getElementById("resultadoBusca");
             out.textContent = JSON.stringify(p, null, 2);
         })
         .catch((err) => {
@@ -117,7 +112,11 @@ function atualizarPessoa() {
         body: JSON.stringify(pessoa)
     })
         .then((res) => res.text())
-        .then((msg) => alert(msg));
+        .then((msg) => {
+            alert(msg);
+            listar();
+        })
+        .catch((err) => console.error(err));
 }
 
 function deletarPorCpf() {
@@ -137,6 +136,59 @@ function deletarPorCpf() {
                 document.getElementById("resultadoBusca").textContent =
                     "Nenhuma pessoa encontrada com esse CPF.";
             }
+        })
+        .catch((err) => console.error(err));
+}
+
+// ================= CADASTRAR =================
+
+function cadastrar() {
+    const pessoa = {
+        cpf: document.getElementById("cpf").value,
+        nome: document.getElementById("nome").value,
+        rua: document.getElementById("rua").value,
+        cep: document.getElementById("cep").value,
+        bairro: document.getElementById("bairro").value,
+        numero: document.getElementById("numero").value,
+        dataNascimento: document.getElementById("data").value,
+        telefones: telefonesDoCampo("telefonesCadastro")
+    };
+
+    fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pessoa)
+    })
+        .then((res) => res.text())
+        .then((msg) => {
+            alert(msg);
+            document.getElementById("telefonesCadastro").value = "";
+        })
+        .catch((err) => console.error(err));
+}
+
+// ================= CARREGAR PARA ATUALIZAR =================
+
+function carregarParaAtualizar(cpf) {
+    fetch(`${API}/${encodeURIComponent(cpf)}`)
+        .then((res) => {
+            if (res.status === 404) {
+                alert("Pessoa não encontrada.");
+                return null;
+            }
+            return res.json();
+        })
+        .then((p) => {
+            if (!p) return;
+
+            document.getElementById("cpfAtualizar").value = p.cpf;
+            document.getElementById("nomeAtualizar").value = p.nome || "";
+            document.getElementById("cepAtualizar").value = p.cep || "";
+            document.getElementById("ruaAtualizar").value = p.rua || "";
+            document.getElementById("bairroAtualizar").value = p.bairro || "";
+            document.getElementById("numeroAtualizar").value = p.numero || "";
+            document.getElementById("dataAtualizar").value = p.dataNascimento || "";
+            document.getElementById("telefonesAtualizar").value = telefonesParaTextarea(p.telefones);
         })
         .catch((err) => console.error(err));
 }

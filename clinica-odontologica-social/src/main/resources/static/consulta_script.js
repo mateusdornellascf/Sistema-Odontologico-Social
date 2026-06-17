@@ -138,3 +138,23 @@ function listarConsultasPaciente() {
       alert(typeof err === "string" ? err : "Erro ao listar.");
     });
 }
+
+function buscarConsultasPorNome() {
+  const nome = document.getElementById("nomePacienteBuscar").value.trim();
+
+  if (!nome) {
+    alert("Informe o nome do paciente.");
+    return;
+  }
+
+  fetch(`${API}/buscar-por-nome-paciente?nome=${encodeURIComponent(nome)}`)
+    .then((res) => {
+      if (!res.ok) return textoResposta(res).then((t) => Promise.reject(t));
+      return res.json();
+    })
+    .then((consultas) => preencherListaHistorico("listaConsultasNome", consultas))
+    .catch((err) => {
+      console.error(err);
+      alert(typeof err === "string" ? err : "Erro ao buscar.");
+    });
+}

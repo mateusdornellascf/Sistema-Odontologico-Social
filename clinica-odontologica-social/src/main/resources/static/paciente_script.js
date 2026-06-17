@@ -261,3 +261,44 @@ function atualizarPaciente() {
         .catch(err => console.error(err));
 }
 
+function buscarPacientesPorNome() {
+    const nome = document.getElementById("buscarPorNome").value.trim();
+    
+    if (!nome) {
+        alert("Informe o nome do paciente a buscar.");
+        return;
+    }
+
+    fetch(`${API}/buscar-por-nome?nome=${encodeURIComponent(nome)}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error("Falha ao buscar pacientes (HTTP " + res.status + ").");
+            }
+            return res.json();
+        })
+        .then(pacientes => {
+            const lista = document.getElementById("listaPacientesNome");
+            lista.innerHTML = "";
+
+            if (!pacientes || pacientes.length === 0) {
+                const li = document.createElement("li");
+                li.textContent = "Nenhum paciente encontrado com esse nome.";
+                lista.appendChild(li);
+                return;
+            }
+
+            pacientes.forEach(p => {
+                const li = document.createElement("li");
+                const tels = p.telefones && p.telefones.length
+                    ? p.telefones.join(", ")
+                    : "sem telefone";
+                const ruaTxt = p.rua ? ` | Rua: ${p.rua}` : "";
+                li.textContent = `${p.cpf} - ${p.nome}${ruaTxt} | Tel: ${tels}`;
+                lista.appendChild(li);
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            alert("Nenhum paciente encontrado com esse nome.");
+        });
+}
