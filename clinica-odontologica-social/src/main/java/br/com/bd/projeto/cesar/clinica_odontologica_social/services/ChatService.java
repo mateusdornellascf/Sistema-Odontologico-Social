@@ -166,7 +166,7 @@ public class ChatService {
         List candidates = (List) response.get("candidates");
 
         if (candidates == null || candidates.isEmpty()) {
-            throw new RuntimeException("A API do Gemini não retornou resposta.");
+            throw new RuntimeException("Não foi possível obter resposta da IA. Tente novamente em alguns momentos.");
         }
 
         Map candidate = (Map) candidates.get(0);

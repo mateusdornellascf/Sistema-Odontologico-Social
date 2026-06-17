@@ -44,25 +44,25 @@ public class ConsultaService {
 
     public void validarPaciente(String cpfPaciente) {
         if (!repository.existePaciente(cpfPaciente)) {
-            throw new RuntimeException("Paciente não encontrado");
+            throw new RuntimeException("Paciente não encontrado. Verifique o CPF digitado.");
         }
     }
 
     public void validarDentista(String cpfDentista) {
         if (!repository.existeDentista(cpfDentista)) {
-            throw new RuntimeException("Dentista não encontrado");
+            throw new RuntimeException("Dentista não encontrado. Verifique o CPF digitado.");
         }
     }
 
     public void validarHorario(String cpfDentista, LocalDate data, LocalTime hora) {
         if (repository.existeConsultaNoHorario(cpfDentista, data, hora)) {
-            throw new RuntimeException("Horário indisponível");
+            throw new RuntimeException("Horário indisponível. O dentista já possui uma consulta marcada neste horário.");
         }
     }
 
     public void deletarConsulta(int idConsulta) {
         if (repository.existeProcedimentos(idConsulta)) {
-            throw new RuntimeException("Não é possível deletar: existem procedimentos associados.");
+            throw new RuntimeException("Não é possível deletar esta consulta, pois possui procedimentos associados. Remova os procedimentos antes de prosseguir.");
         }
         repository.deletarConsulta(idConsulta);
     }
@@ -79,5 +79,12 @@ public class ConsultaService {
 
     public List<HistoricoConsultaPacienteDTO> buscarHistoricoPorPaciente(String cpfPaciente) {
         return repository.buscarHistoricoPorPaciente(cpfPaciente);
+    }
+
+    public List<HistoricoConsultaPacienteDTO> buscarConsultasPorNomePaciente(String nomePaciente) {
+        if (nomePaciente == null || nomePaciente.trim().isEmpty()) {
+            throw new RuntimeException("Por favor, digite o nome do paciente para buscar.");
+        }
+        return repository.buscarConsultasPorNomePaciente(nomePaciente);
     }
 }

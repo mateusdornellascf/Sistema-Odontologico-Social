@@ -28,7 +28,7 @@ public class ProcedimentoService {
     @Transactional
     public Long criarCirurgico(Long idConsulta, CirurgicoDTO dto) {
         if (!consultaRepository.existeConsulta(idConsulta)) {
-            throw new RuntimeException("Consulta não encontrada");
+            throw new RuntimeException("Consulta não encontrada. Verifique o ID digitado.");
         }
 
         Procedimento p = new Procedimento();

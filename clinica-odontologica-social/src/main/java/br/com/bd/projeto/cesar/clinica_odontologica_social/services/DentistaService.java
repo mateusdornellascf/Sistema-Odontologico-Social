@@ -25,7 +25,7 @@ public class DentistaService {
     public void inserirDentista(Dentista d) {
 
         if (dentistaRepository.existe(d.getCpf())) {
-            throw new RuntimeException("Dentista já existe!");
+            throw new RuntimeException("Este dentista já está cadastrado no sistema. Atualize seus dados se necessário.");
         }
 
         if (!pessoaRepository.existe(d.getCpf())) {
@@ -55,7 +55,7 @@ public class DentistaService {
     public void deletar(String cpf) {
 
         if (dentistaRepository.temConsulta(cpf)) {
-            throw new RuntimeException("Dentista possui consultas vinculadas.");
+            throw new RuntimeException("Não é possível deletar este dentista, pois possui consultas marcadas. Remova as consultas antes de prosseguir.");
         }
 
         dentistaRepository.deletar(cpf);

@@ -32,7 +32,7 @@ public class PacienteService {
         }
 
         if (pacienteRepository.existe(p.getCpf())) {
-            throw new RuntimeException("Paciente já existe!");
+            throw new RuntimeException("Este paciente já está cadastrado no sistema. Atualize seus dados se necessário.");
         }
         pacienteRepository.inserir(p);
     }
@@ -54,7 +54,7 @@ public class PacienteService {
     @Transactional
     public void deletar(String cpf) {
         if (pacienteRepository.temConsulta(cpf)) {
-            throw new RuntimeException("Dentista possui consultas vinculadas.");
+            throw new RuntimeException("Não é possível deletar este paciente, pois possui consultas marcadas. Remova as consultas antes de prosseguir.");
         }
 
         pacienteRepository.deletar(cpf);
@@ -64,17 +64,24 @@ public class PacienteService {
 
     public void preencherFormularioSaude(String cpf, String alergias, String doencas, String medicamentos) {
         if (!pacienteRepository.existe(cpf)) {
-            throw new RuntimeException("Paciente não encontrado!");
+            throw new RuntimeException("Paciente não encontrado. Verifique o CPF digitado.");
         }
 
         if (formularioRepository.existe(cpf)) {
-            throw new RuntimeException("Paciente já possui formulário!");
+            throw new RuntimeException("Este paciente já possui um formulário preenchido. Atualize o formulário existente.");
         }
         formularioRepository.salvar(cpf, alergias, doencas, medicamentos);
     }
 
     public List<Paciente> buscarPacientesSemConsulta() {
         return pacienteRepository.buscarPacientesSemConsulta();
+    }
+
+    public List<Paciente> buscarPorNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new RuntimeException("Por favor, digite um nome para buscar.");
+        }
+        return pacienteRepository.buscarPorNome(nome);
     }
 
 }

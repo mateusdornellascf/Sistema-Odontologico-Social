@@ -23,7 +23,7 @@ public class FormularioSaudeService {
     public void salvarOuAtualizar(String cpf, String alergia, String doencas, String medicamento) {
 
         if (!pacienteRepository.existe(cpf)) {
-            throw new RuntimeException("Paciente não encontrado!");
+            throw new RuntimeException("Paciente não encontrado. Verifique o CPF digitado.");
         }
         
         if (formularioSaudeRepository.existe(cpf)) {
