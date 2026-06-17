@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.bd.projeto.cesar.clinica_odontologica_social.dtos.HistoricoConsultaPacienteDTO;
@@ -79,6 +80,17 @@ public class ConsultaController {
         return ResponseEntity.ok(resultado);
     }
 
-    
+    @GetMapping("/buscar-por-nome-paciente")
+    public ResponseEntity<?> buscarConsultasPorNomePaciente(@RequestParam String nome) {
+        try {
+            List<HistoricoConsultaPacienteDTO> resultado = service.buscarConsultasPorNomePaciente(nome);
+            if (resultado.isEmpty()) {
+                return ResponseEntity.ok("Nenhuma consulta encontrada para pacientes com nome: " + nome);
+            }
+            return ResponseEntity.ok(resultado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }

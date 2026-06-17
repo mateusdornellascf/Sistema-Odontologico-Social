@@ -2,6 +2,7 @@ package br.com.bd.projeto.cesar.clinica_odontologica_social.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.FormularioSaude;
 import br.com.bd.projeto.cesar.clinica_odontologica_social.models.Paciente;
@@ -82,5 +83,18 @@ public class PacienteController {
             return ResponseEntity.ok("Todos os pacientes cadastrados já possuem ao menos uma consulta.");
         }
         return ResponseEntity.ok(resultado);
+    }
+
+    @GetMapping("/buscar-por-nome")
+    public ResponseEntity<?> buscarPorNome(@RequestParam String nome) {
+        try {
+            List<Paciente> resultado = service.buscarPorNome(nome);
+            if (resultado.isEmpty()) {
+                return ResponseEntity.ok("Nenhum paciente encontrado com o nome: " + nome);
+            }
+            return ResponseEntity.ok(resultado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
